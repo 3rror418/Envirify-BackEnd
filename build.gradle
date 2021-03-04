@@ -31,7 +31,7 @@ sonarqube {
 }
 
 //ADD ALL THE TASKS (coverage, lint) FOR ALL THE MODULES YOU WANT TO BE REPORTED
-project.tasks['sonarqube'].dependsOn test
+jacocoTestReport { reports { xml.enabled true } }
 
 test {
 	useJUnitPlatform()
