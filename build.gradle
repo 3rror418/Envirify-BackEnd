@@ -27,6 +27,8 @@ sonarqube {
 		property "sonar.projectKey", "3rror418_Envirify-BackEnd"
 		property "sonar.organization", "3rror418"
 		property "sonar.host.url", "https://sonarcloud.io"
+		property("sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco/test/jacocoTestReport.xml")
+
 	}
 }
 
