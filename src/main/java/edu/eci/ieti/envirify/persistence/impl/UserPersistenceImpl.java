@@ -7,6 +7,11 @@ import edu.eci.ieti.envirify.persistence.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * Class That Implements The User Persistence Methods For Envirify App.
+ *
+ * @author Error 418
+ */
 @Service
 public class UserPersistenceImpl implements UserPersistence {
 
@@ -35,11 +40,17 @@ public class UserPersistenceImpl implements UserPersistence {
         return greeting;
     }*/
 
+    /**
+     * Adds a New User On The DB.
+     *
+     * @param user The User That it is going to be added.
+     * @throws EnvirifyPersistenceException When that user already exists.
+     */
     @Override
     public void addUser(User user) throws EnvirifyPersistenceException {
         User oldUser = repository.findByEmail(user.getEmail());
         if (oldUser != null) {
-            throw new EnvirifyPersistenceException("There is already a user with the " + user.getEmail() + "email address");
+            throw new EnvirifyPersistenceException("There is already a user with the " + user.getEmail() + " email address");
         }
         User user1 = repository.save(user);
         System.out.println(user1);

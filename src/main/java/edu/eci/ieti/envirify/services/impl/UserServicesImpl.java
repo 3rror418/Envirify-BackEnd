@@ -9,12 +9,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+/**
+ * Class That Implements The User Methods For Envirify App.
+ *
+ * @author Error 418
+ */
 @Service
 public class UserServicesImpl implements UserServices {
 
     @Autowired
     private UserPersistence persistence;
 
+    /**
+     * Adds a New User On The App.
+     *
+     * @param user The User That it is going to be added.
+     * @throws EnvirifyException When that user cannot be added.
+     */
     @Override
     public void addUser(User user) throws EnvirifyException {
         //FALTA CIFRAR LA CLAVE, ESO LO TIENE QUE HACER EL QUE HACE EL LOGIN.
