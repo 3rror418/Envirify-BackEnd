@@ -1,4 +1,4 @@
-package edu.eci.ieti.envirify.persistence;
+package edu.eci.ieti.envirify.exceptions;
 
 public class EnvirifyPersistenceException extends Exception {
 

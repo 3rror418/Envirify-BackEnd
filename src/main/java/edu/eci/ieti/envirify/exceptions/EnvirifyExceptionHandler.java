@@ -1,6 +1,5 @@
-package edu.eci.ieti.envirify.controllers;
+package edu.eci.ieti.envirify.exceptions;
 
-import edu.eci.ieti.envirify.services.EnvirifyException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;

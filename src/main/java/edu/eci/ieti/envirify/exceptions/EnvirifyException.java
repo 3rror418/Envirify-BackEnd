@@ -1,4 +1,4 @@
-package edu.eci.ieti.envirify.services;
+package edu.eci.ieti.envirify.exceptions;
 
 import org.springframework.http.HttpStatus;
 
