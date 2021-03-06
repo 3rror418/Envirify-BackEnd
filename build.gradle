@@ -23,12 +23,24 @@ dependencies {
 
 test {
 	useJUnitPlatform()
+	finalizedBy jacocoTestReport // report is always generated after tests run
 }
 
 jacocoTestReport {
+	dependsOn test
 	reports {
+		html.enabled true
 		xml.enabled true
 	}
+	afterEvaluate {
+		getClassDirectories().setFrom(classDirectories.files.collect {
+			fileTree(dir: it, exclude: ['**/edu/eci/ieti/envirify/model/**'])
+		})
+	}
+}
+
+test {
+	finalizedBy jacocoTestReport // report is always generated after tests run
 }
 
 sonarqube {
