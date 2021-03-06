@@ -35,7 +35,7 @@ public class UserController {
      * @throws EnvirifyException When the user cannot be created.
      */
     @PostMapping()
-    public ResponseEntity<?> addNewUser(@RequestBody CreateUserDTO userDTO) throws EnvirifyException {
+    public ResponseEntity<Object> addNewUser(@RequestBody CreateUserDTO userDTO) throws EnvirifyException {
         User newUser = new User(userDTO);
         services.addUser(newUser);
         return new ResponseEntity<>(HttpStatus.CREATED);
