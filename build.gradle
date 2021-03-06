@@ -18,6 +18,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testCompile 'junit:junit:4.10'
+	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 }
 
 
