@@ -27,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class UserTests {
+class UserTests {
 
     @Autowired
     private MockMvc mockMvc;
@@ -58,7 +58,7 @@ public class UserTests {
     }
 
     @Test
-    public void shouldCreateAUser() throws Exception {
+    void shouldCreateAUser() throws Exception {
         User user = new User("daniel@gmail.com", "Daniel", "12345", "Masculino", "password");
         MvcResult result = mockMvc.perform(post("/api/v1/users")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -69,7 +69,7 @@ public class UserTests {
     }
 
     @Test
-    public void shouldNotAddAnExistingAUser() throws Exception {
+    void shouldNotAddAnExistingAUser() throws Exception {
         String email = "daniel2@gmail.com";
         User user = new User(email, "Daniel", "12345", "Masculino", "password");
         mockMvc.perform(post("/api/v1/users")
