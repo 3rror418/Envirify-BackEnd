@@ -35,4 +35,22 @@ public class UserServicesImpl implements UserServices {
             throw new EnvirifyException(e.getMessage(), e, HttpStatus.CONFLICT);
         }
     }
+
+    /**
+     * Returns the Information Of A User With a Email.
+     *
+     * @param email The email to search the user.
+     * @return The User Information.
+     * @throws EnvirifyException When that users do not exist.
+     */
+    @Override
+    public User getUserByEmail(String email) throws EnvirifyException {
+        User user;
+        try {
+            user = persistence.getUserByEmail(email);
+        } catch (EnvirifyPersistenceException e) {
+            throw new EnvirifyException(e.getMessage(), e, HttpStatus.NOT_FOUND);
+        }
+        return user;
+    }
 }

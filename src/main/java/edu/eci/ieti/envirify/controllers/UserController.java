@@ -1,6 +1,7 @@
 package edu.eci.ieti.envirify.controllers;
 
 import edu.eci.ieti.envirify.controllers.dtos.CreateUserDTO;
+import edu.eci.ieti.envirify.controllers.dtos.UserDTO;
 import edu.eci.ieti.envirify.exceptions.EnvirifyException;
 import edu.eci.ieti.envirify.model.User;
 import edu.eci.ieti.envirify.services.UserServices;
@@ -8,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +29,18 @@ public class UserController {
 
     @Autowired
     private UserServices services;
+
+    /**
+     * Returns the Information Of A User With a Email.
+     *
+     * @param email The email to search the user.
+     * @return The Response Entity With The User Information Or The Error Message.
+     * @throws EnvirifyException When the user can not be Searched.
+     */
+    @GetMapping("/{email}")
+    public ResponseEntity<Object> getUserByEmail(@PathVariable String email) throws EnvirifyException{
+        return new ResponseEntity<>(new UserDTO(services.getUserByEmail(email)), HttpStatus.ACCEPTED);
+    }
 
     /**
      * Adds A New User On The Envirify App.

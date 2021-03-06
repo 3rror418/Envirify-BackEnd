@@ -17,4 +17,13 @@ public interface UserServices {
      * @throws EnvirifyException When that user cannot be added.
      */
     void addUser(User user) throws EnvirifyException;
+
+    /**
+     * Returns the Information Of A User With a Email.
+     *
+     * @param email The email to search the user.
+     * @return The User Information.
+     * @throws EnvirifyException When that users do not exist.
+     */
+    User getUserByEmail(String email) throws EnvirifyException;
 }
