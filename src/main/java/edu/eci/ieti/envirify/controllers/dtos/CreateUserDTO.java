@@ -19,6 +19,7 @@ public class CreateUserDTO implements Serializable {
      * Basic Constructor For CreateUserDTO.
      */
     public CreateUserDTO() {
+        //Left Empty On Purpose For The Controllers Conversion.
     }
 
     /**

@@ -24,6 +24,7 @@ public class UserDTO {
      * Basic Constructor For UserDTO.
      */
     public UserDTO() {
+        //Left Empty On Purpose For The Controllers Conversion.
     }
 
     /**
