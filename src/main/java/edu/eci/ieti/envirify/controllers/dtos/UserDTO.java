@@ -11,21 +11,14 @@ import java.util.List;
  */
 public class UserDTO {
 
-    private String id;
-    private String email;
-    private String name;
-    private String phoneNumber;
-    private String gender;
-    private List<String> books;
-    private List<String> places;
-    private List<String> chats;
-
-    /**
-     * Basic Constructor For UserDTO.
-     */
-    public UserDTO() {
-        //Left Empty On Purpose For The Controllers Conversion.
-    }
+    private final String id;
+    private final String email;
+    private final String name;
+    private final String phoneNumber;
+    private final String gender;
+    private final List<String> books;
+    private final List<String> places;
+    private final List<String> chats;
 
     /**
      * Constructor For UserDTO.
@@ -53,30 +46,12 @@ public class UserDTO {
     }
 
     /**
-     * Sets a New Id For The User.
-     *
-     * @param id The New Id For The User.
-     */
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    /**
      * Returns the Email of the User.
      *
      * @return A string that represents the Email of the User.
      */
     public String getEmail() {
         return email;
-    }
-
-    /**
-     * Sets a New Email For The User.
-     *
-     * @param email The New Email For The User.
-     */
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     /**
@@ -89,30 +64,12 @@ public class UserDTO {
     }
 
     /**
-     * Sets a New Name For The User.
-     *
-     * @param name The New Name For The User.
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
      * Returns the Phone Number of the User.
      *
      * @return A string that represents the Phone Number of the User.
      */
     public String getPhoneNumber() {
         return phoneNumber;
-    }
-
-    /**
-     * Sets a New Phone Number For The User.
-     *
-     * @param phoneNumber The New Phone Number For The User.
-     */
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
     }
 
     /**
@@ -125,30 +82,12 @@ public class UserDTO {
     }
 
     /**
-     * Sets a New Gender For The User.
-     *
-     * @param gender The New Gender For The User.
-     */
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    /**
      * Returns the Books of the User.
      *
      * @return A collection of strings that represents the Books of the User.
      */
     public List<String> getBooks() {
         return books;
-    }
-
-    /**
-     * Sets New Books For The User.
-     *
-     * @param books The New Books For The User.
-     */
-    public void setBooks(List<String> books) {
-        this.books = books;
     }
 
     /**
@@ -161,29 +100,11 @@ public class UserDTO {
     }
 
     /**
-     * Sets New Places For The User.
-     *
-     * @param places The New Places For The User.
-     */
-    public void setPlaces(List<String> places) {
-        this.places = places;
-    }
-
-    /**
      * Returns the Chats of the User.
      *
      * @return A collection of strings that represents the Chats of the User.
      */
     public List<String> getChats() {
         return chats;
-    }
-
-    /**
-     * Sets New Chats For The User.
-     *
-     * @param chats The New Chats For The User.
-     */
-    public void setChats(List<String> chats) {
-        this.chats = chats;
     }
 }
