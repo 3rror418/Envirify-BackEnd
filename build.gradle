@@ -39,14 +39,14 @@ jacocoTestReport {
 	}
 }
 
-test {
-	finalizedBy jacocoTestReport // report is always generated after tests run
-}
 
 sonarqube {
 	properties {
 		property "sonar.projectKey", "3rror418_Envirify-BackEnd"
 		property "sonar.organization", "3rror418"
 		property "sonar.host.url", "https://sonarcloud.io"
+		property "sonar.scm.disabled", "false"
 	}
 }
+
+check.dependsOn jacocoTestReport
