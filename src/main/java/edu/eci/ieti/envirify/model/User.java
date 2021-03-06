@@ -50,23 +50,6 @@ public class User {
     }
 
     /**
-     * Constructor For User.
-     *
-     * @param email       The Email Of The User.
-     * @param name        The Name Of The User.
-     * @param phoneNumber The Phone Number Of The User.
-     * @param gender      The Gender Of The User.
-     * @param password    The Password Of The User.
-     */
-    public User(String email, String name, String phoneNumber, String gender, String password) {
-        this.email = email;
-        this.name = name;
-        this.phoneNumber = phoneNumber;
-        this.gender = gender;
-        this.password = password;
-    }
-
-    /**
      * Returns the Id of the User.
      *
      * @return A string that represents the Id of the User.

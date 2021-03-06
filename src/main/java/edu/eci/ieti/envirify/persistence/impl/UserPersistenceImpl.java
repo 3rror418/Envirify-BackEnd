@@ -32,4 +32,20 @@ public class UserPersistenceImpl implements UserPersistence {
         }
         repository.save(user);
     }
+
+    /**
+     * Returns the Information Of A User With a Email From The DB.
+     *
+     * @param email The email to search the user.
+     * @return The User Information.
+     * @throws EnvirifyPersistenceException When that users do not exist.
+     */
+    @Override
+    public User getUserByEmail(String email) throws EnvirifyPersistenceException {
+        User user = repository.findByEmail(email);
+        if (user == null) {
+            throw new EnvirifyPersistenceException("There is no user with the email address "+email);
+        }
+        return user;
+    }
 }
