@@ -32,30 +32,6 @@ public class JwtResponse {
         return jwt;
     }
 
-    /**
-     * sets the authentication token
-     * @param jwt the authentication token
-     */
-    public void setJwt(String jwt) {
-        this.jwt = jwt;
-    }
-
-    /**
-     * Returns the id of the user that made the request
-     * @return the id of the user that made the request
-     */
-    public String getId() {
-        return id;
-    }
-
-
-    /**
-     * Sets the id of the user that made the request
-     * @param id the id of the user that made the request
-     */
-    public void setId(String id) {
-        this.id = id;
-    }
 
     /**
      * Returns the username of the user that made the request
@@ -65,13 +41,6 @@ public class JwtResponse {
         return username;
     }
 
-    /**
-     * Sets the username of the user that made the request
-     * @param username the username of the user that made the request
-     */
-    public void setUsername(String username) {
-        this.username = username;
-    }
 
     /**
      * Returns the email of the user that made the request
