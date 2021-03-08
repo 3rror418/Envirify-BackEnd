@@ -24,6 +24,15 @@ public class JwtResponse {
         this.email = email;
     }
 
+
+    /**
+     * Returns the id of the user
+     * @return the id of the user
+     */
+    public String getId() {
+        return id;
+    }
+
     /**
      * Returns the authentication token
      * @return the authentication token
