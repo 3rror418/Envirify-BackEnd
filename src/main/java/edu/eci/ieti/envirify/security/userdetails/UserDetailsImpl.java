@@ -76,8 +76,7 @@ public class UserDetailsImpl implements UserDetails {
      */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        return authorities;
+        return new ArrayList<>();
     }
 
     /**

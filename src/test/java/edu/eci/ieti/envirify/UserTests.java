@@ -12,6 +12,8 @@ import de.flapdoodle.embed.process.runtime.Network;
 import edu.eci.ieti.envirify.controllers.dtos.CreateUserDTO;
 import edu.eci.ieti.envirify.controllers.dtos.LoginDTO;
 import edu.eci.ieti.envirify.controllers.dtos.UserDTO;
+import edu.eci.ieti.envirify.security.userdetails.UserDetailsImpl;
+import edu.eci.ieti.envirify.security.userdetails.UserDetailsServiceImpl;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,6 +23,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
@@ -34,6 +38,9 @@ class UserTests {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @Autowired
+    UserDetailsServiceImpl userDetailsService;
 
     private static final Gson gson = new Gson();
 
@@ -97,6 +104,53 @@ class UserTests {
             Assertions.assertTrue(false);
         }
     }
+
+
+    @Test
+    void shouldGetUserDetails() throws Exception {
+        String id = "1";
+        String username = "nicolas9906";
+        String email = "nicolas@gmail.com";
+        String password = "nicolas123";
+        UserDetailsImpl userDetails = new UserDetailsImpl(id,username,email,password);
+        Assertions.assertEquals(id,userDetails.getId());
+        Assertions.assertEquals(username,userDetails.getUsername());
+        Assertions.assertEquals(email,userDetails.getEmail());
+        Assertions.assertEquals(password,userDetails.getPassword());
+        Assertions.assertEquals(0,userDetails.getAuthorities().size());
+        Assertions.assertEquals(true,userDetails.isAccountNonExpired());
+        Assertions.assertEquals(true,userDetails.isAccountNonLocked());
+        Assertions.assertEquals(true,userDetails.isCredentialsNonExpired());
+        Assertions.assertEquals(true,userDetails.isEnabled());
+    }
+
+    @Test
+    void shouldBuildUserDetails() throws Exception {
+        CreateUserDTO user = new CreateUserDTO("andres@gmail.com", "Andres", "12345", "Masculino", "andres123");
+        MvcResult result = mockMvc.perform(post("/api/v1/users")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(gson.toJson(user)))
+                .andExpect(status().isCreated())
+                .andReturn();
+        UserDetails userDetails = userDetailsService.loadUserByUsername("andres@gmail.com");
+        Assertions.assertEquals(user.getName(),userDetails.getUsername());
+        Assertions.assertEquals(0,userDetails.getAuthorities().size());
+        Assertions.assertEquals(true,userDetails.isAccountNonExpired());
+        Assertions.assertEquals(true,userDetails.isAccountNonLocked());
+        Assertions.assertEquals(true,userDetails.isCredentialsNonExpired());
+        Assertions.assertEquals(true,userDetails.isEnabled());
+    }
+
+    @Test
+    void shouldNotBuildUserDetails() throws Exception {
+        try {
+            UserDetails userDetails = userDetailsService.loadUserByUsername("carlos@gmail.com");
+        }catch (UsernameNotFoundException e){
+            Assertions.assertTrue(true);
+        }
+    }
+
+
 
     @Test
     void shouldCreateAUser() throws Exception {

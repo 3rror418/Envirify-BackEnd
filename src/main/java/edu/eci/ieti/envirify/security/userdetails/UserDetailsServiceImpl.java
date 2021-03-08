@@ -34,6 +34,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }catch(UsernameNotFoundException e){
             throw new UsernameNotFoundException(e.getMessage());
         }
+        if(user==null){
+            throw new UsernameNotFoundException("User not found");
+        }
         return UserDetailsImpl.build(user);
     }
 }
