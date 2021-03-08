@@ -53,6 +53,8 @@ jacoco {
 }
 
 
+
+
 sonarqube {
 	properties {
 		property "sonar.projectKey", "3rror418_Envirify-BackEnd"
@@ -65,6 +67,7 @@ sonarqube {
 		property "sonar.verbose", "true"
 		property "sonar.sources", "src/main/"
 		property "sonar.tests", "src/test/"
+		property "sonar.coverage.exclusions", "**/edu/eci/ieti/envirify/model/**," + "**/edu/eci/ieti/envirify/security/WebSecurityConfig**"
 	}
 }
 
