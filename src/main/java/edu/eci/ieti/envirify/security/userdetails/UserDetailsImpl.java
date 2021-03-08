@@ -1,6 +1,8 @@
 package edu.eci.ieti.envirify.security.userdetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 import edu.eci.ieti.envirify.model.User;
@@ -74,7 +76,8 @@ public class UserDetailsImpl implements UserDetails {
      */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        return authorities;
     }
 
     /**
@@ -144,5 +147,10 @@ public class UserDetailsImpl implements UserDetails {
             return false;
         UserDetailsImpl user = (UserDetailsImpl) o;
         return Objects.equals(id, user.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 }

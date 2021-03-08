@@ -66,8 +66,9 @@ sonarqube {
 		property "sonar.verbose", "true"
 		property "sonar.sources", "src/main/"
 		property "sonar.tests", "src/test/"
-
-
+		property 'sonar.exclusions', "**/edu/eci/ieti/envirify/security/**",
+				"**/edu/eci/ieti/envirify/model/**",
+				"**/edu/eci/ieti/envirify/EnvirifyApplication**";
 	}
 }
 
