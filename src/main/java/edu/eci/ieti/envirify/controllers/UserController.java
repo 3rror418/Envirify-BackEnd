@@ -1,13 +1,23 @@
 package edu.eci.ieti.envirify.controllers;
 
 import edu.eci.ieti.envirify.controllers.dtos.CreateUserDTO;
+import edu.eci.ieti.envirify.controllers.dtos.LoginDTO;
 import edu.eci.ieti.envirify.controllers.dtos.UserDTO;
 import edu.eci.ieti.envirify.exceptions.EnvirifyException;
 import edu.eci.ieti.envirify.model.User;
+import edu.eci.ieti.envirify.persistence.repositories.UserRepository;
+import edu.eci.ieti.envirify.security.userdetails.UserDetailsImpl;
+import edu.eci.ieti.envirify.security.jwt.JwtResponse;
+import edu.eci.ieti.envirify.security.jwt.JwtUtils;
 import edu.eci.ieti.envirify.services.UserServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,6 +39,18 @@ public class UserController {
 
     @Autowired
     private UserServices services;
+
+    @Autowired
+    AuthenticationManager authenticationManager;
+
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    PasswordEncoder encoder;
+
+    @Autowired
+    JwtUtils jwtUtils;
 
     /**
      * Returns the Information Of A User With a Email.
@@ -52,7 +74,27 @@ public class UserController {
     @PostMapping()
     public ResponseEntity<Object> addNewUser(@RequestBody CreateUserDTO userDTO) throws EnvirifyException {
         User newUser = new User(userDTO);
+        newUser.setPassword(encoder.encode(userDTO.getPassword()));
         services.addUser(newUser);
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    /**
+     * Log in to the envirify app
+     * @param loginDTO Object that represents a login request to the app
+     * @return A Response Entity With The with the JWT response.
+     */
+    @PostMapping("/login")
+    public ResponseEntity<?> authenticateUser(@RequestBody LoginDTO loginDTO) {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginDTO.getEmail(),loginDTO.getPassword()));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String jwt = jwtUtils.generateJwtToken(authentication);
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        return new ResponseEntity(new JwtResponse(jwt,
+                userDetails.getId(),
+                userDetails.getUsername(),
+                userDetails.getEmail()
+                ), HttpStatus.ACCEPTED);
     }
 }

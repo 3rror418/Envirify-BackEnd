@@ -23,6 +23,7 @@ public class EnvirifyException extends Exception {
         this.status = status;
     }
 
+
     /**
      * Returns the HTTP Status Code Of The Exception.
      *

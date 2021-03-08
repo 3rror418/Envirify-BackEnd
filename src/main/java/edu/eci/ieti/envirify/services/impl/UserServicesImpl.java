@@ -28,7 +28,6 @@ public class UserServicesImpl implements UserServices {
      */
     @Override
     public void addUser(User user) throws EnvirifyException {
-        //FALTA CIFRAR LA CLAVE, ESO LO TIENE QUE HACER EL QUE HACE EL LOGIN.
         try {
             persistence.addUser(user);
         } catch (EnvirifyPersistenceException e) {

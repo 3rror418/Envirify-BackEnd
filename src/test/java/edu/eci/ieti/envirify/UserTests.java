@@ -10,6 +10,7 @@ import de.flapdoodle.embed.mongo.config.Net;
 import de.flapdoodle.embed.mongo.distribution.Version;
 import de.flapdoodle.embed.process.runtime.Network;
 import edu.eci.ieti.envirify.controllers.dtos.CreateUserDTO;
+import edu.eci.ieti.envirify.controllers.dtos.LoginDTO;
 import edu.eci.ieti.envirify.controllers.dtos.UserDTO;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -57,6 +58,44 @@ class UserTests {
         mongodExecutable = starter.prepare(mongodConfig);
         mongodExecutable.start();
         mongoTemplate = new MongoTemplate(MongoClients.create(String.format(CONNECTION_STRING, ip, port)), "test");
+    }
+
+    @Test
+    void shouldLogin(){
+        CreateUserDTO user = new CreateUserDTO("nicolas@gmail.com", "Nicolas", "12345", "male", "password");
+        LoginDTO loginDTO = new LoginDTO("nicolas@gmail.com",  "password");
+        MvcResult result = null;
+        try {
+            mockMvc.perform(post("/api/v1/users")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(gson.toJson(user)))
+                    .andExpect(status().isCreated())
+                    .andReturn();
+            result = mockMvc.perform(post("/api/v1/users/login")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(gson.toJson(loginDTO)))
+                    .andExpect(status().isAccepted())
+                    .andReturn();
+            Assertions.assertEquals(202, result.getResponse().getStatus());
+        } catch (Exception e) {
+            Assertions.assertTrue(false);
+        }
+    }
+
+    @Test
+    void shouldNotDoLogin(){
+        LoginDTO loginDTO = new LoginDTO("nonexistentuser@gmail.com",  "password");
+        MvcResult result = null;
+        try {
+            result = mockMvc.perform(post("/api/v1/users/login")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(gson.toJson(loginDTO)))
+                    .andExpect(status().isUnauthorized())
+                    .andReturn();
+            Assertions.assertEquals(401, result.getResponse().getStatus());
+        } catch (Exception e) {
+            Assertions.assertTrue(false);
+        }
     }
 
     @Test

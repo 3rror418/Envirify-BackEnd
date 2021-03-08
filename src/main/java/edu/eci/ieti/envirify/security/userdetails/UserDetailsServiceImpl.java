@@ -1,8 +1,8 @@
-package edu.eci.ieti.envirify.services.impl;
+package edu.eci.ieti.envirify.security.userdetails;
 
 import edu.eci.ieti.envirify.model.User;
 import edu.eci.ieti.envirify.persistence.repositories.UserRepository;
-import edu.eci.ieti.envirify.security.UserDetailsImpl;
+import edu.eci.ieti.envirify.security.userdetails.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

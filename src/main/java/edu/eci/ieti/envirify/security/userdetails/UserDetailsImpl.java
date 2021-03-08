@@ -1,4 +1,4 @@
-package edu.eci.ieti.envirify.security;
+package edu.eci.ieti.envirify.security.userdetails;
 
 import java.util.Collection;
 import java.util.Objects;
