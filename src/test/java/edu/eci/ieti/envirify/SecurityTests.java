@@ -12,6 +12,7 @@ import de.flapdoodle.embed.process.runtime.Network;
 import edu.eci.ieti.envirify.controllers.dtos.CreateUserDTO;
 import edu.eci.ieti.envirify.controllers.dtos.LoginDTO;
 import edu.eci.ieti.envirify.exceptions.EnvirifyException;
+import edu.eci.ieti.envirify.security.jwt.AuthTokenFilter;
 import edu.eci.ieti.envirify.security.jwt.JwtResponse;
 import edu.eci.ieti.envirify.security.jwt.JwtUtils;
 import edu.eci.ieti.envirify.security.userdetails.UserDetailsImpl;
@@ -26,10 +27,13 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+
+import javax.servlet.http.HttpServletRequest;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -53,6 +57,9 @@ class SecurityTests {
 
     private MongodExecutable mongodExecutable;
     private MongoTemplate mongoTemplate;
+
+    @Autowired
+    AuthTokenFilter authTokenFilter;
 
     @AfterEach
     void clean() {
@@ -220,8 +227,20 @@ class SecurityTests {
             Assertions.assertEquals(jwtUtils.validateJwtToken("kjfhdskhfwe9w49"), true);
         } catch (EnvirifyException e){
             Assertions.assertTrue(true);
-
         }
+    }
+
+    @Test
+    void shouldParseJWTToken() throws Exception {
+        CreateUserDTO user = new CreateUserDTO("pepe@gmail.com", "Pepe", "12345", "male", "password");
+        MockHttpServletRequest request = mockMvc.perform(post("/api/v1/users")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(gson.toJson(user)))
+                .andExpect(status().isCreated())
+                .andReturn().getRequest();
+        request.addHeader("Authorization","Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaWNvbGFzQGdtYWlsLmNvbSIsImlhdCI6MTYxNTIzMTQyNSwiZXhwIjoxNjE1MzE3ODI1fQ.SA8j3NBI77pA0Ve1jqKA0mhIU-D89EQmxyVxOKwXBdJHapkNpsYw1LbjZVSyxx1Y_9CNtoBliOgBT55mkpDthw");
+        String token = authTokenFilter.parseJwt(request);
+        Assertions.assertEquals(token , "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaWNvbGFzQGdtYWlsLmNvbSIsImlhdCI6MTYxNTIzMTQyNSwiZXhwIjoxNjE1MzE3ODI1fQ.SA8j3NBI77pA0Ve1jqKA0mhIU-D89EQmxyVxOKwXBdJHapkNpsYw1LbjZVSyxx1Y_9CNtoBliOgBT55mkpDthw");
     }
 
 }

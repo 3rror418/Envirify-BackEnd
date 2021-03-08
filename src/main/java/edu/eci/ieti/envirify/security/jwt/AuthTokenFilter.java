@@ -67,7 +67,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
      * @param request request made to the app
      * @return the authentication token
      */
-    private String parseJwt(HttpServletRequest request) {
+    public String parseJwt(HttpServletRequest request) {
         String headerAuth = request.getHeader("Authorization");
 
         if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
@@ -76,4 +76,6 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
         return null;
     }
+
+
 }

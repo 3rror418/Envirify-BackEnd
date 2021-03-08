@@ -49,13 +49,5 @@ public class JwtResponse {
     public String getEmail() {
         return email;
     }
-
-    /**
-     * Sets the email of the user that made the request
-     * @param email the email of the user that made the request
-     */
-    public void setEmail(String email) {
-        this.email = email;
-    }
 }
 
