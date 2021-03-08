@@ -2,10 +2,12 @@ package edu.eci.ieti.envirify.security.jwt;
 
 import java.util.Date;
 
+import edu.eci.ieti.envirify.exceptions.EnvirifyException;
 import edu.eci.ieti.envirify.security.userdetails.UserDetailsImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
@@ -56,22 +58,12 @@ public class JwtUtils {
      * @param authToken the jwt authentication token to be validated
      * @return true if it is a jwt token, false if not
      */
-    public boolean validateJwtToken(String authToken) {
+    public boolean validateJwtToken(String authToken) throws EnvirifyException {
         try {
             Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
             return true;
-        } catch (SignatureException e) {
-            logger.error("Invalid JWT signature: {}", e.getMessage());
-        } catch (MalformedJwtException e) {
-            logger.error("Invalid JWT token: {}", e.getMessage());
-        } catch (ExpiredJwtException e) {
-            logger.error("JWT token is expired: {}", e.getMessage());
-        } catch (UnsupportedJwtException e) {
-            logger.error("JWT token is unsupported: {}", e.getMessage());
-        } catch (IllegalArgumentException e) {
-            logger.error("JWT claims string is empty: {}", e.getMessage());
+        } catch (Exception e) {
+            throw new EnvirifyException(e.getMessage(), e, HttpStatus.BAD_REQUEST);
         }
-
-        return false;
     }
 }

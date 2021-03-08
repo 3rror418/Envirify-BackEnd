@@ -43,7 +43,6 @@ jacocoTestReport {
 		getClassDirectories().setFrom(classDirectories.files.collect {
 			fileTree(dir: it, exclude: [
 					'**/edu/eci/ieti/envirify/model/**',
-					'**/edu/eci/ieti/envirify/security/**',
 					'**/edu/eci/ieti/envirify/EnvirifyApplication**'])
 		})
 	}
