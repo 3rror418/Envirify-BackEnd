@@ -2,7 +2,6 @@ package edu.eci.ieti.envirify.security.userdetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Objects;
 
 import edu.eci.ieti.envirify.model.User;

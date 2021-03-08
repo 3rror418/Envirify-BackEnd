@@ -85,16 +85,17 @@ public class UserController {
      * @return A Response Entity With The with the JWT response.
      */
     @PostMapping("/login")
-    public ResponseEntity<?> authenticateUser(@RequestBody LoginDTO loginDTO) {
+    public ResponseEntity<JwtResponse> authenticateUser(@RequestBody LoginDTO loginDTO) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginDTO.getEmail(),loginDTO.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtUtils.generateJwtToken(authentication);
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        return new ResponseEntity(new JwtResponse(jwt,
+        JwtResponse jwtResponse = new JwtResponse(jwt,
                 userDetails.getId(),
                 userDetails.getUsername(),
                 userDetails.getEmail()
-                ), HttpStatus.ACCEPTED);
+        );
+        return new ResponseEntity(jwtResponse, HttpStatus.ACCEPTED);
     }
 }

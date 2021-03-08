@@ -218,13 +218,13 @@ class SecurityTests {
                 .andExpect(status().isAccepted())
                 .andReturn().getResponse().getContentAsString();
         JSONObject json = new JSONObject(result);
-        Assertions.assertEquals(jwtUtils.validateJwtToken(json.getString("jwt")), true);
+        Assertions.assertEquals(true,jwtUtils.validateJwtToken(json.getString("jwt")));
     }
 
     @Test
     void shouldNotValidateJWTToken() throws Exception {
         try {
-            Assertions.assertEquals(jwtUtils.validateJwtToken("kjfhdskhfwe9w49"), true);
+            Assertions.assertEquals(true,jwtUtils.validateJwtToken("kjfhdskhfwe9w49"));
         } catch (EnvirifyException e){
             Assertions.assertTrue(true);
         }
@@ -240,7 +240,7 @@ class SecurityTests {
                 .andReturn().getRequest();
         request.addHeader("Authorization","Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaWNvbGFzQGdtYWlsLmNvbSIsImlhdCI6MTYxNTIzMTQyNSwiZXhwIjoxNjE1MzE3ODI1fQ.SA8j3NBI77pA0Ve1jqKA0mhIU-D89EQmxyVxOKwXBdJHapkNpsYw1LbjZVSyxx1Y_9CNtoBliOgBT55mkpDthw");
         String token = authTokenFilter.parseJwt(request);
-        Assertions.assertEquals(token , "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaWNvbGFzQGdtYWlsLmNvbSIsImlhdCI6MTYxNTIzMTQyNSwiZXhwIjoxNjE1MzE3ODI1fQ.SA8j3NBI77pA0Ve1jqKA0mhIU-D89EQmxyVxOKwXBdJHapkNpsYw1LbjZVSyxx1Y_9CNtoBliOgBT55mkpDthw");
+        Assertions.assertEquals("eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaWNvbGFzQGdtYWlsLmNvbSIsImlhdCI6MTYxNTIzMTQyNSwiZXhwIjoxNjE1MzE3ODI1fQ.SA8j3NBI77pA0Ve1jqKA0mhIU-D89EQmxyVxOKwXBdJHapkNpsYw1LbjZVSyxx1Y_9CNtoBliOgBT55mkpDthw",token);
     }
 
 }
