@@ -120,6 +120,8 @@ class SecurityTests {
             JwtResponse jwtResponse = g.fromJson(result, JwtResponse.class);
             Assertions.assertEquals(jwtResponse.getEmail(), user.getEmail());
             Assertions.assertEquals(jwtResponse.getUsername(), user.getName());
+            Assertions.assertTrue(jwtResponse.getId()!=null);
+
         } catch (Exception e) {
             Assertions.assertTrue(false);
         }
