@@ -50,6 +50,7 @@ public class Place {
         this.capacity= placeDTO.getCapacity();
         this.habitations= placeDTO.getHabitations();
         this.bathrooms= placeDTO.getBathrooms();
+        this.description = placeDTO.getDescription();
         guidebooks= new ArrayList<>();
         ratings = new ArrayList<>();
         bookings = new ArrayList<>();

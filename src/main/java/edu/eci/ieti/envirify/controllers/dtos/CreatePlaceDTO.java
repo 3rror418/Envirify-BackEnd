@@ -13,6 +13,7 @@ public class CreatePlaceDTO implements Serializable {
     private String department;
     private String city;
     private String direction;
+    private String description;
     private int capacity;
     private int habitations;
     private int bathrooms;
@@ -32,8 +33,9 @@ public class CreatePlaceDTO implements Serializable {
      * @param capacity the capacity
      * @param habitations the habitations number
      * @param bathrooms the bathrooms number
+     * @param description the description
      */
-    public CreatePlaceDTO(String name, String department, String city, String direction, int capacity, int habitations, int bathrooms) {
+    public CreatePlaceDTO(String name, String department, String city, String direction,String description, int capacity, int habitations, int bathrooms) {
         this.name = name;
         this.department = department;
         this.city = city;
@@ -41,6 +43,7 @@ public class CreatePlaceDTO implements Serializable {
         this.capacity = capacity;
         this.habitations = habitations;
         this.bathrooms = bathrooms;
+        this.description=description;
     }
 
     /**
@@ -154,5 +157,21 @@ public class CreatePlaceDTO implements Serializable {
      */
     public void setBathrooms(int bathrooms) {
         this.bathrooms = bathrooms;
+    }
+
+    /**
+     * ge the description
+     * @return the description
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * set the description
+     * @param description the description
+     */
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
