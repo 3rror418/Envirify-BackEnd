@@ -237,4 +237,12 @@ public class User {
                 ", chats=" + chats +
                 '}';
     }
+
+    /**
+     * Add a place to a user
+     * @param idPlace the id of the place
+     */
+    public void addPlace (String idPlace){
+        places.add(idPlace);
+    }
 }
