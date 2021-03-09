@@ -71,7 +71,7 @@ class PlaceTests {
                 .content(gson.toJson(user)))
                 .andExpect(status().isCreated());
 
-        CreatePlaceDTO place = new CreatePlaceDTO("Finca pepe", "Cund","Bog","km 1 via tabio(finca pepe)",3,2,1);
+        CreatePlaceDTO place = new CreatePlaceDTO("Finca pepe", "Cund","Bog","km 1 via tabio(finca pepe)","finca linda",3,2,1);
 
 
 
@@ -97,7 +97,7 @@ class PlaceTests {
                 .content(gson.toJson(user)))
                 .andExpect(status().isCreated());
 
-        CreatePlaceDTO place = new CreatePlaceDTO("casa colonial", "Cund",city,direction,3,2,1);
+        CreatePlaceDTO place = new CreatePlaceDTO("casa colonial", "Cund",city,direction,"finca linda",3,2,1);
 
         mockMvc.perform(post("/api/v1/places").header("X-Email",email)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -126,7 +126,7 @@ class PlaceTests {
 
         String direction = "calle 2 # 12-34";
         String city = "Bog";
-        CreatePlaceDTO place = new CreatePlaceDTO("casa colonial", "Cund",city,direction,3,2,1);
+        CreatePlaceDTO place = new CreatePlaceDTO("casa colonial", "Cund",city,direction,"finca linda",3,2,1);
 
         mockMvc.perform(post("/api/v1/places").header("X-Email",email)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -147,7 +147,7 @@ class PlaceTests {
     void shouldNotCreateAPlaceWithoutUser() throws Exception {
 
 
-        CreatePlaceDTO place = new CreatePlaceDTO("Finca pepe", "Cund","Bog","km 2 via tabio(finca pepe)",3,2,1);
+        CreatePlaceDTO place = new CreatePlaceDTO("Finca pepe", "Cund","Bog","km 2 via tabio(finca pepe)","finca linda",3,2,1);
 
         MvcResult result1 = mockMvc.perform(post("/api/v1/places").header("X-Email","noexiste@gmail.com")
                 .contentType(MediaType.APPLICATION_JSON)
