@@ -8,6 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Document Mapper Class For The Place On Envirify App.
+ *
+ * @author Error 418
+ */
+
 @Document(collection = "places")
 public class Place {
 
@@ -26,9 +32,16 @@ public class Place {
     private List<String> bookings;
 
 
+    /**
+     * Basic constructor
+     */
     public Place() {
     }
 
+    /**
+     * Constructor of the place
+     * @param placeDTO The Create Place Data Transfer Object.
+     */
     public Place(CreatePlaceDTO placeDTO){
         this.name= placeDTO.getName();
         this.department= placeDTO.getDepartment();
@@ -42,98 +55,196 @@ public class Place {
         bookings = new ArrayList<>();
     }
 
+    /**
+     * get the name
+     * @return the name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * set the name
+     * @param name the name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * get the department
+     * @return the department
+     */
     public String getDepartment() {
         return department;
     }
 
+    /**
+     * set the department
+     * @param department the department
+     */
     public void setDepartment(String department) {
         this.department = department;
     }
 
+    /**
+     * get the city
+     * @return the city
+     */
     public String getCity() {
         return city;
     }
 
+    /**
+     * set the city
+     * @param city the city
+     */
     public void setCity(String city) {
         this.city = city;
     }
 
+    /**
+     * get the direction
+     * @return the direction
+     */
     public String getDirection() {
         return direction;
     }
 
+    /**
+     * set the direction
+     * @param direction the direction
+     */
     public void setDirection(String direction) {
         this.direction = direction;
     }
 
+    /**
+     * get the capacity
+     * @return the capacity
+     */
     public int getCapacity() {
         return capacity;
     }
 
+    /**
+     * set the capacity
+     * @param capacity the capacity
+     */
     public void setCapacity(int capacity) {
         this.capacity = capacity;
     }
 
+    /**
+     * get the habitations
+     * @return the habitations
+     */
     public int getHabitations() {
         return habitations;
     }
 
+
+    /**
+     * set the habitations
+     * @param habitations the habitations
+     */
     public void setHabitations(int habitations) {
         this.habitations = habitations;
     }
 
+    /**
+     * get the bathrooms
+     * @return the bathrooms
+     */
     public int getBathrooms() {
         return bathrooms;
     }
 
+    /**
+     * set the bathrooms
+     * @param bathrooms the bathrooms
+     */
     public void setBathrooms(int bathrooms) {
         this.bathrooms = bathrooms;
     }
 
+    /**
+     * get the description
+     * @return the description
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     * set the description
+     * @param description description
+     */
     public void setDescription(String description) {
         this.description = description;
     }
 
+    /**
+     * get the id
+     * @return the id
+     */
     public String getId() {
         return id;
     }
 
+    /**
+     * set the id
+     * @param id the id
+     */
     public void setId(String id) {
         this.id = id;
     }
 
+    /**
+     * get the guidebooks
+     * @return the guidebooks
+     */
     public List<String> getGuidebooks() {
         return guidebooks;
     }
 
+    /**
+     * set the guidebooks
+     * @param guidebooks the guidebooks
+     */
     public void setGuidebooks(List<String> guidebooks) {
         this.guidebooks = guidebooks;
     }
 
+    /**
+     * get the ratings
+     * @return the ratings
+     */
     public List<String> getRatings() {
         return ratings;
     }
 
+
+    /**
+     * set the ratings
+     * @param ratings the ratings
+     */
     public void setRatings(List<String> ratings) {
         this.ratings = ratings;
     }
 
+    /**
+     * get the bookings
+     * @return the bookings
+     */
     public List<String> getBookings() {
         return bookings;
     }
 
+    /**
+     * set the bookings
+     * @param bookings the bookings
+     */
     public void setBookings(List<String> bookings) {
         this.bookings = bookings;
     }

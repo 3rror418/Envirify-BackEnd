@@ -11,6 +11,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Class That Implements The Place Persistence Methods For Envirify App.
+ *
+ * @author Error 418
+ */
 @Service
 public class PlacePersistenceImpl implements PlacePersistence {
 
@@ -20,6 +25,12 @@ public class PlacePersistenceImpl implements PlacePersistence {
     @Autowired
     private UserRepository userRepository;
 
+    /**
+     * Add a place of a user
+     * @param place the new place
+     * @param email the email of the owner
+     * @throws EnvirifyPersistenceException
+     */
     @Override
     public void addPlace(Place place, String email) throws EnvirifyPersistenceException {
 
