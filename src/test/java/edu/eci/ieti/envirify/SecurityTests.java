@@ -190,8 +190,8 @@ class SecurityTests {
 
     @Test
     void shouldGetEmailFromJWTToken() throws Exception {
-        LoginDTO loginDTO = new LoginDTO("daniela@gmail.com", "password");
-        CreateUserDTO user = new CreateUserDTO("daniela@gmail.com", "Daniela", "12345", "male", "password");
+        LoginDTO loginDTO = new LoginDTO("daniela45@gmail.com", "password");
+        CreateUserDTO user = new CreateUserDTO("daniela45@gmail.com", "Daniela", "12345", "male", "password");
         mockMvc.perform(post("/api/v1/users")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(gson.toJson(user)))

@@ -237,4 +237,8 @@ public class User {
                 ", chats=" + chats +
                 '}';
     }
+
+    public void addPlace (String idPlace){
+        places.add(idPlace);
+    }
 }
