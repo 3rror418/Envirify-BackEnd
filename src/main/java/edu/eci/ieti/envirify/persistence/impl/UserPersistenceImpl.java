@@ -45,23 +45,26 @@ public class UserPersistenceImpl implements UserPersistence {
     	String verifyEmail = user.getEmail();
     	User usuario = repository.findByEmail(email);
     	User verify = repository.findByEmail(user.getEmail());
-    	if (verifyEmail.equals(email)) {
-            if (user.getName()!= null) usuario.setName(user.getName());
-            if (user.getPhoneNumber()!= null) usuario.setPhoneNumber(user.getPhoneNumber());
-            if (user.getGender()!= null) usuario.setGender(user.getGender());
-            repository.save(user);
-    	}
-    	else if (verify == null) {
-    		if (user.getEmail()!= null) usuario.setEmail(user.getEmail());
-            if (user.getName()!= null) usuario.setName(user.getName());
-            if (user.getPhoneNumber()!= null) usuario.setPhoneNumber(user.getPhoneNumber());
-            if (user.getGender()!= null) usuario.setGender(user.getGender());
+    	if (verifyEmail.equals(email) || verify == null) {
+			setNewUser(usuario, user);
             repository.save(user);
         }
     	else {
     		throw new EnvirifyPersistenceException("There is already a user with the " + user.getEmail() + " email address");
     	}
     }
+	
+	/**
+     *  Set the new user data
+     *
+     * @param oldUser The old user that it is going to be updated.
+	 * @param oldUser The new user That it is going to be updated.
+     */
+	public void setNewUser(User oldUser, User newUser) {
+		oldUser.setName(newUser.getName());
+		oldUser.setPhoneNumber(newUser.getPhoneNumber());
+		oldUser.setGender(newUser.getGender());
+	}
 
     /**
      * Returns the Information Of A User With a Email From The DB.
