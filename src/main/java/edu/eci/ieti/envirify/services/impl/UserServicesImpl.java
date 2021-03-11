@@ -34,6 +34,21 @@ public class UserServicesImpl implements UserServices {
             throw new EnvirifyException(e.getMessage(), e, HttpStatus.CONFLICT);
         }
     }
+    
+    /**
+     * Update a user on the app.
+     *
+     * @param user The User That it is going to be updated.
+     * @throws EnvirifyException When that user cannot be updated.
+     */
+    @Override
+    public void updateUser(User user, String email) throws EnvirifyException {
+        try {
+            persistence.updateUser(user, email);
+        } catch (EnvirifyPersistenceException e) {
+            throw new EnvirifyException(e.getMessage(), e, HttpStatus.CONFLICT);
+        }
+    }
 
     /**
      * Returns the Information Of A User With a Email.

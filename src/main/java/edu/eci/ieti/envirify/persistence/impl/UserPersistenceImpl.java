@@ -32,6 +32,36 @@ public class UserPersistenceImpl implements UserPersistence {
         }
         repository.save(user);
     }
+    
+    /**
+     *  Update a user on the DB.
+     *
+     * @param user The User That it is going to be updated.
+     * @throws EnvirifyPersistenceException When the email of the user to update already exists.
+     */
+    @Override
+    public void updateUser(User user, String email) throws EnvirifyPersistenceException {
+    	System.out.println(email);
+    	String verifyEmail = user.getEmail();
+    	User usuario = repository.findByEmail(email);
+    	User verify = repository.findByEmail(user.getEmail());
+    	if (verifyEmail.equals(email)) {
+            if (user.getName()!= null) usuario.setName(user.getName());
+            if (user.getPhoneNumber()!= null) usuario.setPhoneNumber(user.getPhoneNumber());
+            if (user.getGender()!= null) usuario.setGender(user.getGender());
+            repository.save(user);
+    	}
+    	else if (verify == null) {
+    		if (user.getEmail()!= null) usuario.setEmail(user.getEmail());
+            if (user.getName()!= null) usuario.setName(user.getName());
+            if (user.getPhoneNumber()!= null) usuario.setPhoneNumber(user.getPhoneNumber());
+            if (user.getGender()!= null) usuario.setGender(user.getGender());
+            repository.save(user);
+        }
+    	else {
+    		throw new EnvirifyPersistenceException("There is already a user with the " + user.getEmail() + " email address");
+    	}
+    }
 
     /**
      * Returns the Information Of A User With a Email From The DB.
