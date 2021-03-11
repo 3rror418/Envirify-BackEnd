@@ -16,6 +16,14 @@ public interface UserPersistence {
      * @throws EnvirifyPersistenceException When that user already exists.
      */
     void addUser(User user) throws EnvirifyPersistenceException;
+    
+    /**
+     * Update a user on the DB.
+     *
+     * @param user The User That it is going to be updated.
+     * @throws EnvirifyPersistenceException When the email of the user to update already exists.
+     */
+    void updateUser(User user, String email) throws EnvirifyPersistenceException;
 
     /**
      * Returns the Information Of A User With a Email From The DB.

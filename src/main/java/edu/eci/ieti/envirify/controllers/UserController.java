@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -77,6 +78,21 @@ public class UserController {
         newUser.setPassword(encoder.encode(userDTO.getPassword()));
         services.addUser(newUser);
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+    
+    /**
+     * Update a user on the envirify app.
+     *
+     * @param user The User That it is going to be updated.
+     * @return A Response Entity With The Request Status Code.
+     * @throws EnvirifyException When the user cannot be updated.
+     */
+    @PutMapping("/{email}")
+    public ResponseEntity<Object> updateUser(@RequestBody CreateUserDTO userDTO, @PathVariable String email) throws EnvirifyException {
+    	User newUser = new User(userDTO);
+    	services.updateUser(newUser, email);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);   
+
     }
 
     /**

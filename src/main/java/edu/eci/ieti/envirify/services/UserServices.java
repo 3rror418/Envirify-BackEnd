@@ -17,6 +17,14 @@ public interface UserServices {
      * @throws EnvirifyException When that user cannot be added.
      */
     void addUser(User user) throws EnvirifyException;
+    
+    /**
+     * Update a user on the app.
+     *
+     * @param user The User That it is going to be updated.
+     * @throws EnvirifyException When that user cannot be updated.
+     */
+    void updateUser(User user, String email) throws EnvirifyException;
 
     /**
      * Returns the Information Of A User With a Email.
