@@ -27,6 +27,7 @@ public class Place {
     private int habitations;
     private int bathrooms;
     private String description;
+    private String urlImage;
     private List<String> guidebooks;
     private List<String> ratings;
     private List<String> bookings;
@@ -51,6 +52,7 @@ public class Place {
         this.habitations= placeDTO.getHabitations();
         this.bathrooms= placeDTO.getBathrooms();
         this.description = placeDTO.getDescription();
+        this.urlImage = placeDTO.getUrlImage();
         guidebooks= new ArrayList<>();
         ratings = new ArrayList<>();
         bookings = new ArrayList<>();
@@ -248,6 +250,14 @@ public class Place {
      */
     public void setBookings(List<String> bookings) {
         this.bookings = bookings;
+    }
+
+    public String getUrlImage() {
+        return urlImage;
+    }
+
+    public void setUrlImage(String urlImage) {
+        this.urlImage = urlImage;
     }
 
     @Override

@@ -14,6 +14,7 @@ public class CreatePlaceDTO implements Serializable {
     private String city;
     private String direction;
     private String description;
+    private String urlImage;
     private int capacity;
     private int habitations;
     private int bathrooms;
@@ -35,7 +36,7 @@ public class CreatePlaceDTO implements Serializable {
      * @param bathrooms the bathrooms number
      * @param description the description
      */
-    public CreatePlaceDTO(String name, String department, String city, String direction,String description, int capacity, int habitations, int bathrooms) {
+    public CreatePlaceDTO(String name, String department, String city, String direction,String description,String urlImage, int capacity, int habitations, int bathrooms) {
         this.name = name;
         this.department = department;
         this.city = city;
@@ -44,6 +45,15 @@ public class CreatePlaceDTO implements Serializable {
         this.habitations = habitations;
         this.bathrooms = bathrooms;
         this.description=description;
+        this.urlImage=urlImage;
+    }
+
+    public String getUrlImage() {
+        return urlImage;
+    }
+
+    public void setUrlImage(String urlImage) {
+        this.urlImage = urlImage;
     }
 
     /**
