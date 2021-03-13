@@ -52,7 +52,7 @@ class PlaceTests {
     @BeforeEach
     void setup() throws Exception {
         String ip = "localhost";
-        int port = 27018;
+        int port = 27017;
         IMongodConfig mongodConfig = new MongodConfigBuilder().version(Version.Main.PRODUCTION)
                 .net(new Net(ip, port, Network.localhostIsIPv6()))
                 .build();
@@ -183,6 +183,7 @@ class PlaceTests {
         CreateUserDTO user = new CreateUserDTO(email, "Armando", "12345", "Masculino", "password");
         createUser(user);
         CreatePlaceDTO place = new CreatePlaceDTO("Finca pepe", "Boyaca", search, "direccion1", "finca linda", "hola.png", 3, 2, 1);
+        place.setOwner(email);
         createPlace(place, email);
         place.setDirection("direccion2");
         place.setDepartment(search);
@@ -211,8 +212,6 @@ class PlaceTests {
                 .andExpect(status().isNotFound())
                 .andReturn();
         String bodyResult = result.getResponse().getContentAsString();
-        System.out.println("*************");
-        System.out.println(bodyResult);
         Assertions.assertEquals("There are no results for " + search, bodyResult);
     }
 
