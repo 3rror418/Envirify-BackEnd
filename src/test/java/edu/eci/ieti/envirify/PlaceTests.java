@@ -237,7 +237,16 @@ class PlaceTests {
                 .andReturn();
         bodyResult = result.getResponse().getContentAsString();
         placeDTO = gson.fromJson(bodyResult,CreatePlaceDTO.class);
-        Assertions.assertEquals(place,placeDTO);
+        Assertions.assertEquals(place.getCapacity(),placeDTO.getCapacity());
+        Assertions.assertEquals(place.getHabitations(),placeDTO.getHabitations());
+        Assertions.assertEquals(place.getBathrooms(),placeDTO.getBathrooms());
+        Assertions.assertEquals(place.getName(),placeDTO.getName());
+        Assertions.assertEquals(place.getDepartment(),placeDTO.getDepartment());
+        Assertions.assertEquals(place.getCity(),placeDTO.getCity());
+        Assertions.assertEquals(place.getDescription(),placeDTO.getDescription());
+        Assertions.assertEquals(place.getDirection(),placeDTO.getDirection());
+        Assertions.assertEquals(place.getUrlImage(),placeDTO.getUrlImage());
+        Assertions.assertEquals(place.getRatings(),placeDTO.getRatings());
     }
 
     @Test
