@@ -36,4 +36,13 @@ public interface PlacePersistence {
      * @return A List With The Places that are in the search term department.
      */
     List<Place> getPlacesByDepartment(String department);
+
+    /**
+     * Gets A Place By His ID From DB.
+     *
+     * @param id The Place Id.
+     * @return The Place Class With That Id.
+     * @throws EnvirifyPersistenceException When The Place With That Id Does Not Exist.
+     */
+    Place getPlaceById(String id) throws EnvirifyPersistenceException;
 }

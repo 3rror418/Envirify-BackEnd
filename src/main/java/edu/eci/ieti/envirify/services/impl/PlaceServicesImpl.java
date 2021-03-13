@@ -62,4 +62,22 @@ public class PlaceServicesImpl implements PlaceServices {
         }
         return places;
     }
+
+    /**
+     * Gets A Place By His ID.
+     *
+     * @param id The Place Id.
+     * @return The Place Class With That Id.
+     * @throws EnvirifyException When The Place With That Id Does Not Exist.
+     */
+    @Override
+    public Place getPlaceById(String id) throws EnvirifyException {
+        Place place;
+        try {
+            place = persistence.getPlaceById(id);
+        } catch (EnvirifyPersistenceException e) {
+            throw new EnvirifyException(e.getMessage(), e, HttpStatus.NOT_FOUND);
+        }
+        return place;
+    }
 }

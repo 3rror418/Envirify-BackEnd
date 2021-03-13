@@ -3,6 +3,8 @@ package edu.eci.ieti.envirify.controllers.dtos;
 import edu.eci.ieti.envirify.model.Place;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Data Transfer Object For Create Place Request.
@@ -11,6 +13,7 @@ import java.io.Serializable;
  */
 public class CreatePlaceDTO implements Serializable {
 
+    private String id;
     private String name;
     private String department;
     private String city;
@@ -21,6 +24,7 @@ public class CreatePlaceDTO implements Serializable {
     private int capacity;
     private int habitations;
     private int bathrooms;
+    private List<String> ratings;
 
     /**
      * Basic constructor
@@ -50,6 +54,7 @@ public class CreatePlaceDTO implements Serializable {
         this.bathrooms = bathrooms;
         this.description = description;
         this.urlImage = urlImage;
+        this.ratings = new ArrayList<>();
     }
 
     /**
@@ -58,6 +63,7 @@ public class CreatePlaceDTO implements Serializable {
      * @param place The Place Information.
      */
     public CreatePlaceDTO(Place place) {
+        this.id = place.getId();
         this.name = place.getName();
         this.department = place.getDepartment();
         this.city = place.getCity();
@@ -68,6 +74,25 @@ public class CreatePlaceDTO implements Serializable {
         this.description = place.getDescription();
         this.urlImage = place.getUrlImage();
         this.owner = place.getOwner();
+        this.ratings = place.getRatings();
+    }
+
+    /**
+     * Get the Id Of The Place
+     *
+     * @return The Id Of The Owner
+     */
+    public String getId() {
+        return id;
+    }
+
+    /**
+     * Gets the Ratings Of The Place
+     *
+     * @return The Ratings Of The Owner
+     */
+    public List<String> getRatings() {
+        return ratings;
     }
 
     /**
@@ -250,4 +275,5 @@ public class CreatePlaceDTO implements Serializable {
     public void setOwner(String owner) {
         this.owner = owner;
     }
+
 }

@@ -2,6 +2,7 @@ package edu.eci.ieti.envirify;
 
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.mongodb.client.MongoClients;
 import de.flapdoodle.embed.mongo.MongodExecutable;
 import de.flapdoodle.embed.mongo.MongodStarter;
@@ -13,6 +14,7 @@ import de.flapdoodle.embed.process.runtime.Network;
 import edu.eci.ieti.envirify.controllers.dtos.CreatePlaceDTO;
 import edu.eci.ieti.envirify.controllers.dtos.CreateUserDTO;
 import org.json.JSONArray;
+import org.json.JSONObject;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -213,6 +215,48 @@ class PlaceTests {
                 .andReturn();
         String bodyResult = result.getResponse().getContentAsString();
         Assertions.assertEquals("There are no results for " + search, bodyResult);
+    }
+
+    @Test
+    void shouldGetPlacesById() throws Exception {
+        String email = "armando3@gmail.com";
+        String department = "ABC";
+        CreateUserDTO user = new CreateUserDTO(email, "Armando", "12345", "Masculino", "password");
+        createUser(user);
+        CreatePlaceDTO place = new CreatePlaceDTO("Finca pepe", department, "Suescas", "direccion4", "finca linda", "hola.png", 3, 2, 1);
+        createPlace(place, email);
+        MvcResult result = mockMvc.perform(get("/api/v1/places?search="+department))
+                .andExpect(status().isOk())
+                .andReturn();
+        String bodyResult = result.getResponse().getContentAsString();
+        JSONObject object = new JSONArray(bodyResult).getJSONObject(0);
+        CreatePlaceDTO placeDTO = gson.fromJson(object.toString(), CreatePlaceDTO.class);
+        String id = placeDTO.getId();
+        result = mockMvc.perform(get("/api/v1/places/"+id))
+                .andExpect(status().isOk())
+                .andReturn();
+        bodyResult = result.getResponse().getContentAsString();
+        placeDTO = gson.fromJson(bodyResult,CreatePlaceDTO.class);
+        Assertions.assertEquals(place.getCapacity(),placeDTO.getCapacity());
+        Assertions.assertEquals(place.getHabitations(),placeDTO.getHabitations());
+        Assertions.assertEquals(place.getBathrooms(),placeDTO.getBathrooms());
+        Assertions.assertEquals(place.getName(),placeDTO.getName());
+        Assertions.assertEquals(place.getDepartment(),placeDTO.getDepartment());
+        Assertions.assertEquals(place.getCity(),placeDTO.getCity());
+        Assertions.assertEquals(place.getDescription(),placeDTO.getDescription());
+        Assertions.assertEquals(place.getDirection(),placeDTO.getDirection());
+        Assertions.assertEquals(place.getUrlImage(),placeDTO.getUrlImage());
+        Assertions.assertEquals(place.getRatings(),placeDTO.getRatings());
+    }
+
+    @Test
+    void shouldNotGetANonExistentPlaceById() throws Exception {
+        String id = "NoExiste";
+        MvcResult result = mockMvc.perform(get("/api/v1/places/"+id))
+                .andExpect(status().isNotFound())
+                .andReturn();
+        String bodyResult = result.getResponse().getContentAsString();
+        Assertions.assertEquals("There is no place with the id " + id, bodyResult);
     }
 
     private void createUser(CreateUserDTO userDTO) throws Exception {
