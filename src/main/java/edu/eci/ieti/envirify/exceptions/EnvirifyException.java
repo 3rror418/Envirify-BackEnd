@@ -23,6 +23,16 @@ public class EnvirifyException extends Exception {
         this.status = status;
     }
 
+    /**
+     * Constructor For EnvirifyException.
+     *
+     * @param message The Error Message Of The Exception.
+     * @param status  The HTTP Status Code Of The Error.
+     */
+    public EnvirifyException(String message, HttpStatus status) {
+        super(message);
+        this.status = status;
+    }
 
     /**
      * Returns the HTTP Status Code Of The Exception.

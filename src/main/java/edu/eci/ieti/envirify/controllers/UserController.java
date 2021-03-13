@@ -5,10 +5,9 @@ import edu.eci.ieti.envirify.controllers.dtos.LoginDTO;
 import edu.eci.ieti.envirify.controllers.dtos.UserDTO;
 import edu.eci.ieti.envirify.exceptions.EnvirifyException;
 import edu.eci.ieti.envirify.model.User;
-import edu.eci.ieti.envirify.persistence.repositories.UserRepository;
-import edu.eci.ieti.envirify.security.userdetails.UserDetailsImpl;
 import edu.eci.ieti.envirify.security.jwt.JwtResponse;
 import edu.eci.ieti.envirify.security.jwt.JwtUtils;
+import edu.eci.ieti.envirify.security.userdetails.UserDetailsImpl;
 import edu.eci.ieti.envirify.services.UserServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -42,16 +41,13 @@ public class UserController {
     private UserServices services;
 
     @Autowired
-    AuthenticationManager authenticationManager;
+    private AuthenticationManager authenticationManager;
 
     @Autowired
-    UserRepository userRepository;
+    private PasswordEncoder encoder;
 
     @Autowired
-    PasswordEncoder encoder;
-
-    @Autowired
-    JwtUtils jwtUtils;
+    private JwtUtils jwtUtils;
 
     /**
      * Returns the Information Of A User With a Email.
@@ -61,7 +57,7 @@ public class UserController {
      * @throws EnvirifyException When the user can not be Searched.
      */
     @GetMapping("/{email}")
-    public ResponseEntity<Object> getUserByEmail(@PathVariable String email) throws EnvirifyException{
+    public ResponseEntity<Object> getUserByEmail(@PathVariable String email) throws EnvirifyException {
         return new ResponseEntity<>(new UserDTO(services.getUserByEmail(email)), HttpStatus.ACCEPTED);
     }
 
@@ -79,31 +75,32 @@ public class UserController {
         services.addUser(newUser);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
-    
+
     /**
      * Update a user on the envirify app.
      *
-     * @param user The User That it is going to be updated.
+     * @param userDTO The User That it is going to be updated.
      * @return A Response Entity With The Request Status Code.
      * @throws EnvirifyException When the user cannot be updated.
      */
     @PutMapping("/{email}")
     public ResponseEntity<Object> updateUser(@RequestBody CreateUserDTO userDTO, @PathVariable String email) throws EnvirifyException {
-    	User newUser = new User(userDTO);
-    	services.updateUser(newUser, email);
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);   
+        User newUser = new User(userDTO);
+        services.updateUser(newUser, email);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
 
     }
 
     /**
      * Log in to the envirify app
+     *
      * @param loginDTO Object that represents a login request to the app
      * @return A Response Entity With The with the JWT response.
      */
     @PostMapping("/login")
     public ResponseEntity<JwtResponse> authenticateUser(@RequestBody LoginDTO loginDTO) {
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginDTO.getEmail(),loginDTO.getPassword()));
+                new UsernamePasswordAuthenticationToken(loginDTO.getEmail(), loginDTO.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtUtils.generateJwtToken(authentication);
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
@@ -112,6 +109,6 @@ public class UserController {
                 userDetails.getUsername(),
                 userDetails.getEmail()
         );
-        return new ResponseEntity(jwtResponse, HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(jwtResponse, HttpStatus.ACCEPTED);
     }
 }
