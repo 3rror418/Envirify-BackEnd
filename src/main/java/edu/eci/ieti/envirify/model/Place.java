@@ -23,6 +23,7 @@ public class Place {
     private String department;
     private String city;
     private String direction;
+    private String owner;
     private int capacity;
     private int habitations;
     private int bathrooms;
@@ -41,25 +42,28 @@ public class Place {
 
     /**
      * Constructor of the place
+     *
      * @param placeDTO The Create Place Data Transfer Object.
      */
-    public Place(CreatePlaceDTO placeDTO){
-        this.name= placeDTO.getName();
-        this.department= placeDTO.getDepartment();
-        this.city= placeDTO.getCity();
-        this.direction= placeDTO.getDirection();
-        this.capacity= placeDTO.getCapacity();
-        this.habitations= placeDTO.getHabitations();
-        this.bathrooms= placeDTO.getBathrooms();
+    public Place(CreatePlaceDTO placeDTO) {
+        this.name = placeDTO.getName();
+        this.department = placeDTO.getDepartment();
+        this.city = placeDTO.getCity();
+        this.direction = placeDTO.getDirection();
+        this.capacity = placeDTO.getCapacity();
+        this.habitations = placeDTO.getHabitations();
+        this.bathrooms = placeDTO.getBathrooms();
         this.description = placeDTO.getDescription();
         this.urlImage = placeDTO.getUrlImage();
-        guidebooks= new ArrayList<>();
+        this.owner = placeDTO.getOwner();
+        guidebooks = new ArrayList<>();
         ratings = new ArrayList<>();
         bookings = new ArrayList<>();
     }
 
     /**
      * get the name
+     *
      * @return the name
      */
     public String getName() {
@@ -68,6 +72,7 @@ public class Place {
 
     /**
      * set the name
+     *
      * @param name the name
      */
     public void setName(String name) {
@@ -76,6 +81,7 @@ public class Place {
 
     /**
      * get the department
+     *
      * @return the department
      */
     public String getDepartment() {
@@ -84,6 +90,7 @@ public class Place {
 
     /**
      * set the department
+     *
      * @param department the department
      */
     public void setDepartment(String department) {
@@ -92,6 +99,7 @@ public class Place {
 
     /**
      * get the city
+     *
      * @return the city
      */
     public String getCity() {
@@ -100,6 +108,7 @@ public class Place {
 
     /**
      * set the city
+     *
      * @param city the city
      */
     public void setCity(String city) {
@@ -108,6 +117,7 @@ public class Place {
 
     /**
      * get the direction
+     *
      * @return the direction
      */
     public String getDirection() {
@@ -116,6 +126,7 @@ public class Place {
 
     /**
      * set the direction
+     *
      * @param direction the direction
      */
     public void setDirection(String direction) {
@@ -124,6 +135,7 @@ public class Place {
 
     /**
      * get the capacity
+     *
      * @return the capacity
      */
     public int getCapacity() {
@@ -132,6 +144,7 @@ public class Place {
 
     /**
      * set the capacity
+     *
      * @param capacity the capacity
      */
     public void setCapacity(int capacity) {
@@ -140,6 +153,7 @@ public class Place {
 
     /**
      * get the habitations
+     *
      * @return the habitations
      */
     public int getHabitations() {
@@ -149,6 +163,7 @@ public class Place {
 
     /**
      * set the habitations
+     *
      * @param habitations the habitations
      */
     public void setHabitations(int habitations) {
@@ -157,6 +172,7 @@ public class Place {
 
     /**
      * get the bathrooms
+     *
      * @return the bathrooms
      */
     public int getBathrooms() {
@@ -165,6 +181,7 @@ public class Place {
 
     /**
      * set the bathrooms
+     *
      * @param bathrooms the bathrooms
      */
     public void setBathrooms(int bathrooms) {
@@ -173,6 +190,7 @@ public class Place {
 
     /**
      * get the description
+     *
      * @return the description
      */
     public String getDescription() {
@@ -181,6 +199,7 @@ public class Place {
 
     /**
      * set the description
+     *
      * @param description description
      */
     public void setDescription(String description) {
@@ -189,6 +208,7 @@ public class Place {
 
     /**
      * get the id
+     *
      * @return the id
      */
     public String getId() {
@@ -197,6 +217,7 @@ public class Place {
 
     /**
      * set the id
+     *
      * @param id the id
      */
     public void setId(String id) {
@@ -205,6 +226,7 @@ public class Place {
 
     /**
      * get the guidebooks
+     *
      * @return the guidebooks
      */
     public List<String> getGuidebooks() {
@@ -213,6 +235,7 @@ public class Place {
 
     /**
      * set the guidebooks
+     *
      * @param guidebooks the guidebooks
      */
     public void setGuidebooks(List<String> guidebooks) {
@@ -221,6 +244,7 @@ public class Place {
 
     /**
      * get the ratings
+     *
      * @return the ratings
      */
     public List<String> getRatings() {
@@ -230,6 +254,7 @@ public class Place {
 
     /**
      * set the ratings
+     *
      * @param ratings the ratings
      */
     public void setRatings(List<String> ratings) {
@@ -238,6 +263,7 @@ public class Place {
 
     /**
      * get the bookings
+     *
      * @return the bookings
      */
     public List<String> getBookings() {
@@ -246,18 +272,47 @@ public class Place {
 
     /**
      * set the bookings
+     *
      * @param bookings the bookings
      */
     public void setBookings(List<String> bookings) {
         this.bookings = bookings;
     }
 
+    /**
+     * Get the Image URL Of The Place
+     *
+     * @return The Image URL Of The Owner
+     */
     public String getUrlImage() {
         return urlImage;
     }
 
+    /**
+     * Sets the Image URL Of The Place.
+     *
+     * @param urlImage The Image URL Of The Place.
+     */
     public void setUrlImage(String urlImage) {
         this.urlImage = urlImage;
+    }
+
+    /**
+     * Get the Owner Of The Place
+     *
+     * @return The Email Of The Owner
+     */
+    public String getOwner() {
+        return owner;
+    }
+
+    /**
+     * Sets the owner Of The Place
+     *
+     * @param owner The New Owner Of The Place
+     */
+    public void setOwner(String owner) {
+        this.owner = owner;
     }
 
     @Override
@@ -280,9 +335,16 @@ public class Place {
                 ", name='" + name + '\'' +
                 ", department='" + department + '\'' +
                 ", city='" + city + '\'' +
-                ", capacity='" + capacity + '\'' +
-                ", habitations='" + habitations + '\'' +
-                ", books=" + bookings +
+                ", direction='" + direction + '\'' +
+                ", owner='" + owner + '\'' +
+                ", capacity=" + capacity +
+                ", habitations=" + habitations +
+                ", bathrooms=" + bathrooms +
+                ", description='" + description + '\'' +
+                ", urlImage='" + urlImage + '\'' +
+                ", guidebooks=" + guidebooks +
+                ", ratings=" + ratings +
+                ", bookings=" + bookings +
                 '}';
     }
 }
