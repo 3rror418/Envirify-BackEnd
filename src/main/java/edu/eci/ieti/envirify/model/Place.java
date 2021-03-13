@@ -335,9 +335,16 @@ public class Place {
                 ", name='" + name + '\'' +
                 ", department='" + department + '\'' +
                 ", city='" + city + '\'' +
-                ", capacity='" + capacity + '\'' +
-                ", habitations='" + habitations + '\'' +
-                ", books=" + bookings +
+                ", direction='" + direction + '\'' +
+                ", owner='" + owner + '\'' +
+                ", capacity=" + capacity +
+                ", habitations=" + habitations +
+                ", bathrooms=" + bathrooms +
+                ", description='" + description + '\'' +
+                ", urlImage='" + urlImage + '\'' +
+                ", guidebooks=" + guidebooks +
+                ", ratings=" + ratings +
+                ", bookings=" + bookings +
                 '}';
     }
 }

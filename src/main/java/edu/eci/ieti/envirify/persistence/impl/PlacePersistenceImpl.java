@@ -59,10 +59,9 @@ public class PlacePersistenceImpl implements PlacePersistence {
      *
      * @param city The City Name to search.
      * @return A List With The Places that are in the search term city.
-     * @throws EnvirifyPersistenceException When The Search Fails.
      */
     @Override
-    public List<Place> getPlacesByCity(String city) throws EnvirifyPersistenceException {
+    public List<Place> getPlacesByCity(String city){
         return placeRepository.findByCity(city);
     }
 
@@ -71,10 +70,9 @@ public class PlacePersistenceImpl implements PlacePersistence {
      *
      * @param department The Department Name to search.
      * @return A List With The Places that are in the search term department.
-     * @throws EnvirifyPersistenceException When The Search Fails.
      */
     @Override
-    public List<Place> getPlacesByDepartment(String department) throws EnvirifyPersistenceException {
+    public List<Place> getPlacesByDepartment(String department){
         return placeRepository.findByDepartment(department);
     }
 }

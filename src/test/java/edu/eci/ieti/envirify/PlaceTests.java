@@ -12,6 +12,7 @@ import de.flapdoodle.embed.mongo.distribution.Version;
 import de.flapdoodle.embed.process.runtime.Network;
 import edu.eci.ieti.envirify.controllers.dtos.CreatePlaceDTO;
 import edu.eci.ieti.envirify.controllers.dtos.CreateUserDTO;
+import org.json.JSONArray;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,6 +25,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -50,7 +52,7 @@ class PlaceTests {
     @BeforeEach
     void setup() throws Exception {
         String ip = "localhost";
-        int port = 27017;
+        int port = 27018;
         IMongodConfig mongodConfig = new MongodConfigBuilder().version(Version.Main.PRODUCTION)
                 .net(new Net(ip, port, Network.localhostIsIPv6()))
                 .build();
@@ -71,11 +73,10 @@ class PlaceTests {
                 .content(gson.toJson(user)))
                 .andExpect(status().isCreated());
 
-        CreatePlaceDTO place = new CreatePlaceDTO("Finca pepe", "Cund","Bog","km 1 via tabio(finca pepe)","finca linda","hola.png",3,2,1);
+        CreatePlaceDTO place = new CreatePlaceDTO("Finca pepe", "Cund", "Bog", "km 1 via tabio(finca pepe)", "finca linda", "hola.png", 3, 2, 1);
 
 
-
-        MvcResult result1 = mockMvc.perform(post("/api/v1/places").header("X-Email",email)
+        MvcResult result1 = mockMvc.perform(post("/api/v1/places").header("X-Email", email)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(gson.toJson(place)))
                 .andExpect(status().isCreated())
@@ -88,7 +89,7 @@ class PlaceTests {
     void shouldNotAddAnExistingAPlace() throws Exception {
         String direction = "calle 1 # 12-34";
         String city = "Bog";
-        
+
         String email = "daniela1@gmail.com";
         CreateUserDTO user = new CreateUserDTO(email, "Daniela", "12345", "Masculino", "password");
 
@@ -97,20 +98,20 @@ class PlaceTests {
                 .content(gson.toJson(user)))
                 .andExpect(status().isCreated());
 
-        CreatePlaceDTO place = new CreatePlaceDTO("casa colonial", "Cund",city,direction,"finca linda","hola.png",3,2,1);
+        CreatePlaceDTO place = new CreatePlaceDTO("casa colonial", "Cund", city, direction, "finca linda", "hola.png", 3, 2, 1);
 
-        mockMvc.perform(post("/api/v1/places").header("X-Email",email)
+        mockMvc.perform(post("/api/v1/places").header("X-Email", email)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(gson.toJson(place)))
                 .andExpect(status().isCreated());
 
-        MvcResult result = mockMvc.perform(post("/api/v1/places").header("X-Email",email)
+        MvcResult result = mockMvc.perform(post("/api/v1/places").header("X-Email", email)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(gson.toJson(place)))
                 .andExpect(status().isConflict())
                 .andDo(print())
                 .andReturn();
-        Assertions.assertEquals("There is already a place with the " + direction+"-"+city + "-address", result.getResponse().getContentAsString());
+        Assertions.assertEquals("There is already a place with the " + direction + "-" + city + "-address", result.getResponse().getContentAsString());
     }
 
     @Test
@@ -126,15 +127,13 @@ class PlaceTests {
 
         String direction = "calle 2 # 12-34";
         String city = "Bog";
-        CreatePlaceDTO place = new CreatePlaceDTO("casa colonial", "Cund",city,direction,"finca linda","hola.png",3,2,1);
-
-        mockMvc.perform(post("/api/v1/places").header("X-Email",email)
+        CreatePlaceDTO place = new CreatePlaceDTO("casa colonial", "Cund", city, direction, "finca linda", "hola.png", 3, 2, 1);
+        mockMvc.perform(post("/api/v1/places").header("X-Email", email)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(gson.toJson(place)))
                 .andExpect(status().isCreated());
-
         place.setCity("Med");
-        MvcResult result = mockMvc.perform(post("/api/v1/places").header("X-Email",email)
+        MvcResult result = mockMvc.perform(post("/api/v1/places").header("X-Email", email)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(gson.toJson(place)))
                 .andExpect(status().isCreated())
@@ -145,20 +144,91 @@ class PlaceTests {
 
     @Test
     void shouldNotCreateAPlaceWithoutUser() throws Exception {
-
-
-        CreatePlaceDTO place = new CreatePlaceDTO("Finca pepe", "Cund","Bog","km 2 via tabio(finca pepe)","finca linda","hola.png",3,2,1);
-
-        MvcResult result1 = mockMvc.perform(post("/api/v1/places").header("X-Email","noexiste@gmail.com")
+        CreatePlaceDTO place = new CreatePlaceDTO("Finca pepe", "Cund", "Bog", "km 2 via tabio(finca pepe)", "finca linda", "hola.png", 3, 2, 1);
+        MvcResult result1 = mockMvc.perform(post("/api/v1/places").header("X-Email", "noexiste@gmail.com")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(gson.toJson(place)))
                 .andExpect(status().isConflict())
                 .andReturn();
-
         String responseBody = result1.getResponse().getContentAsString();
         Assertions.assertEquals("There is no user with the email address " + "noexiste@gmail.com", responseBody);
     }
 
+    @Test
+    void shouldGetPlacesByDepartment() throws Exception {
+        String email = "armando@gmail.com";
+        String department = "Cundinamarca";
+        CreateUserDTO user = new CreateUserDTO(email, "Armando", "12345", "Masculino", "password");
+        createUser(user);
+        CreatePlaceDTO place = new CreatePlaceDTO("Finca pepe", department, "Suesca", "direccion", "finca linda", "hola.png", 3, 2, 1);
+        createPlace(place, email);
+        place.setCity("Cogua");
+        createPlace(place, email);
+        MvcResult result = mockMvc.perform(get("/api/v1/places?search="+department))
+                .andExpect(status().isOk())
+                .andReturn();
+        String bodyResult = result.getResponse().getContentAsString();
+        JSONArray array = new JSONArray(bodyResult);
+        CreatePlaceDTO placeDTO;
+        for (int i = 0; i < array.length(); i++) {
+            placeDTO = gson.fromJson(array.getJSONObject(i).toString(), CreatePlaceDTO.class);
+            Assertions.assertEquals(department, placeDTO.getDepartment());
+        }
+    }
+
+    @Test
+    void shouldGetPlacesByCity() throws Exception {
+        String email = "armando2@gmail.com";
+        String search = "Cajica";
+        CreateUserDTO user = new CreateUserDTO(email, "Armando", "12345", "Masculino", "password");
+        createUser(user);
+        CreatePlaceDTO place = new CreatePlaceDTO("Finca pepe", "Boyaca", search, "direccion1", "finca linda", "hola.png", 3, 2, 1);
+        createPlace(place, email);
+        place.setDirection("direccion2");
+        place.setDepartment(search);
+        place.setCity("ciudad");
+        createPlace(place, email);
+        place.setDirection("direccion3");
+        place.setDepartment(search);
+        place.setCity(search);
+        createPlace(place, email);
+        MvcResult result = mockMvc.perform(get("/api/v1/places?search="+search))
+                .andExpect(status().isOk())
+                .andReturn();
+        String bodyResult = result.getResponse().getContentAsString();
+        JSONArray array = new JSONArray(bodyResult);
+        CreatePlaceDTO placeDTO;
+        for (int i = 0; i < array.length(); i++) {
+            placeDTO = gson.fromJson(array.getJSONObject(i).toString(), CreatePlaceDTO.class);
+            Assertions.assertTrue(placeDTO.getCity().equals(search) || placeDTO.getDepartment().equals(search));
+        }
+    }
+
+    @Test
+    void shouldNotGetNonExistentPlacesByDepartmentOrByCity() throws Exception {
+        String search = "NoExiste";
+        MvcResult result = mockMvc.perform(get("/api/v1/places?search="+search))
+                .andExpect(status().isNotFound())
+                .andReturn();
+        String bodyResult = result.getResponse().getContentAsString();
+        System.out.println("*************");
+        System.out.println(bodyResult);
+        Assertions.assertEquals("There are no results for " + search, bodyResult);
+    }
+
+    private void createUser(CreateUserDTO userDTO) throws Exception {
+        mockMvc.perform(post("/api/v1/users")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(gson.toJson(userDTO)))
+                .andExpect(status().isCreated());
+    }
+
+    private void createPlace(CreatePlaceDTO placeDTO, String userEmail) throws Exception {
+        mockMvc.perform(post("/api/v1/places").header("X-Email", userEmail)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(gson.toJson(placeDTO)))
+                .andExpect(status().isCreated());
+    }
 
 
 }

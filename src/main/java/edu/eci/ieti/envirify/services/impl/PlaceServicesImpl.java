@@ -45,23 +45,18 @@ public class PlaceServicesImpl implements PlaceServices {
      *
      * @param search The term to search
      * @return A List With The Places that are in the search term city or department.
-     * @throws EnvirifyException When The Search Fails or does not have any result.
+     * @throws EnvirifyException When The Search does not have any result.
      */
     @Override
     public List<Place> getPlacesByCityOrDepartment(String search) throws EnvirifyException {
-        List<Place> places = new ArrayList<>();
-        try {
-            List<Place> searchByCityPlaces = persistence.getPlacesByCity(search);
-            List<Place> searchByDepartmentPlaces = persistence.getPlacesByDepartment(search);
-            places.addAll(searchByCityPlaces);
-            searchByDepartmentPlaces.forEach(place -> {
-                if (!places.contains(place)) {
-                    places.add(place);
-                }
-            });
-        } catch (EnvirifyPersistenceException e) {
-            throw new EnvirifyException(e.getMessage(), e, HttpStatus.CONFLICT);
-        }
+        List<Place> searchByCityPlaces = persistence.getPlacesByCity(search);
+        List<Place> searchByDepartmentPlaces = persistence.getPlacesByDepartment(search);
+        List<Place> places = new ArrayList<>(searchByCityPlaces);
+        searchByDepartmentPlaces.forEach(place -> {
+            if (!places.contains(place)) {
+                places.add(place);
+            }
+        });
         if (places.isEmpty()) {
             throw new EnvirifyException("There are no results for " + search, HttpStatus.NOT_FOUND);
         }

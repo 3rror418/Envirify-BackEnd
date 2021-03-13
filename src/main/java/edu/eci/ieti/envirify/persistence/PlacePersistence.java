@@ -26,16 +26,14 @@ public interface PlacePersistence {
      *
      * @param city The City Name to search.
      * @return A List With The Places that are in the search term city.
-     * @throws EnvirifyPersistenceException When The Search Fails.
      */
-    List<Place> getPlacesByCity(String city) throws EnvirifyPersistenceException;
+    List<Place> getPlacesByCity(String city);
 
     /**
      * Gets the places based on a department name.
      *
      * @param department The Department Name to search.
      * @return A List With The Places that are in the search term department.
-     * @throws EnvirifyPersistenceException When The Search Fails.
      */
-    List<Place> getPlacesByDepartment(String department) throws EnvirifyPersistenceException;
+    List<Place> getPlacesByDepartment(String department);
 }
