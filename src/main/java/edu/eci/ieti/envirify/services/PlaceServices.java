@@ -29,4 +29,13 @@ public interface PlaceServices {
      * @throws EnvirifyException When The Search Fails or does not have any result.
      */
     List<Place> getPlacesByCityOrDepartment(String search) throws EnvirifyException;
+
+    /**
+     * Gets A Place By His ID.
+     *
+     * @param id The Place Id.
+     * @return The Place Class With That Id.
+     * @throws EnvirifyException When The Place With That Id Does Not Exist.
+     */
+    Place getPlaceById(String id) throws EnvirifyException;
 }

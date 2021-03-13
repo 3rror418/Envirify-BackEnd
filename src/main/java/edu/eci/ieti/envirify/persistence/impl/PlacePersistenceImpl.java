@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Class That Implements The Place Persistence Methods For Envirify App.
@@ -34,13 +35,10 @@ public class PlacePersistenceImpl implements PlacePersistence {
      */
     @Override
     public void addPlace(Place place, String email) throws EnvirifyPersistenceException {
-
         User user = userRepository.findByEmail(email);
-
         if (user == null) {
             throw new EnvirifyPersistenceException("There is no user with the email address " + email);
         }
-
         List<Place> oldPlace = placeRepository.findByDirection(place.getDirection());
         if (!oldPlace.isEmpty()) {
             Place city = oldPlace.stream().filter(c -> place.getCity().equals(c.getCity())).findFirst().orElse(null);
@@ -61,7 +59,7 @@ public class PlacePersistenceImpl implements PlacePersistence {
      * @return A List With The Places that are in the search term city.
      */
     @Override
-    public List<Place> getPlacesByCity(String city){
+    public List<Place> getPlacesByCity(String city) {
         return placeRepository.findByCity(city);
     }
 
@@ -72,7 +70,27 @@ public class PlacePersistenceImpl implements PlacePersistence {
      * @return A List With The Places that are in the search term department.
      */
     @Override
-    public List<Place> getPlacesByDepartment(String department){
+    public List<Place> getPlacesByDepartment(String department) {
         return placeRepository.findByDepartment(department);
+    }
+
+    /**
+     * Gets A Place By His ID From DB.
+     *
+     * @param id The Place Id.
+     * @return The Place Class With That Id.
+     * @throws EnvirifyPersistenceException When The Place With That Id Does Not Exist.
+     */
+    @Override
+    public Place getPlaceById(String id) throws EnvirifyPersistenceException {
+        Place place = null;
+        Optional<Place> optionalPlace = placeRepository.findById(id);
+        if (optionalPlace.isPresent()) {
+            place = optionalPlace.get();
+        }
+        if (place == null) {
+            throw new EnvirifyPersistenceException("There is no place with the id " + id);
+        }
+        return place;
     }
 }

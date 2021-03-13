@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -33,6 +34,20 @@ public class PlaceController {
 
     @Autowired
     private PlaceServices services;
+
+    /**
+     * Gets A Place By His ID.
+     *
+     * @param id The Place Id.
+     * @return A Response Entity With The Place Or With The Error Message.
+     * @throws EnvirifyException When The Place With That Id Does Not Exist.
+     */
+    @GetMapping("/{id}")
+    public ResponseEntity<Object> getPlaceById(@PathVariable String id) throws EnvirifyException {
+        Place place = services.getPlaceById(id);
+        CreatePlaceDTO placeDTO = new CreatePlaceDTO(place);
+        return new ResponseEntity<>(placeDTO, HttpStatus.OK);
+    }
 
     /**
      * Gets the places based on a city or department name.
