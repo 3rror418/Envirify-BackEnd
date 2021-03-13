@@ -5,6 +5,7 @@ import edu.eci.ieti.envirify.model.Place;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Data Transfer Object For Create Place Request.
@@ -274,5 +275,36 @@ public class CreatePlaceDTO implements Serializable {
      */
     public void setOwner(String owner) {
         this.owner = owner;
+    }
+
+    @Override
+    public String toString() {
+        return "CreatePlaceDTO{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", department='" + department + '\'' +
+                ", city='" + city + '\'' +
+                ", direction='" + direction + '\'' +
+                ", description='" + description + '\'' +
+                ", urlImage='" + urlImage + '\'' +
+                ", owner='" + owner + '\'' +
+                ", capacity=" + capacity +
+                ", habitations=" + habitations +
+                ", bathrooms=" + bathrooms +
+                ", ratings=" + ratings +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CreatePlaceDTO placeDTO = (CreatePlaceDTO) o;
+        return capacity == placeDTO.capacity && habitations == placeDTO.habitations && bathrooms == placeDTO.bathrooms && Objects.equals(name, placeDTO.name) && Objects.equals(department, placeDTO.department) && Objects.equals(city, placeDTO.city) && Objects.equals(direction, placeDTO.direction) && Objects.equals(description, placeDTO.description) && Objects.equals(urlImage, placeDTO.urlImage) && Objects.equals(ratings, placeDTO.ratings);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(department, city, direction);
     }
 }

@@ -54,7 +54,7 @@ class PlaceTests {
     @BeforeEach
     void setup() throws Exception {
         String ip = "localhost";
-        int port = 27018;
+        int port = 27017;
         IMongodConfig mongodConfig = new MongodConfigBuilder().version(Version.Main.PRODUCTION)
                 .net(new Net(ip, port, Network.localhostIsIPv6()))
                 .build();
@@ -223,7 +223,7 @@ class PlaceTests {
         String department = "ABC";
         CreateUserDTO user = new CreateUserDTO(email, "Armando", "12345", "Masculino", "password");
         createUser(user);
-        CreatePlaceDTO place = new CreatePlaceDTO("Finca pepe", department, "Suesca", "direccion", "finca linda", "hola.png", 3, 2, 1);
+        CreatePlaceDTO place = new CreatePlaceDTO("Finca pepe", department, "Suescas", "direccion4", "finca linda", "hola.png", 3, 2, 1);
         createPlace(place, email);
         MvcResult result = mockMvc.perform(get("/api/v1/places?search="+department))
                 .andExpect(status().isOk())
@@ -236,8 +236,18 @@ class PlaceTests {
                 .andExpect(status().isOk())
                 .andReturn();
         bodyResult = result.getResponse().getContentAsString();
-        System.out.println("**********");
-        System.out.println(bodyResult);
+        placeDTO = gson.fromJson(bodyResult,CreatePlaceDTO.class);
+        Assertions.assertEquals(place,placeDTO);
+    }
+
+    @Test
+    void shouldNotGetANonExistentPlaceById() throws Exception {
+        String id = "NoExiste";
+        MvcResult result = mockMvc.perform(get("/api/v1/places/"+id))
+                .andExpect(status().isNotFound())
+                .andReturn();
+        String bodyResult = result.getResponse().getContentAsString();
+        Assertions.assertEquals("There is no place with the id " + id, bodyResult);
     }
 
     private void createUser(CreateUserDTO userDTO) throws Exception {
