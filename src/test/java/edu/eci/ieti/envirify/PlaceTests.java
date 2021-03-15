@@ -259,6 +259,53 @@ class PlaceTests {
         Assertions.assertEquals("There is no place with the id " + id, bodyResult);
     }
 
+    @Test
+    void shouldGetPlacesOfUser() throws Exception {
+
+        String email = "danielita@gmail.com";
+        String department = "ABC";
+        CreateUserDTO user = new CreateUserDTO(email, "Armando", "12345", "Masculino", "password");
+        createUser(user);
+        CreatePlaceDTO place = new CreatePlaceDTO("Finca pepe", department, "Zipa", "direccion45", "finca linda", "hola.png", 3, 2, 1);
+        createPlace(place, email);
+        MvcResult result = mockMvc.perform(get("/api/v1/places/myplaces").header("X-Email", email))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String bodyResult = result.getResponse().getContentAsString();
+        JSONObject object = new JSONArray(bodyResult).getJSONObject(0);
+        CreatePlaceDTO placeDTO = gson.fromJson(object.toString(), CreatePlaceDTO.class);
+        Assertions.assertEquals(place.getCapacity(),placeDTO.getCapacity());
+        Assertions.assertEquals(place.getHabitations(),placeDTO.getHabitations());
+        Assertions.assertEquals(place.getBathrooms(),placeDTO.getBathrooms());
+        Assertions.assertEquals(place.getName(),placeDTO.getName());
+        Assertions.assertEquals(place.getDepartment(),placeDTO.getDepartment());
+        Assertions.assertEquals(place.getCity(),placeDTO.getCity());
+        Assertions.assertEquals(place.getDescription(),placeDTO.getDescription());
+        Assertions.assertEquals(place.getDirection(),placeDTO.getDirection());
+        Assertions.assertEquals(place.getUrlImage(),placeDTO.getUrlImage());
+        Assertions.assertEquals(place.getRatings(),placeDTO.getRatings());
+
+        Assertions.assertEquals(200, result.getResponse().getStatus());
+
+
+    }
+
+    @Test
+    void shouldGetEmptyPlacesOfUser() throws Exception {
+
+        String email = "danielitaasadx123@gmail.com";
+        CreateUserDTO user = new CreateUserDTO(email, "Armando", "12345", "Masculino", "password");
+        createUser(user);
+        MvcResult result = mockMvc.perform(get("/api/v1/places/myplaces").header("X-Email", email))
+                .andExpect(status().isNotFound())
+                .andReturn();
+
+        String bodyResult = result.getResponse().getContentAsString();
+        Assertions.assertEquals("There are no places created by you", bodyResult);
+
+    }
+
     private void createUser(CreateUserDTO userDTO) throws Exception {
         mockMvc.perform(post("/api/v1/users")
                 .contentType(MediaType.APPLICATION_JSON)

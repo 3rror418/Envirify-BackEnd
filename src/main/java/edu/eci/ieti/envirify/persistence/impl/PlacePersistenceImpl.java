@@ -9,6 +9,7 @@ import edu.eci.ieti.envirify.persistence.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -91,6 +92,19 @@ public class PlacePersistenceImpl implements PlacePersistence {
         if (place == null) {
             throw new EnvirifyPersistenceException("There is no place with the id " + id);
         }
+        System.out.println(place.toString());
         return place;
+    }
+
+    @Override
+    public List<Place> getPlaceByUser(String email) throws EnvirifyPersistenceException {
+        User user = userRepository.findByEmail(email);
+        List<String> ids = user.getPlaces();
+        List<Place> places = new ArrayList<>() ;
+        for (String id:ids){
+            Place place = getPlaceById(id);
+            places.add(place);
+        }
+        return places;
     }
 }

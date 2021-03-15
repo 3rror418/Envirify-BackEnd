@@ -1,5 +1,6 @@
 package edu.eci.ieti.envirify.controllers.dtos;
 
+import edu.eci.ieti.envirify.model.Place;
 import edu.eci.ieti.envirify.model.User;
 
 import java.util.List;

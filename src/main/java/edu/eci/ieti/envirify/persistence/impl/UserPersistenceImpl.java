@@ -1,11 +1,18 @@
 package edu.eci.ieti.envirify.persistence.impl;
 
 import edu.eci.ieti.envirify.exceptions.EnvirifyPersistenceException;
+import edu.eci.ieti.envirify.model.Place;
 import edu.eci.ieti.envirify.model.User;
+import edu.eci.ieti.envirify.persistence.PlacePersistence;
 import edu.eci.ieti.envirify.persistence.UserPersistence;
+import edu.eci.ieti.envirify.persistence.repositories.PlaceRepository;
 import edu.eci.ieti.envirify.persistence.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Class That Implements The User Persistence Methods For Envirify App.
@@ -17,6 +24,9 @@ public class UserPersistenceImpl implements UserPersistence {
 
     @Autowired
     private UserRepository repository;
+
+    @Autowired
+    private PlaceRepository placeRepository;
 
     /**
      * Adds a New User On The DB.
@@ -81,4 +91,6 @@ public class UserPersistenceImpl implements UserPersistence {
         }
         return user;
     }
+
+
 }

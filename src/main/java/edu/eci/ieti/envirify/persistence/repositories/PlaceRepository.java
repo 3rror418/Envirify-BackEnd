@@ -4,6 +4,7 @@ import edu.eci.ieti.envirify.model.Place;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Interface That Connects The Place Document Mapper With The Place MongoDB Document.
@@ -35,5 +36,6 @@ public interface PlaceRepository extends MongoRepository<Place, String> {
      * @return A List Of Places In A Department.
      */
     List<Place> findByDepartment(String department);
+
 
 }

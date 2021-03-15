@@ -1,7 +1,11 @@
 package edu.eci.ieti.envirify.services;
 
 import edu.eci.ieti.envirify.exceptions.EnvirifyException;
+import edu.eci.ieti.envirify.exceptions.EnvirifyPersistenceException;
+import edu.eci.ieti.envirify.model.Place;
 import edu.eci.ieti.envirify.model.User;
+
+import java.util.List;
 
 /**
  * User Methods For Envirify App.
@@ -34,4 +38,5 @@ public interface UserServices {
      * @throws EnvirifyException When that users do not exist.
      */
     User getUserByEmail(String email) throws EnvirifyException;
+
 }

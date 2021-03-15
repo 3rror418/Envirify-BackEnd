@@ -79,5 +79,13 @@ public class PlaceController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+    @GetMapping("/myplaces")
+    public ResponseEntity<Object> getPlaceByUser(@RequestHeader("X-Email") String email) throws EnvirifyException {
+        List<Place> places = services.getPlaceByUser(email);
+        return new ResponseEntity<>(places, HttpStatus.OK);
+    }
+
+
+
 
 }
