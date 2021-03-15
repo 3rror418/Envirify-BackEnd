@@ -92,7 +92,6 @@ public class PlacePersistenceImpl implements PlacePersistence {
         if (place == null) {
             throw new EnvirifyPersistenceException("There is no place with the id " + id);
         }
-        System.out.println(place.toString());
         return place;
     }
 

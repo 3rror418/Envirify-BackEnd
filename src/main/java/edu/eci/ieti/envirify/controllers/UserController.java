@@ -1,11 +1,10 @@
 package edu.eci.ieti.envirify.controllers;
 
-import edu.eci.ieti.envirify.controllers.dtos.CreatePlaceDTO;
+
 import edu.eci.ieti.envirify.controllers.dtos.CreateUserDTO;
 import edu.eci.ieti.envirify.controllers.dtos.LoginDTO;
 import edu.eci.ieti.envirify.controllers.dtos.UserDTO;
 import edu.eci.ieti.envirify.exceptions.EnvirifyException;
-import edu.eci.ieti.envirify.model.Place;
 import edu.eci.ieti.envirify.model.User;
 import edu.eci.ieti.envirify.security.jwt.JwtResponse;
 import edu.eci.ieti.envirify.security.jwt.JwtUtils;
@@ -29,7 +28,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+
 
 /**
  * REST Controller for User Functions Of The Envirify App.

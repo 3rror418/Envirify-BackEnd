@@ -88,7 +88,7 @@ public class PlaceServicesImpl implements PlaceServices {
         try {
             places=persistence.getPlaceByUser(email);
         } catch (EnvirifyPersistenceException e) {
-            e.printStackTrace();
+            throw new EnvirifyException(e.getMessage(), e, HttpStatus.NOT_FOUND);
         }
 
         if (places.isEmpty()) {

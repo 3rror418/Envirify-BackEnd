@@ -2,19 +2,13 @@ package edu.eci.ieti.envirify.services.impl;
 
 import edu.eci.ieti.envirify.exceptions.EnvirifyException;
 import edu.eci.ieti.envirify.exceptions.EnvirifyPersistenceException;
-import edu.eci.ieti.envirify.model.Place;
 import edu.eci.ieti.envirify.model.User;
-import edu.eci.ieti.envirify.persistence.PlacePersistence;
 import edu.eci.ieti.envirify.persistence.UserPersistence;
-import edu.eci.ieti.envirify.persistence.impl.PlacePersistenceImpl;
-import edu.eci.ieti.envirify.services.PlaceServices;
 import edu.eci.ieti.envirify.services.UserServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Class That Implements The User Methods For Envirify App.
