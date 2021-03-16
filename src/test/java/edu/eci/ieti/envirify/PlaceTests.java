@@ -65,7 +65,6 @@ class PlaceTests {
         mongoTemplate = new MongoTemplate(MongoClients.create(String.format(CONNECTION_STRING, ip, port)), "test");
     }
 
-    /*
     @Test
     void shouldCreateAPlace() throws Exception {
 
@@ -317,7 +316,7 @@ class PlaceTests {
         mockMvc.perform(get("/api/v1/places/myplaces").header("X-Email", email))
                 .andExpect(status().isNotFound())
                 .andReturn();
-    }*/
+    }
 
     private void createUser(CreateUserDTO userDTO) throws Exception {
         mockMvc.perform(post("/api/v1/users")
