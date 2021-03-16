@@ -47,4 +47,6 @@ public interface PlacePersistence {
     Place getPlaceById(String id) throws EnvirifyPersistenceException;
 
     List<Place> getPlaceByUser(String email) throws EnvirifyPersistenceException;
+
+	void deletePlaceById(String id, String email) throws EnvirifyPersistenceException;
 }

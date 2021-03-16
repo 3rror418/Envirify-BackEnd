@@ -96,4 +96,13 @@ public class PlaceServicesImpl implements PlaceServices {
         }
         return  places;
     }
+
+	@Override
+	public void deletePlaceById(String id, String email) throws EnvirifyException {
+		try {
+			persistence.deletePlaceById(id, email);
+		} catch (EnvirifyPersistenceException e) {
+			throw new EnvirifyException(e.getMessage(), e, HttpStatus.NOT_FOUND);
+		}
+	}
 }

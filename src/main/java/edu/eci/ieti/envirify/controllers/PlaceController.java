@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,6 +48,19 @@ public class PlaceController {
         Place place = services.getPlaceById(id);
         CreatePlaceDTO placeDTO = new CreatePlaceDTO(place);
         return new ResponseEntity<>(placeDTO, HttpStatus.OK);
+    }
+    
+    /**
+     * Delete a place by his ID.
+     *
+     * @param id The place id.
+     * @return A response entity with the delete place or with the error message.
+     * @throws EnvirifyException When the place with that id does not exist.
+     */
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> deletePlaceById(@PathVariable String id, @RequestHeader ("X-Email") String email) throws EnvirifyException {
+    	services.deletePlaceById(id, email);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     /**

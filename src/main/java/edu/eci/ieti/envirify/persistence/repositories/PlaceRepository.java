@@ -37,5 +37,6 @@ public interface PlaceRepository extends MongoRepository<Place, String> {
      */
     List<Place> findByDepartment(String department);
 
+	void deleteById(String id, String email);
 
 }
