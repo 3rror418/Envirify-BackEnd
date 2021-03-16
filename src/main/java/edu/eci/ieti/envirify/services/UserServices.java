@@ -34,4 +34,5 @@ public interface UserServices {
      * @throws EnvirifyException When that users do not exist.
      */
     User getUserByEmail(String email) throws EnvirifyException;
+
 }

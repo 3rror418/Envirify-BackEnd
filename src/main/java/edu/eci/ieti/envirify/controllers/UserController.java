@@ -1,5 +1,6 @@
 package edu.eci.ieti.envirify.controllers;
 
+
 import edu.eci.ieti.envirify.controllers.dtos.CreateUserDTO;
 import edu.eci.ieti.envirify.controllers.dtos.LoginDTO;
 import edu.eci.ieti.envirify.controllers.dtos.UserDTO;
@@ -26,6 +27,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+
 
 /**
  * REST Controller for User Functions Of The Envirify App.
@@ -111,4 +114,6 @@ public class UserController {
         );
         return new ResponseEntity<>(jwtResponse, HttpStatus.ACCEPTED);
     }
+
+
 }

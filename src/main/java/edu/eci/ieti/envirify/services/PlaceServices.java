@@ -38,4 +38,6 @@ public interface PlaceServices {
      * @throws EnvirifyException When The Place With That Id Does Not Exist.
      */
     Place getPlaceById(String id) throws EnvirifyException;
+
+    List<Place> getPlaceByUser(String email) throws EnvirifyException;
 }

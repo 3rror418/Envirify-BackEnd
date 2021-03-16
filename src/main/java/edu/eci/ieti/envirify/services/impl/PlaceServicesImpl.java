@@ -80,4 +80,20 @@ public class PlaceServicesImpl implements PlaceServices {
         }
         return place;
     }
+
+    @Override
+    public List<Place> getPlaceByUser(String email) throws EnvirifyException {
+        List<Place> places = new ArrayList<>();
+
+        try {
+            places=persistence.getPlaceByUser(email);
+        } catch (EnvirifyPersistenceException e) {
+            throw new EnvirifyException(e.getMessage(), e, HttpStatus.NOT_FOUND);
+        }
+
+        if (places.isEmpty()) {
+            throw new EnvirifyException("There are no places created by you", HttpStatus.NOT_FOUND);
+        }
+        return  places;
+    }
 }

@@ -33,4 +33,6 @@ public interface UserPersistence {
      * @throws EnvirifyPersistenceException When that users do not exist.
      */
     User getUserByEmail(String email) throws EnvirifyPersistenceException;
+
+
 }

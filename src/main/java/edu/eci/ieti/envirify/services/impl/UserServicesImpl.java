@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+
 /**
  * Class That Implements The User Methods For Envirify App.
  *
@@ -67,4 +68,6 @@ public class UserServicesImpl implements UserServices {
         }
         return user;
     }
+
+
 }
