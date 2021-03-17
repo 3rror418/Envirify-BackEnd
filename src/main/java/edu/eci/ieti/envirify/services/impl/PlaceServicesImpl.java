@@ -105,4 +105,16 @@ public class PlaceServicesImpl implements PlaceServices {
 			throw new EnvirifyException(e.getMessage(), e, HttpStatus.NOT_FOUND);
 		}
 	}
+
+    /**
+     * Updates a place
+     * @param place to be updated
+     * @return the updated place
+     * @throws EnvirifyPersistenceException if the place to be updated doesn't exist
+     */
+    @Override
+    public Place updatePlace(Place place) throws EnvirifyPersistenceException {
+        Place updatedPlace = persistence.updatePlace(place);
+        return updatedPlace;
+    }
 }

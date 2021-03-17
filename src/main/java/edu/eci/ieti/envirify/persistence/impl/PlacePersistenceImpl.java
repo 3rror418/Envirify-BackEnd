@@ -95,6 +95,20 @@ public class PlacePersistenceImpl implements PlacePersistence {
         return place;
     }
 
+    /**
+     * Updates a place
+     * @param place to be updated
+     * @return the updated place
+     * @throws EnvirifyPersistenceException if the place to be updated doesn't exist
+     */
+    @Override
+    public Place updatePlace(Place place) throws EnvirifyPersistenceException {
+        Place oldPlace = getPlaceById(place.getId());
+        placeRepository.deleteById(oldPlace.getId());
+        placeRepository.save(place);
+        return place;
+    }
+
     @Override
     public List<Place> getPlaceByUser(String email) throws EnvirifyPersistenceException {
         User user = userRepository.findByEmail(email);

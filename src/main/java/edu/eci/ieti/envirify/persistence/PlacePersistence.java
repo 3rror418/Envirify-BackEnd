@@ -46,6 +46,14 @@ public interface PlacePersistence {
      */
     Place getPlaceById(String id) throws EnvirifyPersistenceException;
 
+    /**
+     * Updates a place
+     * @param place to be updated
+     * @return the updated place
+     * @throws EnvirifyPersistenceException if the place to be updated doesn't exist
+     */
+    Place updatePlace(Place place)throws EnvirifyPersistenceException;
+
     List<Place> getPlaceByUser(String email) throws EnvirifyPersistenceException;
 
 	void deletePlaceById(String id, String email) throws EnvirifyPersistenceException;
