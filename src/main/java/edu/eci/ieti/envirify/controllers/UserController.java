@@ -91,7 +91,6 @@ public class UserController {
         User newUser = new User(userDTO);
         services.updateUser(newUser, email);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
-
     }
 
     /**

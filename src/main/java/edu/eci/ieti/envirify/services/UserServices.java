@@ -35,4 +35,6 @@ public interface UserServices {
      */
     User getUserByEmail(String email) throws EnvirifyException;
 
+
+
 }

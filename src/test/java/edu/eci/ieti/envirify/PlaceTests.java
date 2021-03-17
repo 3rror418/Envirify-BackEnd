@@ -13,6 +13,10 @@ import de.flapdoodle.embed.mongo.distribution.Version;
 import de.flapdoodle.embed.process.runtime.Network;
 import edu.eci.ieti.envirify.controllers.dtos.CreatePlaceDTO;
 import edu.eci.ieti.envirify.controllers.dtos.CreateUserDTO;
+import edu.eci.ieti.envirify.controllers.dtos.UserDTO;
+import edu.eci.ieti.envirify.exceptions.EnvirifyException;
+import edu.eci.ieti.envirify.exceptions.EnvirifyPersistenceException;
+import edu.eci.ieti.envirify.model.Place;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.AfterEach;
@@ -27,9 +31,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -64,6 +66,7 @@ class PlaceTests {
         mongodExecutable.start();
         mongoTemplate = new MongoTemplate(MongoClients.create(String.format(CONNECTION_STRING, ip, port)), "test");
     }
+
 
     @Test
     void shouldCreateAPlace() throws Exception {
@@ -402,6 +405,62 @@ class PlaceTests {
                 .andExpect(status().isOk())
                 .andReturn();
         Assertions.assertEquals(200,ans.getResponse().getStatus());	
+    }
+
+    @Test
+    void shouldUpdateAPlace() throws Exception {
+        String email = "nata@gmail.com";
+        CreateUserDTO user = new CreateUserDTO(email, "Natalia", "12345", "Masculino", "password");
+        mockMvc.perform(post("/api/v1/users")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(gson.toJson(user)))
+                .andExpect(status().isCreated());
+        CreatePlaceDTO place = new CreatePlaceDTO("Finca nata", "Nat", "Bog", "km 1 via tabio(finca Nat)", "finca hermosa", "nico.png", 3, 2, 1);
+        MvcResult result1 = mockMvc.perform(post("/api/v1/places").header("X-Email", email)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(gson.toJson(place)))
+                .andExpect(status().isCreated())
+                .andReturn();
+        MvcResult result = mockMvc.perform(get("/api/v1/places?search=Nat"))
+                .andExpect(status().isOk())
+                .andReturn();
+        String bodyResult = result.getResponse().getContentAsString();
+        JSONObject object = new JSONArray(bodyResult).getJSONObject(0);
+        CreatePlaceDTO placeDTO = gson.fromJson(object.toString(), CreatePlaceDTO.class);
+        placeDTO.setCity("Buc");
+        placeDTO.setName("Javier");
+        placeDTO.setDepartment("Cat");
+        MvcResult result2 = mockMvc.perform(put("/api/v1/places/"+placeDTO.getId()).header("X-Email", email)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(gson.toJson(placeDTO)))
+                .andExpect(status().isCreated())
+                .andReturn();
+        String bodyResponse2 = result2.getResponse().getContentAsString();
+        Place updatedPlace = gson.fromJson(bodyResponse2, Place.class);
+        Assertions.assertEquals(placeDTO.getCity(),updatedPlace.getCity());
+        Assertions.assertEquals(placeDTO.getName(),updatedPlace.getName());
+        Assertions.assertEquals(placeDTO.getDepartment(),updatedPlace.getDepartment());
+    }
+
+    @Test
+    void shouldNotUpdateAPlace() throws Exception {
+        try {
+            String email = "rafael@gmail.com";
+            CreateUserDTO user = new CreateUserDTO(email, "Rafael", "12345", "Masculino", "password");
+            mockMvc.perform(post("/api/v1/users")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(gson.toJson(user)))
+                    .andExpect(status().isCreated());
+            CreatePlaceDTO placeDTO = new CreatePlaceDTO("Finca rafael", "Raf", "Bog", "km 1 via tabio(finca Rafael)", "finca hermosa", "rafael.png", 3, 2, 1);
+            MvcResult result = mockMvc.perform(put("/api/v1/places/" + 1).header("X-Email", email)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(gson.toJson(placeDTO)))
+                    .andExpect(status().isCreated())
+                    .andReturn();
+        } catch (Exception e){
+            String expected = "Request processing failed; nested exception is edu.eci.ieti.envirify.exceptions.EnvirifyPersistenceException: There is no place with the id 1";
+            Assertions.assertEquals(expected,e.getMessage());
+        }
     }
 
 }
