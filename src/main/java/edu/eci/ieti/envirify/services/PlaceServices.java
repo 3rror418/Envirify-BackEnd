@@ -40,4 +40,6 @@ public interface PlaceServices {
     Place getPlaceById(String id) throws EnvirifyException;
 
     List<Place> getPlaceByUser(String email) throws EnvirifyException;
+
+	void deletePlaceById(String id, String email) throws EnvirifyException;
 }

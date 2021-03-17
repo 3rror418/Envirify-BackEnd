@@ -29,6 +29,7 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -330,6 +331,77 @@ class PlaceTests {
                 .content(gson.toJson(placeDTO)))
                 .andExpect(status().isCreated());
     }
+    
+    @Test
+    void shouldNotDeletePlaceUserNotExist() throws Exception {
+    	String email = "giselle@gmail.com";
+        CreateUserDTO user = new CreateUserDTO(email, "Giselle", "12345", "Femenino", "password");
+        mockMvc.perform(post("/api/v1/users")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(gson.toJson(user)))
+                .andExpect(status().isCreated());
+        CreatePlaceDTO place = new CreatePlaceDTO("Villa Las Juanas", "Cund", "Bog", "vereda carrizal", "villa linda", "hola.png", 3, 2, 1);
+        MvcResult result1 = mockMvc.perform(post("/api/v1/places").header("X-Email", email)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(gson.toJson(place)))
+                .andExpect(status().isCreated())
+                .andReturn();
+        MvcResult result = mockMvc.perform(get("/api/v1/places/myplaces").header("X-Email", email))
+                .andExpect(status().isOk())
+                .andReturn();
+        String badEmail = "fail";
+        String bodyResult = result.getResponse().getContentAsString();
+        JSONObject object = new JSONArray(bodyResult).getJSONObject(0);
+        CreatePlaceDTO placeDTO = gson.fromJson(object.toString(), CreatePlaceDTO.class);
+        String id = placeDTO.getId();
+        MvcResult ans =mockMvc.perform(delete("/api/v1/places/"+id).header("X-Email", badEmail))
+                .andExpect(status().isNotFound())
+                .andReturn();
+        String responseBody = ans.getResponse().getContentAsString();
+        Assertions.assertEquals("There is no user with the email address " + "fail", responseBody);
+    }
 
+    @Test
+    void shouldNotDeletePlaceBecauseNotExit() throws Exception {
+    	String email = "giselleee@gmail.com";
+        CreateUserDTO user = new CreateUserDTO(email, "Giselle", "12345", "Femenino", "password");
+        mockMvc.perform(post("/api/v1/users")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(gson.toJson(user)))
+                .andExpect(status().isCreated());
+        String id = "0";
+        MvcResult ans =mockMvc.perform(delete("/api/v1/places/"+id).header("X-Email", email))
+                .andExpect(status().isNotFound())
+                .andReturn();
+        String responseBody = ans.getResponse().getContentAsString();
+        Assertions.assertEquals("There is no place with the id " + id, responseBody);
+     }
+    
+    @Test
+    void shouldDeletePlaceOfUser() throws Exception {
+    	String email = "adelaida@gmail.com";
+        CreateUserDTO user = new CreateUserDTO(email, "Adelaida", "12345", "Femenino", "password");
+        mockMvc.perform(post("/api/v1/users")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(gson.toJson(user)))
+                .andExpect(status().isCreated());
+        CreatePlaceDTO place = new CreatePlaceDTO("Villa Las Juanas 2", "Cund", "Bog", "vereda carrizal 2", "villa linda 2", "hola.png", 3, 2, 1);
+        MvcResult result1 = mockMvc.perform(post("/api/v1/places").header("X-Email", email)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(gson.toJson(place)))
+                .andExpect(status().isCreated())
+                .andReturn();
+        MvcResult result = mockMvc.perform(get("/api/v1/places/myplaces").header("X-Email", email))
+                .andExpect(status().isOk())
+                .andReturn();
+        String bodyResult = result.getResponse().getContentAsString();
+        JSONObject object = new JSONArray(bodyResult).getJSONObject(0);
+        CreatePlaceDTO placeDTO = gson.fromJson(object.toString(), CreatePlaceDTO.class);
+        String id = placeDTO.getId();
+        MvcResult ans =mockMvc.perform(delete("/api/v1/places/"+id).header("X-Email", email))
+                .andExpect(status().isOk())
+                .andReturn();
+        Assertions.assertEquals(200,ans.getResponse().getStatus());	
+    }
 
 }

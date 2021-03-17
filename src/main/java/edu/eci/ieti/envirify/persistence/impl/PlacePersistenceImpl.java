@@ -106,4 +106,22 @@ public class PlacePersistenceImpl implements PlacePersistence {
         }
         return places;
     }
+
+	@Override
+	public void deletePlaceById(String id, String email) throws EnvirifyPersistenceException {
+		User user = userRepository.findByEmail(email);
+		if (user == null) {
+            throw new EnvirifyPersistenceException("There is no user with the email address " + email);
+		}
+		else {
+			List<String> places = user.getPlaces(); 
+			if (places.isEmpty()) {
+	            throw new EnvirifyPersistenceException("There is no place with the id " + id);
+			}
+			places.remove(id);
+			user.setPlaces(places);
+			userRepository.save(user);
+			placeRepository.deleteById(id, email);
+		}
+	}
 }
