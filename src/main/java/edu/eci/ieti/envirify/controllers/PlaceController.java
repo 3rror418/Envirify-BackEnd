@@ -93,7 +93,7 @@ public class PlaceController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> updatePlaceById(@RequestBody CreatePlaceDTO placeDTO, @PathVariable String id) throws EnvirifyException, EnvirifyPersistenceException {
+    public ResponseEntity<Object> updatePlaceById(@RequestBody CreatePlaceDTO placeDTO, @PathVariable String id , @RequestHeader("X-Email") String email) throws EnvirifyException, EnvirifyPersistenceException {
         Place newPlace = new Place(placeDTO);
         newPlace.setId(id);
         Place updatedPlace = services.updatePlace(newPlace);
