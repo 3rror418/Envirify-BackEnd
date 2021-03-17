@@ -349,7 +349,7 @@ class PlaceTests {
         MvcResult result = mockMvc.perform(get("/api/v1/places/myplaces").header("X-Email", email))
                 .andExpect(status().isOk())
                 .andReturn();
-        String badEmail = "noExiste";
+        String badEmail = "fail";
         String bodyResult = result.getResponse().getContentAsString();
         JSONObject object = new JSONArray(bodyResult).getJSONObject(0);
         CreatePlaceDTO placeDTO = gson.fromJson(object.toString(), CreatePlaceDTO.class);
@@ -358,7 +358,7 @@ class PlaceTests {
                 .andExpect(status().isNotFound())
                 .andReturn();
         String responseBody = ans.getResponse().getContentAsString();
-        Assertions.assertEquals("There is no user with the email address " + "noExiste", responseBody);
+        Assertions.assertEquals("There is no user with the email address " + "fail", responseBody);
     }
 
     @Test

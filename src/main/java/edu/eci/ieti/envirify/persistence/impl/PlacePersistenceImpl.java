@@ -113,14 +113,15 @@ public class PlacePersistenceImpl implements PlacePersistence {
 		if (user == null) {
             throw new EnvirifyPersistenceException("There is no user with the email address " + email);
 		}
-		List<String> places = user.getPlaces();
-		if (places.isEmpty()) {
-            throw new EnvirifyPersistenceException("There is no place with the id " + id);
+		else {
+			List<String> places = user.getPlaces(); 
+			if (places.isEmpty()) {
+	            throw new EnvirifyPersistenceException("There is no place with the id " + id);
+			}
+			places.remove(id);
+			user.setPlaces(places);
+			userRepository.save(user);
+			placeRepository.deleteById(id, email);
 		}
-		places.remove(id);
-		user.setPlaces(places);
-		userRepository.save(user);
-		placeRepository.deleteById(id, email);
-
 	}
 }
