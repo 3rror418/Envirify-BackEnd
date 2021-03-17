@@ -30,7 +30,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "api/v1/places")
-@CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT})
+@CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT,RequestMethod.DELETE})
 public class PlaceController {
 
     @Autowired
