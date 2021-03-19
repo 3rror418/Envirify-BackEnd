@@ -240,9 +240,19 @@ public class User {
 
     /**
      * Add a place to a user
+     *
      * @param idPlace the id of the place
      */
-    public void addPlace (String idPlace){
+    public void addPlace(String idPlace) {
         places.add(idPlace);
+    }
+
+    /**
+     * Adds A New Book To A User.
+     *
+     * @param bookId The Book Id.
+     */
+    public void addBook(String bookId) {
+        books.add(bookId);
     }
 }

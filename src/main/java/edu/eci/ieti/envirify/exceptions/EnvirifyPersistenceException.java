@@ -7,6 +7,8 @@ package edu.eci.ieti.envirify.exceptions;
  */
 public class EnvirifyPersistenceException extends Exception {
 
+    public static final String DATE_INTERVAL_ERROR = "That Date Interval Is Already Occupied";
+
     /**
      * Basic Constructor For EnvirifyPersistenceException.
      *

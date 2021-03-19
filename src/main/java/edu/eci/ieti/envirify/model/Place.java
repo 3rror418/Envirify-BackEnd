@@ -347,4 +347,8 @@ public class Place {
                 ", bookings=" + bookings +
                 '}';
     }
+
+    public void addBook(String bookId) {
+        bookings.add(bookId);
+    }
 }
