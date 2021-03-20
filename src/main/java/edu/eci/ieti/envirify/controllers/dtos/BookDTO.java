@@ -17,9 +17,22 @@ public class BookDTO implements Serializable {
     private String placeId;
 
     /**
-     * Basic Constructor For BookDTO
+     * Basic Constructor For BookDTO.
      */
     public BookDTO() {
+    }
+
+    /**
+     * Constructor For BookDTO.
+     *
+     * @param initialDate The Initial Date Of The BookDTO.
+     * @param finalDate   The Final Date Of The BookDTO.
+     * @param placeId     The User Id Of The BookDTO.
+     */
+    public BookDTO(Date initialDate, Date finalDate, String placeId) {
+        this.initialDate = initialDate;
+        this.finalDate = finalDate;
+        this.placeId = placeId;
     }
 
     /**
