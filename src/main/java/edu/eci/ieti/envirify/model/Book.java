@@ -94,6 +94,15 @@ public class Book {
     }
 
     /**
+     * Returns The Book User Id.
+     *
+     * @return The Book User Id.
+     */
+    public String getUserId() {
+        return userId;
+    }
+
+    /**
      * Sets The Book User Id.
      *
      * @param userId The New Book User Id.

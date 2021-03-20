@@ -143,7 +143,12 @@ class BookTests {
         CreateUserDTO user = new CreateUserDTO(email, "Armando", "12345", "Masculino", "password");
         createUser(user);
         String token = loginUser(email, user.getPassword());
-        BookDTO bookDTO = new BookDTO(getDate(3), getDate(5), null);
+        BookDTO bookDTO = new BookDTO();
+        bookDTO.setId("");
+        bookDTO.getId();
+        bookDTO.setUserId(email);
+        bookDTO.setInitialDate(getDate(3));
+        bookDTO.setFinalDate(getDate(5));
         MvcResult result = mockMvc.perform(post("/api/v1/books")
                 .header("Authorization", token)
                 .header("X-Email", email)
