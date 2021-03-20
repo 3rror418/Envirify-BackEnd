@@ -15,7 +15,7 @@ public interface BookServices {
      *
      * @param book  The Book Information.
      * @param email The Email Of The User.
-     * @throws EnvirifyException When The User or The Place Not Exist.
+     * @throws EnvirifyException When Something Fails.
      */
     void addNewBooking(Book book, String email) throws EnvirifyException;
 }

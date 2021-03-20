@@ -13,6 +13,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 
+/**
+ * Books Implemented Methods For Envirify App.
+ *
+ * @author Error 418
+ */
 @Service
 public class BookServicesImpl implements BookServices {
 
@@ -25,6 +30,13 @@ public class BookServicesImpl implements BookServices {
     @Autowired
     private UserPersistence userPersistence;
 
+    /**
+     * Adds a New Booking On The App.
+     *
+     * @param book  The Book Information.
+     * @param email The Email Of The User.
+     * @throws EnvirifyException When Something Fails.
+     */
     @Override
     public void addNewBooking(Book book, String email) throws EnvirifyException {
         Date actualDate = new Date();
