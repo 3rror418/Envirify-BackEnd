@@ -13,7 +13,6 @@ import java.util.Objects;
  *
  * @author Error 418
  */
-
 @Document(collection = "places")
 public class Place {
 
@@ -346,5 +345,14 @@ public class Place {
                 ", ratings=" + ratings +
                 ", bookings=" + bookings +
                 '}';
+    }
+
+    /**
+     * Adds A New Booking For The Place.
+     *
+     * @param bookId The New Booking Id.
+     */
+    public void addBook(String bookId) {
+        bookings.add(bookId);
     }
 }
