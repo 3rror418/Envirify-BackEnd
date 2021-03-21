@@ -1,12 +1,17 @@
 package edu.eci.ieti.envirify.persistence.impl;
 
 import edu.eci.ieti.envirify.exceptions.EnvirifyPersistenceException;
+import edu.eci.ieti.envirify.model.Book;
+import edu.eci.ieti.envirify.model.Place;
 import edu.eci.ieti.envirify.model.User;
 import edu.eci.ieti.envirify.persistence.UserPersistence;
+import edu.eci.ieti.envirify.persistence.repositories.BookRepository;
 import edu.eci.ieti.envirify.persistence.repositories.PlaceRepository;
 import edu.eci.ieti.envirify.persistence.repositories.UserRepository;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +30,9 @@ public class UserPersistenceImpl implements UserPersistence {
 
     @Autowired
     private PlaceRepository placeRepository;
+    
+    @Autowired
+    private BookRepository bookRepository;
 
     /**
      * Adds a New User On The DB.
@@ -98,7 +106,7 @@ public class UserPersistenceImpl implements UserPersistence {
      * @throws EnvirifyPersistenceException When that user do not have bookings or that user do not exist.
      */
 	@Override
-	public List<String> getBookingsByEmail(String email) throws EnvirifyPersistenceException {
+	public List<Place> getBookingsByEmail(String email) throws EnvirifyPersistenceException {
         User user = repository.findByEmail(email);
         if (user == null) {
             throw new EnvirifyPersistenceException("There is no user with the email address "+email);
@@ -107,6 +115,35 @@ public class UserPersistenceImpl implements UserPersistence {
 	    if (lista.isEmpty()) {
 	    	throw new EnvirifyPersistenceException("There user with the email address "+email+" don't have bookings");
 	    }
-	    return lista;
+        List<Book> bookings = new ArrayList<>() ;
+	    for (String id:lista){
+            Book book = getBookById(id);
+            bookings.add(book);
+        }
+	    List<Place> places = new ArrayList<>();
+	    for (Book id:bookings){
+	    	Place place = null;
+	        Optional<Place> optionalPlace = placeRepository.findById(id.getPlaceId());
+	        if (optionalPlace.isPresent()) {
+	            place = optionalPlace.get();
+	        }
+	        if (place == null) {
+	            throw new EnvirifyPersistenceException("There is no place with the id " + id);
+	        }
+            places.add(place);
+        }
+	    return places;
+	}
+
+	private Book getBookById(String id) throws EnvirifyPersistenceException {
+		Book book = null;
+		Optional<Book> res = bookRepository.findById(id);
+		if (res.isPresent()) {
+			book = res.get();
+		}
+		if (book == null) {
+	    	throw new EnvirifyPersistenceException("There is no booking");
+		}
+		return book;
 	}
 }
