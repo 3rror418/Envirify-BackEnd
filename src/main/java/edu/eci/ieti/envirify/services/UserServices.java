@@ -3,7 +3,6 @@ package edu.eci.ieti.envirify.services;
 import java.util.List;
 import edu.eci.ieti.envirify.exceptions.EnvirifyException;
 import edu.eci.ieti.envirify.model.User;
-import edu.eci.ieti.envirify.model.Book;
 
 /**
  * User Methods For Envirify App.

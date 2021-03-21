@@ -1,7 +1,5 @@
 package edu.eci.ieti.envirify.controllers;
 
-
-import edu.eci.ieti.envirify.controllers.dtos.BookDTO;
 import edu.eci.ieti.envirify.controllers.dtos.CreateUserDTO;
 import edu.eci.ieti.envirify.controllers.dtos.LoginDTO;
 import edu.eci.ieti.envirify.controllers.dtos.UserDTO;

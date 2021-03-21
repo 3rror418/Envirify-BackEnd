@@ -1,9 +1,6 @@
 package edu.eci.ieti.envirify.persistence.repositories;
 
 import edu.eci.ieti.envirify.model.User;
-
-import java.util.List;
-
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 /**
