@@ -27,6 +27,8 @@ public class PlacePersistenceImpl implements PlacePersistence {
     @Autowired
     private UserRepository userRepository;
 
+
+
     /**
      * Add a place of a user
      *
@@ -121,7 +123,9 @@ public class PlacePersistenceImpl implements PlacePersistence {
         return places;
     }
 
-	@Override
+
+
+    @Override
 	public void deletePlaceById(String id, String email) throws EnvirifyPersistenceException {
 		User user = userRepository.findByEmail(email);
 		if (user == null) {

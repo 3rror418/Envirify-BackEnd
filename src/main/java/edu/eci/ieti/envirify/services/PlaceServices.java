@@ -52,4 +52,6 @@ public interface PlaceServices {
      */
     Place updatePlace(Place place) throws EnvirifyPersistenceException;
 
+
+
 }

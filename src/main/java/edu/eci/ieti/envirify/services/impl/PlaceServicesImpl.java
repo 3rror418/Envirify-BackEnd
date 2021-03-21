@@ -117,4 +117,6 @@ public class PlaceServicesImpl implements PlaceServices {
         Place updatedPlace = persistence.updatePlace(place);
         return updatedPlace;
     }
+
+
 }
