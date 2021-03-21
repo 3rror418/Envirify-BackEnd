@@ -2,6 +2,7 @@ package edu.eci.ieti.envirify.services.impl;
 
 import edu.eci.ieti.envirify.exceptions.EnvirifyException;
 import edu.eci.ieti.envirify.exceptions.EnvirifyPersistenceException;
+import edu.eci.ieti.envirify.model.Place;
 import edu.eci.ieti.envirify.model.User;
 import edu.eci.ieti.envirify.persistence.UserPersistence;
 import edu.eci.ieti.envirify.services.UserServices;
@@ -80,8 +81,8 @@ public class UserServicesImpl implements UserServices {
      * @throws EnvirifyException When that user do not have bookings or that user do not exist.
      */
 	@Override
-	public List<String> getBookingsByEmail(String email) throws EnvirifyException {
-		List <String> lista;
+	public List<Place> getBookingsByEmail(String email) throws EnvirifyException {
+		List <Place> lista;
         try {
             lista = persistence.getBookingsByEmail(email);
         } catch (EnvirifyPersistenceException e) {

@@ -2,6 +2,7 @@ package edu.eci.ieti.envirify.services;
 
 import java.util.List;
 import edu.eci.ieti.envirify.exceptions.EnvirifyException;
+import edu.eci.ieti.envirify.model.Place;
 import edu.eci.ieti.envirify.model.User;
 
 /**
@@ -43,6 +44,6 @@ public interface UserServices {
      * @return The User Bookings Information.
      * @throws EnvirifyException When that user do not have bookings or that user do not exist.
      */
-	List<String> getBookingsByEmail(String email) throws EnvirifyException;
+	List<Place> getBookingsByEmail(String email) throws EnvirifyException;
 
 }

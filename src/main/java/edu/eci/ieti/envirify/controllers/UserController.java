@@ -4,6 +4,7 @@ import edu.eci.ieti.envirify.controllers.dtos.CreateUserDTO;
 import edu.eci.ieti.envirify.controllers.dtos.LoginDTO;
 import edu.eci.ieti.envirify.controllers.dtos.UserDTO;
 import edu.eci.ieti.envirify.exceptions.EnvirifyException;
+import edu.eci.ieti.envirify.model.Place;
 import edu.eci.ieti.envirify.model.User;
 import edu.eci.ieti.envirify.security.jwt.JwtResponse;
 import edu.eci.ieti.envirify.security.jwt.JwtUtils;
@@ -72,7 +73,7 @@ public class UserController {
      */
     @GetMapping("/{email}/bookings")
     public ResponseEntity<Object> getBookingsByEmail(@PathVariable String email) throws EnvirifyException {
-    	List<String> lista1= services.getBookingsByEmail(email);
+    	List<Place> lista1= services.getBookingsByEmail(email);
     	return new ResponseEntity<>(lista1, HttpStatus.ACCEPTED);
     }
 
