@@ -2,6 +2,7 @@ package edu.eci.ieti.envirify.persistence;
 
 import edu.eci.ieti.envirify.exceptions.EnvirifyPersistenceException;
 import edu.eci.ieti.envirify.model.Place;
+import edu.eci.ieti.envirify.model.Rating;
 
 import java.util.List;
 
@@ -55,6 +56,8 @@ public interface PlacePersistence {
     Place updatePlace(Place place)throws EnvirifyPersistenceException;
 
     List<Place> getPlaceByUser(String email) throws EnvirifyPersistenceException;
+
+
 
 	void deletePlaceById(String id, String email) throws EnvirifyPersistenceException;
 }

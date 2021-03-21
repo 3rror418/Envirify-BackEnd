@@ -355,4 +355,6 @@ public class Place {
     public void addBook(String bookId) {
         bookings.add(bookId);
     }
+
+    public void addRating(String ratingId){ratings.add(ratingId);}
 }

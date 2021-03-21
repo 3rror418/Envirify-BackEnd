@@ -2,9 +2,11 @@ package edu.eci.ieti.envirify.persistence.impl;
 
 import edu.eci.ieti.envirify.exceptions.EnvirifyPersistenceException;
 import edu.eci.ieti.envirify.model.Place;
+import edu.eci.ieti.envirify.model.Rating;
 import edu.eci.ieti.envirify.model.User;
 import edu.eci.ieti.envirify.persistence.PlacePersistence;
 import edu.eci.ieti.envirify.persistence.repositories.PlaceRepository;
+import edu.eci.ieti.envirify.persistence.repositories.RatingRepository;
 import edu.eci.ieti.envirify.persistence.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +28,8 @@ public class PlacePersistenceImpl implements PlacePersistence {
 
     @Autowired
     private UserRepository userRepository;
+
+
 
     /**
      * Add a place of a user
@@ -121,7 +125,9 @@ public class PlacePersistenceImpl implements PlacePersistence {
         return places;
     }
 
-	@Override
+
+
+    @Override
 	public void deletePlaceById(String id, String email) throws EnvirifyPersistenceException {
 		User user = userRepository.findByEmail(email);
 		if (user == null) {
