@@ -3,7 +3,6 @@ package edu.eci.ieti.envirify.services;
 import edu.eci.ieti.envirify.exceptions.EnvirifyException;
 import edu.eci.ieti.envirify.exceptions.EnvirifyPersistenceException;
 import edu.eci.ieti.envirify.model.Place;
-import edu.eci.ieti.envirify.model.Rating;
 
 import java.util.List;
 

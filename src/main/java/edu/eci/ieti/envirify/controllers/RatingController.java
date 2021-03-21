@@ -2,9 +2,7 @@ package edu.eci.ieti.envirify.controllers;
 
 import edu.eci.ieti.envirify.controllers.dtos.RatingDTO;
 import edu.eci.ieti.envirify.exceptions.EnvirifyException;
-import edu.eci.ieti.envirify.exceptions.EnvirifyPersistenceException;
 import edu.eci.ieti.envirify.model.Rating;
-import edu.eci.ieti.envirify.services.PlaceServices;
 import edu.eci.ieti.envirify.services.RatingServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

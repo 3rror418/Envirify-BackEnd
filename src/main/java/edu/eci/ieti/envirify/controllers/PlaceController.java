@@ -1,13 +1,9 @@
 package edu.eci.ieti.envirify.controllers;
 
 import edu.eci.ieti.envirify.controllers.dtos.CreatePlaceDTO;
-import edu.eci.ieti.envirify.controllers.dtos.CreateUserDTO;
-import edu.eci.ieti.envirify.controllers.dtos.RatingDTO;
 import edu.eci.ieti.envirify.exceptions.EnvirifyException;
 import edu.eci.ieti.envirify.exceptions.EnvirifyPersistenceException;
 import edu.eci.ieti.envirify.model.Place;
-import edu.eci.ieti.envirify.model.Rating;
-import edu.eci.ieti.envirify.model.User;
 import edu.eci.ieti.envirify.services.PlaceServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

@@ -3,7 +3,6 @@ package edu.eci.ieti.envirify.services.impl;
 import edu.eci.ieti.envirify.exceptions.EnvirifyException;
 import edu.eci.ieti.envirify.exceptions.EnvirifyPersistenceException;
 import edu.eci.ieti.envirify.model.Place;
-import edu.eci.ieti.envirify.model.Rating;
 import edu.eci.ieti.envirify.persistence.PlacePersistence;
 import edu.eci.ieti.envirify.services.PlaceServices;
 import org.springframework.beans.factory.annotation.Autowired;

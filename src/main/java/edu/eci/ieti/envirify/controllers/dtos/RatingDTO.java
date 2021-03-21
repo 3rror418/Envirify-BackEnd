@@ -1,7 +1,5 @@
 package edu.eci.ieti.envirify.controllers.dtos;
 
-import edu.eci.ieti.envirify.model.Rating;
-
 import java.io.Serializable;
 
 public class RatingDTO implements Serializable {
