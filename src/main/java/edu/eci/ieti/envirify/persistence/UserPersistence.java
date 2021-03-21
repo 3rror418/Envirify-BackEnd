@@ -1,5 +1,7 @@
 package edu.eci.ieti.envirify.persistence;
 
+import java.util.List;
+
 import edu.eci.ieti.envirify.exceptions.EnvirifyPersistenceException;
 import edu.eci.ieti.envirify.model.User;
 
@@ -33,6 +35,15 @@ public interface UserPersistence {
      * @throws EnvirifyPersistenceException When that users do not exist.
      */
     User getUserByEmail(String email) throws EnvirifyPersistenceException;
+
+    /**
+     * Returns the Bookings Of A User With a Email From The DB.
+     *
+     * @param email The email to search the bookings.
+     * @return The User Bookings Information.
+     * @throws EnvirifyPersistenceException When that user do not have booking or that user do not exist.
+     */
+	List<String> getBookingsByEmail(String email) throws EnvirifyPersistenceException;
 
 
 }
