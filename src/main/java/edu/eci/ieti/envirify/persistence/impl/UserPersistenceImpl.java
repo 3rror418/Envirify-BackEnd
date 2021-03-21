@@ -5,6 +5,9 @@ import edu.eci.ieti.envirify.model.User;
 import edu.eci.ieti.envirify.persistence.UserPersistence;
 import edu.eci.ieti.envirify.persistence.repositories.PlaceRepository;
 import edu.eci.ieti.envirify.persistence.repositories.UserRepository;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -87,5 +90,23 @@ public class UserPersistenceImpl implements UserPersistence {
         return user;
     }
 
-
+    /**
+     * Returns the Bookings Of A User With a Email From The DB.
+     *
+     * @param email The email to search the bookings.
+     * @return The User Bookings Information.
+     * @throws EnvirifyPersistenceException When that user do not have bookings or that user do not exist.
+     */
+	@Override
+	public List<String> getBookingsByEmail(String email) throws EnvirifyPersistenceException {
+        User user = repository.findByEmail(email);
+        if (user == null) {
+            throw new EnvirifyPersistenceException("There is no user with the email address "+email);
+        }
+		List<String> lista = user.getBooks();
+	    if (lista.isEmpty()) {
+	    	throw new EnvirifyPersistenceException("There user with the email address "+email+" don't have bookings");
+	    }
+	    return lista;
+	}
 }

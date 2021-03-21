@@ -1,6 +1,7 @@
 package edu.eci.ieti.envirify.controllers;
 
 
+import edu.eci.ieti.envirify.controllers.dtos.BookDTO;
 import edu.eci.ieti.envirify.controllers.dtos.CreateUserDTO;
 import edu.eci.ieti.envirify.controllers.dtos.LoginDTO;
 import edu.eci.ieti.envirify.controllers.dtos.UserDTO;
@@ -10,6 +11,7 @@ import edu.eci.ieti.envirify.security.jwt.JwtResponse;
 import edu.eci.ieti.envirify.security.jwt.JwtUtils;
 import edu.eci.ieti.envirify.security.userdetails.UserDetailsImpl;
 import edu.eci.ieti.envirify.services.UserServices;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +29,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
 
 
 /**
@@ -62,6 +63,19 @@ public class UserController {
     @GetMapping("/{email}")
     public ResponseEntity<Object> getUserByEmail(@PathVariable String email) throws EnvirifyException {
         return new ResponseEntity<>(new UserDTO(services.getUserByEmail(email)), HttpStatus.ACCEPTED);
+    }
+    
+    /**
+     * Returns the bookings Of A User With a Email.
+     *
+     * @param email The email to search the user.
+     * @return The Response Entity With The User Information Or The Error Message.
+     * @throws EnvirifyException When the user can not be Searched or not have bookings.
+     */
+    @GetMapping("/{email}/bookings")
+    public ResponseEntity<Object> getBookingsByEmail(@PathVariable String email) throws EnvirifyException {
+    	List<String> lista1= services.getBookingsByEmail(email);
+    	return new ResponseEntity<>(lista1, HttpStatus.ACCEPTED);
     }
 
     /**

@@ -9,8 +9,12 @@ import de.flapdoodle.embed.mongo.config.MongodConfigBuilder;
 import de.flapdoodle.embed.mongo.config.Net;
 import de.flapdoodle.embed.mongo.distribution.Version;
 import de.flapdoodle.embed.process.runtime.Network;
+import edu.eci.ieti.envirify.controllers.dtos.BookDTO;
+import edu.eci.ieti.envirify.controllers.dtos.CreatePlaceDTO;
 import edu.eci.ieti.envirify.controllers.dtos.CreateUserDTO;
+import edu.eci.ieti.envirify.controllers.dtos.LoginDTO;
 import edu.eci.ieti.envirify.controllers.dtos.UserDTO;
+import edu.eci.ieti.envirify.security.jwt.JwtResponse;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,11 +27,16 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
-
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -37,6 +46,10 @@ class UserTests {
     private MockMvc mockMvc;
 
     private static final Gson gson = new Gson();
+    
+    private static final long DAY_IN_MILLISECONDS = 86400000;
+    
+    private static final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
     private static final String CONNECTION_STRING = "mongodb://%s:%d";
 
@@ -155,6 +168,107 @@ class UserTests {
                 .andExpect(status().isAccepted())
                 .andReturn();
         Assertions.assertEquals(202, result.getResponse().getStatus());
+    }
+	
+	@Test
+    void shouldNotGetBookingsOfANonExistentUser() throws Exception {
+        String email = "fake@gmail.com";   
+        MvcResult result = mockMvc.perform(get("/api/v1/users/" + email + "/bookings"))
+                .andExpect(status().isNotFound())
+                .andReturn();
+        Assertions.assertEquals("There is no user with the email address " + email, result.getResponse().getContentAsString());
+        
+        
+    }
+	
+	@Test
+    void shouldNotGetBookingsOfAUserWithoutBookings() throws Exception {
+		String email = "correcto@gmail.com";
+        CreateUserDTO user = new CreateUserDTO(email, "Correcto", "12345", "Femenino", "password");
+        createUser(user);
+        MvcResult result = mockMvc.perform(get("/api/v1/users/" + email + "/bookings"))
+                .andExpect(status().isNotFound())
+                .andReturn();
+        Assertions.assertEquals("There user with the email address " + email +" don't have bookings", result.getResponse().getContentAsString());
+    }
+	
+	@Test
+    void shouldGetAUserBookings() throws Exception {
+		String email = "fabio@gmail.com";
+        String department = "Alguno";
+		CreateUserDTO user = new CreateUserDTO(email, "Fabio", "12345", "Masculino", "password");
+        mockMvc.perform(post("/api/v1/users")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(gson.toJson(user)))
+                .andExpect(status().isCreated()); 
+        
+        CreatePlaceDTO place = new CreatePlaceDTO("Finca PRUEBA", department, "prueba", "alguna direccion", "finca bien nice", "hola.png", 3, 2, 1);
+        createPlace(place, email);
+        String token = loginUser(email, user.getPassword());
+        String placeId = getPlaceId(department);
+        BookDTO bookDTO = new BookDTO(getDate(2), getDate(4), placeId);
+        mockMvc.perform(post("/api/v1/books")
+                .header("Authorization", token)
+                .header("X-Email", email)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(getBookJSON(bookDTO)))
+                .andExpect(status().isCreated());
+        MvcResult result = mockMvc.perform(get("/api/v1/users/" + email + "/bookings"))
+                .andExpect(status().isAccepted())
+                .andReturn();
+        Assertions.assertEquals(202, result.getResponse().getStatus());
+    }
+	
+	private void createPlace(CreatePlaceDTO placeDTO, String userEmail) throws Exception {
+        mockMvc.perform(post("/api/v1/places").header("X-Email", userEmail)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(gson.toJson(placeDTO)))
+                .andExpect(status().isCreated());
+    }
+	
+	private String getPlaceId(String department) throws Exception {
+        MvcResult result = mockMvc.perform(get("/api/v1/places?search=" + department))
+                .andExpect(status().isOk())
+                .andReturn();
+        String bodyResult = result.getResponse().getContentAsString();
+        JSONObject object = new JSONArray(bodyResult).getJSONObject(0);
+        CreatePlaceDTO placeDTO = gson.fromJson(object.toString(), CreatePlaceDTO.class);
+        return placeDTO.getId();
+    }
+
+    private String loginUser(String email, String password) throws Exception {
+        LoginDTO loginDTO = new LoginDTO(email, password);
+        MvcResult result = mockMvc.perform(post("/api/v1/users/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(gson.toJson(loginDTO)))
+                .andExpect(status().isAccepted())
+                .andReturn();
+        String bodyResult = result.getResponse().getContentAsString();
+        JwtResponse response = gson.fromJson(bodyResult, JwtResponse.class);
+        return "Bearer " + response.getJwt();
+    }
+    
+    private String getBookJSON(BookDTO bookDTO) {
+        String placeIdLine = "null";
+        if (bookDTO.getPlaceId() != null) {
+            placeIdLine = "\"" + bookDTO.getPlaceId() + "\"";
+        }
+        return "{\"initialDate\":\"" + formatter.format(bookDTO.getInitialDate()) + "\",\n" +
+                "    \"finalDate\": \"" + formatter.format(bookDTO.getFinalDate()) + "\",\n" +
+                "    \"placeId\": " + placeIdLine + "\n" +
+                "}";
+    }
+    
+    private Date getDate(int days) {
+        Date actualDate = new Date();
+        return new Date(actualDate.getTime() + (days * DAY_IN_MILLISECONDS));
+    }
+    
+    private void createUser(CreateUserDTO userDTO) throws Exception {
+        mockMvc.perform(post("/api/v1/users")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(gson.toJson(userDTO)))
+                .andExpect(status().isCreated());
     }
 
 }

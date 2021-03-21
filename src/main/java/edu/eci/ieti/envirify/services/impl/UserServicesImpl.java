@@ -5,6 +5,9 @@ import edu.eci.ieti.envirify.exceptions.EnvirifyPersistenceException;
 import edu.eci.ieti.envirify.model.User;
 import edu.eci.ieti.envirify.persistence.UserPersistence;
 import edu.eci.ieti.envirify.services.UserServices;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -68,6 +71,23 @@ public class UserServicesImpl implements UserServices {
         }
         return user;
     }
+
+    /**
+     * Returns the Bookings Of A User With a Email.
+     *
+     * @param email The email to search the bookings.
+     * @return The User Bookings Information.
+     * @throws EnvirifyException When that user do not have bookings or that user do not exist.
+     */
+	@Override
+	public List<String> getBookingsByEmail(String email) throws EnvirifyException {
+		List <String> lista;
+        try {
+            lista = persistence.getBookingsByEmail(email);
+        } catch (EnvirifyPersistenceException e) {
+            throw new EnvirifyException(e.getMessage(), e, HttpStatus.NOT_FOUND);
+        }
+        return lista;	}
 
 
 }
