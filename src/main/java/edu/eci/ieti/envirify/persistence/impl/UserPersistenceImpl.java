@@ -121,7 +121,6 @@ public class UserPersistenceImpl implements UserPersistence {
             bookings.add(book);
         }
 	    List<Place> places = new ArrayList<>();
-	    System.out.println(bookings.toString());
 	    for (Book id:bookings){
 	    	Place place = null;
 	        Optional<Place> optionalPlace = placeRepository.findById(id.getPlaceId());
@@ -142,7 +141,7 @@ public class UserPersistenceImpl implements UserPersistence {
 		if (res.isPresent()) {
 			book = res.get();
 		}
-		if (res == null) {
+		if (book == null) {
 	    	throw new EnvirifyPersistenceException("There is no booking");
 		}
 		return book;
