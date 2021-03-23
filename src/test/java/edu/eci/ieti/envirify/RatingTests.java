@@ -83,7 +83,7 @@ public class RatingTests {
         RatingDTO rating = new RatingDTO("aa",1);
         String idr=rating.getId();
 
-        MvcResult result1 = mockMvc.perform(post("/api/v1/ratings?placeId="+id)
+        MvcResult result1 = mockMvc.perform(post("/api/v1/ratings?placeId="+id).header("X-Email", "email123@gmail.com")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(gson.toJson(rating)))
                 .andExpect(status().isCreated())
@@ -110,7 +110,7 @@ public class RatingTests {
         CreatePlaceDTO placeDTO = gson.fromJson(object.toString(), CreatePlaceDTO.class);
         String id = placeDTO.getId();
         RatingDTO rating = new RatingDTO("Buen lugar y muy comodo",5);
-        mockMvc.perform(post("/api/v1/ratings?placeId="+id)
+        mockMvc.perform(post("/api/v1/ratings?placeId="+id).header("X-Email", "emaildcxz.@gmail.com")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(gson.toJson(rating)))
                 .andExpect(status().isCreated());
@@ -141,7 +141,7 @@ public class RatingTests {
     void shouldNotCreateARatingOfNoPlace() throws Exception {
         String id = "NoExisteee1245";
         RatingDTO rating = new RatingDTO("aa",1);
-        MvcResult result = mockMvc.perform(post("/api/v1/ratings?placeId="+id)
+        MvcResult result = mockMvc.perform(post("/api/v1/ratings?placeId="+id).header("X-Email", "emailgfd@gmail.com")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(gson.toJson(rating)))
                 .andExpect(status().isNotFound())
