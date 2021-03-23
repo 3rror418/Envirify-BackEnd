@@ -60,7 +60,7 @@ class BookTests {
     @BeforeEach
     void setup() throws Exception {
         String ip = "localhost";
-        int port = 27016;
+        int port = 27010;
         IMongodConfig mongodConfig = new MongodConfigBuilder().version(Version.Main.PRODUCTION)
                 .net(new Net(ip, port, Network.localhostIsIPv6()))
                 .build();
