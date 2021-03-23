@@ -111,7 +111,7 @@ public class PlacePersistenceImpl implements PlacePersistence {
         if(place.getDepartment() == null) { place.setDepartment(oldPlace.getDepartment()) ;};
         if(place.getCity() == null) { place.setCity(oldPlace.getCity()) ; }
         if(place.getDirection() == null ){ place.setDirection(oldPlace.getDirection()); }
-        if(place.getOwner() == null ){place.setDirection(oldPlace.getDirection());}
+        if(place.getOwner() == null ){place.setOwner(oldPlace.getOwner());}
         if(place.getCapacity() == 0){place.setCapacity(oldPlace.getCapacity());}
         if(place.getHabitations() == 0 ){place.setHabitations(oldPlace.getHabitations());}
         if(place.getBathrooms() == 0){place.setBathrooms(oldPlace.getBathrooms());}
