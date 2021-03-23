@@ -2,6 +2,7 @@ package edu.eci.ieti.envirify.persistence;
 
 import edu.eci.ieti.envirify.exceptions.EnvirifyPersistenceException;
 import edu.eci.ieti.envirify.model.Place;
+import edu.eci.ieti.envirify.model.Rating;
 
 import java.util.List;
 
@@ -53,6 +54,7 @@ public interface PlacePersistence {
      * @throws EnvirifyPersistenceException if the place to be updated doesn't exist
      */
     Place updatePlace(Place place)throws EnvirifyPersistenceException;
+
 
     List<Place> getPlaceByUser(String email) throws EnvirifyPersistenceException;
 

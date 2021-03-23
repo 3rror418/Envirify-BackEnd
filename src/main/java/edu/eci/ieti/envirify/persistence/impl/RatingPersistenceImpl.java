@@ -9,6 +9,8 @@ import edu.eci.ieti.envirify.persistence.repositories.RatingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -33,6 +35,19 @@ public class RatingPersistenceImpl implements RatingPersistence {
         }
         place.addRating(newRating.getId());
         placeRepository.save(place);
+    }
 
+    @Override
+    public List<Rating> getRatingsByPlace(Place place) throws EnvirifyPersistenceException {
+        List<String> ratingsIds = place.getRatings();
+        List<Rating> ratings = new ArrayList<>();
+        for(String id : ratingsIds){
+            Rating rating = ratingRepository.findById(id).get();
+            if (rating == null) {
+                throw new EnvirifyPersistenceException("There is no rating with the id " + id);
+            }
+            ratings.add(rating);
+        }
+        return ratings;
     }
 }

@@ -84,18 +84,26 @@ public class PlaceController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @GetMapping("/myplaces")
-    public ResponseEntity<Object> getPlaceByUser(@RequestHeader("X-Email") String email) throws EnvirifyException {
-        List<Place> places = services.getPlaceByUser(email);
-        return new ResponseEntity<>(places, HttpStatus.OK);
-    }
-
+    /**
+     * Updates a new place of the Envirify App
+     * @param placeDTO place to be updated
+     * @param id id of the place to be updated
+     * @param email email of the user
+     * @return A Response Entity With The Request Status Code.
+     * @throws EnvirifyPersistenceException When the place cannot be updated
+     */
     @PutMapping("/{id}")
     public ResponseEntity<Object> updatePlaceById(@RequestBody CreatePlaceDTO placeDTO, @PathVariable String id , @RequestHeader("X-Email") String email) throws  EnvirifyPersistenceException {
         Place newPlace = new Place(placeDTO);
         newPlace.setId(id);
         Place updatedPlace = services.updatePlace(newPlace);
         return new ResponseEntity<>(updatedPlace,HttpStatus.CREATED);
+    }
+
+    @GetMapping("/myplaces")
+    public ResponseEntity<Object> getPlaceByUser(@RequestHeader("X-Email") String email) throws EnvirifyException {
+        List<Place> places = services.getPlaceByUser(email);
+        return new ResponseEntity<>(places, HttpStatus.OK);
     }
 
 

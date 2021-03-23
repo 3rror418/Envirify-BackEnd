@@ -93,6 +93,51 @@ public class RatingTests {
     }
 
     @Test
+    void shouldGetRatingsOfAPlace() throws Exception {
+        //Create user and place
+        String email = "nico989@gmail.com";
+        String department = "Choco";
+        CreateUserDTO user = new CreateUserDTO(email, "Nicolas", "123456", "male", "password");
+        createUser(user);
+        CreatePlaceDTO place = new CreatePlaceDTO("Finca Nicolas989", department, "Atlantida123", "direccion6", "finca bella", "nico.png", 3, 2, 1);
+        createPlace(place, email);
+        MvcResult result = mockMvc.perform(get("/api/v1/places?search="+department))
+                .andExpect(status().isOk())
+                .andReturn();
+        //Create rating
+        String bodyResult = result.getResponse().getContentAsString();
+        JSONObject object = new JSONArray(bodyResult).getJSONObject(0);
+        CreatePlaceDTO placeDTO = gson.fromJson(object.toString(), CreatePlaceDTO.class);
+        String id = placeDTO.getId();
+        RatingDTO rating = new RatingDTO("Buen lugar y muy comodo",5);
+        mockMvc.perform(post("/api/v1/ratings?placeId="+id)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(gson.toJson(rating)))
+                .andExpect(status().isCreated());
+        //Get ratings
+        MvcResult result3 = mockMvc.perform(get("/api/v1/ratings?placeId="+id))
+                .andExpect(status().isAccepted())
+                .andReturn();
+        String bodyResult3 = result3.getResponse().getContentAsString();
+        JSONObject object3 = new JSONArray(bodyResult3).getJSONObject(0);
+        RatingDTO ratingDTO = gson.fromJson(object3.toString(), RatingDTO.class);
+        Assertions.assertEquals(202, result3.getResponse().getStatus());
+        Assertions.assertEquals("Buen lugar y muy comodo",ratingDTO.getComment());
+        Assertions.assertEquals(5,ratingDTO.getQualification());
+    }
+
+    @Test
+    void shouldNotGetRatingsOfNoPlace() throws Exception {
+        try {
+            mockMvc.perform(get("/api/v1/ratings?placeId=" + "84773838"))
+                    .andExpect(status().isAccepted());
+            Assertions.assertTrue(false);
+        } catch(Exception e){
+            Assertions.assertEquals("Request processing failed; nested exception is edu.eci.ieti.envirify.exceptions.EnvirifyPersistenceException: There is no place with the id 84773838",e.getMessage());
+        }
+    }
+
+    @Test
     void shouldNotCreateARatingOfNoPlace() throws Exception {
         String id = "NoExisteee1245";
         RatingDTO rating = new RatingDTO("aa",1);
