@@ -20,9 +20,9 @@ public class RatingsServicesImpl implements RatingServices {
     @Autowired
     private PlacePersistence placePersistence;
     @Override
-    public void addRating(Rating rating, String id) throws EnvirifyException {
+    public void addRating(Rating rating, String id,String email) throws EnvirifyException {
         try {
-            persistence.addRating(rating, id);
+            persistence.addRating(rating, id,email);
         } catch (EnvirifyPersistenceException e) {
             throw new EnvirifyException(e.getMessage(), e, HttpStatus.NOT_FOUND);
         }

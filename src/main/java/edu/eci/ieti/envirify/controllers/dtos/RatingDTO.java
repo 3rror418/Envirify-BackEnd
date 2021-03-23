@@ -7,6 +7,7 @@ public class RatingDTO implements Serializable {
     private String id;
     private String comment;
     private Integer qualification;
+    private String owner;
 
     /**
      * Basic constructor
@@ -19,7 +20,13 @@ public class RatingDTO implements Serializable {
         this.qualification = qualification;
     }
 
+    public String getOwner() {
+        return owner;
+    }
 
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
 
     public String getId() {
         return id;

@@ -11,6 +11,7 @@ public class Rating {
     private String id;
     private String comment;
     private Integer qualification;
+    private String owner;
 
     /**
      * Basic constructor
@@ -21,6 +22,15 @@ public class Rating {
     public Rating(RatingDTO ratingDTO){
         this.qualification = ratingDTO.getQualification();
         this.comment= ratingDTO.getComment();
+        this.owner = ratingDTO.getOwner();
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
     }
 
     public String getId() {
