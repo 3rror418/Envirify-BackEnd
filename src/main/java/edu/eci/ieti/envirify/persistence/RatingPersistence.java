@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface RatingPersistence {
 
-    void addRating(Rating rating, String id) throws EnvirifyPersistenceException;
+    void addRating(Rating rating, String id,String email) throws EnvirifyPersistenceException;
 
 
     /**

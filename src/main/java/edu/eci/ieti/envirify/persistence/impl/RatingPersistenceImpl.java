@@ -23,7 +23,8 @@ public class RatingPersistenceImpl implements RatingPersistence {
     private RatingRepository ratingRepository;
 
     @Override
-    public void addRating(Rating rating,String id) throws EnvirifyPersistenceException {
+    public void addRating(Rating rating,String id,String email) throws EnvirifyPersistenceException {
+        rating.setOwner(email);
         Rating newRating= ratingRepository.save(rating);
         Place place = null;
         Optional<Place> optionalPlace = placeRepository.findById(id);
@@ -33,6 +34,7 @@ public class RatingPersistenceImpl implements RatingPersistence {
         if (place == null) {
             throw new EnvirifyPersistenceException("There is no place with the id " + id);
         }
+
         place.addRating(newRating.getId());
         placeRepository.save(place);
     }

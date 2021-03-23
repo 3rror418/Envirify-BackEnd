@@ -7,7 +7,7 @@ import edu.eci.ieti.envirify.model.Rating;
 import java.util.List;
 
 public interface RatingServices {
-    void addRating(Rating rating, String id) throws EnvirifyException;
+    void addRating(Rating rating, String id,String email) throws EnvirifyException;
 
     /**
      * Gets ratings by place

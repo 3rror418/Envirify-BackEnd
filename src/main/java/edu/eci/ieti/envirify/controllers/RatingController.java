@@ -22,9 +22,9 @@ public class RatingController {
 
 
     @PostMapping()
-    public ResponseEntity<Object> postRating(@RequestParam String placeId, @RequestBody RatingDTO ratingDTO) throws EnvirifyException {
+    public ResponseEntity<Object> postRating(@RequestParam String placeId, @RequestBody RatingDTO ratingDTO,@RequestHeader("X-Email") String email) throws EnvirifyException {
         Rating rating = new Rating(ratingDTO);
-        services.addRating(rating,placeId);
+        services.addRating(rating,placeId,email);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
