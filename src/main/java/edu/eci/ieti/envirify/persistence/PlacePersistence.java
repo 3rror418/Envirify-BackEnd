@@ -54,6 +54,7 @@ public interface PlacePersistence {
      */
     Place updatePlace(Place place)throws EnvirifyPersistenceException;
 
+
     List<Place> getPlaceByUser(String email) throws EnvirifyPersistenceException;
 
 

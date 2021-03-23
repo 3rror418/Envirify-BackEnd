@@ -125,6 +125,7 @@ public class PlacePersistenceImpl implements PlacePersistence {
         return place;
     }
 
+
     @Override
     public List<Place> getPlaceByUser(String email) throws EnvirifyPersistenceException {
         User user = userRepository.findByEmail(email);
@@ -136,7 +137,6 @@ public class PlacePersistenceImpl implements PlacePersistence {
         }
         return places;
     }
-
 
 
     @Override
