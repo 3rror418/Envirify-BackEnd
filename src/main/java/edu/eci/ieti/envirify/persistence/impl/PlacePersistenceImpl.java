@@ -104,9 +104,7 @@ public class PlacePersistenceImpl implements PlacePersistence {
      * @throws EnvirifyPersistenceException if the place to be updated doesn't exist
      */
     @Override
-    public Place updatePlace(Place place) throws EnvirifyPersistenceException {
-        Place oldPlace = getPlaceById(place.getId());
-        placeRepository.deleteById(oldPlace.getId());
+    public Place updatePlace(Place place){
         placeRepository.save(place);
         return place;
     }
