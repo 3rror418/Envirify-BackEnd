@@ -2,7 +2,6 @@ package edu.eci.ieti.envirify.persistence.impl;
 
 import edu.eci.ieti.envirify.exceptions.EnvirifyPersistenceException;
 import edu.eci.ieti.envirify.model.Place;
-import edu.eci.ieti.envirify.model.Rating;
 import edu.eci.ieti.envirify.model.User;
 import edu.eci.ieti.envirify.persistence.PlacePersistence;
 import edu.eci.ieti.envirify.persistence.repositories.PlaceRepository;

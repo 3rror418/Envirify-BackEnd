@@ -42,11 +42,11 @@ public class RatingPersistenceImpl implements RatingPersistence {
         List<String> ratingsIds = place.getRatings();
         List<Rating> ratings = new ArrayList<>();
         for(String id : ratingsIds){
-            Rating rating = ratingRepository.findById(id).get();
-            if (rating == null) {
+            Optional<Rating> rating = ratingRepository.findById(id);
+            if (!rating.isPresent()) {
                 throw new EnvirifyPersistenceException("There is no rating with the id " + id);
             }
-            ratings.add(rating);
+            ratings.add(rating.get());
         }
         return ratings;
     }

@@ -31,7 +31,6 @@ public class RatingsServicesImpl implements RatingServices {
     @Override
     public List<Rating> getRatingsByPlace(String idPlace) throws EnvirifyPersistenceException {
         Place place = placePersistence.getPlaceById(idPlace);
-        List<Rating> ratings  = persistence.getRatingsByPlace(place);
-        return ratings;
+        return persistence.getRatingsByPlace(place);
     }
 }
