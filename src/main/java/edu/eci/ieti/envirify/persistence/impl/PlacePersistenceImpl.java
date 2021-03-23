@@ -106,6 +106,20 @@ public class PlacePersistenceImpl implements PlacePersistence {
     @Override
     public Place updatePlace(Place place) throws EnvirifyPersistenceException {
         Place oldPlace = getPlaceById(place.getId());
+        if (place.getId() == null) { place.setId(oldPlace.getId()); }
+        if(place.getName() == null ){ place.setName(oldPlace.getName()); }
+        if(place.getDepartment() == null) { place.setDepartment(oldPlace.getDepartment()) ;};
+        if(place.getCity() == null) { place.setCity(oldPlace.getCity()) ; }
+        if(place.getDirection() == null ){ place.setDirection(oldPlace.getDirection()); }
+        if(place.getOwner() == null ){place.setDirection(oldPlace.getDirection());}
+        if(place.getCapacity() == 0){place.setCapacity(oldPlace.getCapacity());}
+        if(place.getHabitations() == 0 ){place.setHabitations(oldPlace.getHabitations());}
+        if(place.getBathrooms() == 0){place.setBathrooms(oldPlace.getBathrooms());}
+        if(place.getDescription() == null){place.setDescription(oldPlace.getDescription());}
+        if(place.getUrlImage() == null){place.setUrlImage(place.getUrlImage());}
+        if(place.getGuidebooks() == null){place.setGuidebooks(oldPlace.getGuidebooks());}
+        if(place.getRatings() == null){place.setRatings(oldPlace.getRatings());}
+        if(place.getBookings() == null){place.setBookings(oldPlace.getBookings());}
         placeRepository.deleteById(oldPlace.getId());
         placeRepository.save(place);
         return place;
