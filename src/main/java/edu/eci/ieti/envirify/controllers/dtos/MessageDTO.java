@@ -4,51 +4,50 @@ import java.io.Serializable;
 
 public class MessageDTO implements Serializable {
 
-    private String message;
-    private String sender;
-    private String receiver;
-    private String channelId;
+    private String messageDTO;
+    private String senderDTO;
+    private String receiverDTO;
+    private String channelIdDTO;
+
+    public MessageDTO(String messageDTO, String senderDTO, String receiverDTO, String channelIdDTO) {
+        this.messageDTO = messageDTO;
+        this.senderDTO = senderDTO;
+        this.receiverDTO = receiverDTO;
+        this.channelIdDTO = channelIdDTO;
+    }
 
     public MessageDTO() {
     }
 
-    public MessageDTO(String message, String sender, String receiver, String channelId) {
-        this.message = message;
-        this.sender = sender;
-        this.receiver = receiver;
-        this.channelId = channelId;
+    public String getMessageDTO() {
+        return messageDTO;
     }
 
-
-    public String getMessage() {
-        return message;
+    public void setMessageDTO(String messageDTO) {
+        this.messageDTO = messageDTO;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public String getSenderDTO() {
+        return senderDTO;
     }
 
-    public String getSender() {
-        return sender;
+    public void setSenderDTO(String senderDTO) {
+        this.senderDTO = senderDTO;
     }
 
-    public void setSender(String sender) {
-        this.sender = sender;
+    public String getReceiverDTO() {
+        return receiverDTO;
     }
 
-    public String getReceiver() {
-        return receiver;
+    public void setReceiverDTO(String receiverDTO) {
+        this.receiverDTO = receiverDTO;
     }
 
-    public void setReceiver(String receiver) {
-        this.receiver = receiver;
+    public String getChannelIdDTO() {
+        return channelIdDTO;
     }
 
-    public String getChannelId() {
-        return channelId;
-    }
-
-    public void setChannelId(String channelId) {
-        this.channelId = channelId;
+    public void setChannelIdDTO(String channelIdDTO) {
+        this.channelIdDTO = channelIdDTO;
     }
 }

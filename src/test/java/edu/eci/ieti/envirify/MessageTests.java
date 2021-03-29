@@ -54,7 +54,7 @@ class MessageTests {
     @BeforeEach
     void setup() throws Exception {
         String ip = "localhost";
-        int port = 27017;
+        int port = 27010;
         IMongodConfig mongodConfig = new MongodConfigBuilder().version(Version.Main.PRODUCTION)
                 .net(new Net(ip, port, Network.localhostIsIPv6()))
                 .build();
@@ -95,7 +95,7 @@ class MessageTests {
                     .content(getMessageJSON(messageDTO)))
                     .andExpect(status().isCreated())
                     .andReturn();
-            Assertions.fail();
+            Assertions.assertEquals("true",false);
         } catch(Exception ex){
             Assertions.assertEquals("Request processing failed; nested exception is edu.eci.ieti.envirify.exceptions.EnvirifyPersistenceException: There is no user with the email address "+email+"" , ex.getMessage());
         }
@@ -121,7 +121,7 @@ class MessageTests {
                     .content(getMessageJSON(messageDTO)))
                     .andExpect(status().isCreated())
                     .andReturn();
-            Assertions.fail();
+            Assertions.assertEquals("true",false);
         } catch(Exception ex){
             String expected = "Request processing failed; nested exception is edu.eci.ieti.envirify.exceptions.EnvirifyPersistenceException: The authenticated user: "+user.getEmail()+" is not the same as the user who sent the message :"+user3.getEmail()+"";
             Assertions.assertEquals(expected , ex.getMessage());
@@ -130,10 +130,10 @@ class MessageTests {
 
     private String getMessageJSON(MessageDTO messageDTO) throws JSONException {
         JSONObject message = new JSONObject();
-        message.put("message", messageDTO.getMessage());
-        message.put("sender", messageDTO.getSender());
-        message.put("receiver", messageDTO.getReceiver());
-        message.put("channelId", messageDTO.getChannelId());
+        message.put("messageDTO", messageDTO.getMessageDTO());
+        message.put("senderDTO", messageDTO.getSenderDTO());
+        message.put("receiverDTO", messageDTO.getReceiverDTO());
+        message.put("channelIdDTO", messageDTO.getChannelIdDTO());
         return String.valueOf(message);
     }
 

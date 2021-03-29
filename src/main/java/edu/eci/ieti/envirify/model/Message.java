@@ -18,10 +18,10 @@ public class Message {
     }
 
     public Message(MessageDTO messageDTO) {
-        this.message = messageDTO.getMessage();
-        this.sender = messageDTO.getSender();
-        this.receiver = messageDTO.getReceiver();
-        this.channelId = messageDTO.getChannelId();
+        this.message = messageDTO.getMessageDTO();
+        this.sender = messageDTO.getSenderDTO();
+        this.receiver = messageDTO.getReceiverDTO();
+        this.channelId = messageDTO.getChannelIdDTO();
     }
 
     public String getId() {
