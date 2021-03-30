@@ -1,5 +1,6 @@
 package edu.eci.ieti.envirify.persistence.impl;
 
+import edu.eci.ieti.envirify.controllers.dtos.BookPlaceDTO;
 import edu.eci.ieti.envirify.exceptions.EnvirifyPersistenceException;
 import edu.eci.ieti.envirify.model.Book;
 import edu.eci.ieti.envirify.model.Place;
@@ -98,43 +99,6 @@ public class UserPersistenceImpl implements UserPersistence {
         return user;
     }
 
-    /**
-     * Returns the Bookings Of A User With a Email From The DB.
-     *
-     * @param email The email to search the bookings.
-     * @return The User Bookings Information.
-     * @throws EnvirifyPersistenceException When that user do not have bookings or that user do not exist.
-     */
-	@Override
-	public List<Place> getBookingsByEmail(String email) throws EnvirifyPersistenceException {
-        User user = repository.findByEmail(email);
-        if (user == null) {
-            throw new EnvirifyPersistenceException("There is no user with the email address "+email);
-        }
-		List<String> lista = user.getBooks();
-	    if (lista.isEmpty()) {
-	    	throw new EnvirifyPersistenceException("There user with the email address "+email+" don't have bookings");
-	    }
-        List<Book> bookings = new ArrayList<>() ;
-	    for (String id:lista){
-            Book book = getBookById(id);
-            bookings.add(book);
-        }
-	    List<Place> places = new ArrayList<>();
-	    for (Book id:bookings){
-	    	Place place = null;
-	        Optional<Place> optionalPlace = placeRepository.findById(id.getPlaceId());
-	        if (optionalPlace.isPresent()) {
-	            place = optionalPlace.get();
-	        }
-	        if (place == null) {
-	            throw new EnvirifyPersistenceException("There is no place with the id " + id);
-	        }
-            places.add(place);
-        }
-	    return places;
-	}
-
 	private Book getBookById(String id) throws EnvirifyPersistenceException {
 		Book book = null;
 		Optional<Book> res = bookRepository.findById(id);
@@ -146,4 +110,49 @@ public class UserPersistenceImpl implements UserPersistence {
 		}
 		return book;
 	}
+	
+	/**
+     * Returns the Bookings Of A User With a Email From The DB.
+     *
+     * @param email The email to search the bookings.
+     * @return The User Bookings Information.
+     * @throws EnvirifyPersistenceException When that user do not have bookings or that user do not exist.
+     */
+	 public List<BookPlaceDTO> getBookingsByEmail(String email) throws EnvirifyPersistenceException {
+	        User user = repository.findByEmail(email);
+	        if (user == null) {
+	            throw new EnvirifyPersistenceException("There is no user with the email address "+email);
+	        }
+			List<String> lista = user.getBooks();
+		    if (lista.isEmpty()) {
+		    	throw new EnvirifyPersistenceException("There user with the email address "+email+" don't have bookings");
+		    }
+	        List<Book> bookings = new ArrayList<>() ;
+		    for (String id:lista){
+	            Book book = getBookById(id);
+	            bookings.add(book);
+	        }
+		    List<Place> places = new ArrayList<>();
+		    for (Book id:bookings){
+		    	Place place = null;
+		        Optional<Place> optionalPlace = placeRepository.findById(id.getPlaceId());
+		        if (optionalPlace.isPresent()) {
+		            place = optionalPlace.get();
+		        }
+		        if (place == null) {
+		            throw new EnvirifyPersistenceException("There is no place with the id " + id);
+		        }
+	            places.add(place);
+	        }
+
+		    List<BookPlaceDTO> booksDto= new ArrayList<>();
+		    for (int i=0; i<bookings.size();i++){
+		    	Book book = bookings.get(i);
+		    	Place place = places.get(i);
+		    	BookPlaceDTO bookPlaceDTO= new BookPlaceDTO(book,place);
+		    	booksDto.add(bookPlaceDTO);
+			}
+
+		    return booksDto;
+		}
 }
