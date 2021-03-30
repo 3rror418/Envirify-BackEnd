@@ -101,5 +101,15 @@ public class UserServicesImpl implements UserServices {
         }
         return lista;	}
 
+    @Override
+    public List<BookPlaceDTO> getBookingsToMe(String email) throws EnvirifyException {
+        List <BookPlaceDTO> books;
+        try {
+            books = persistence.getBookingsToMe(email);
+        } catch (EnvirifyPersistenceException e) {
+            throw new EnvirifyException(e.getMessage(), e, HttpStatus.NOT_FOUND);
+        }
+        return books;	}
+
 
 }

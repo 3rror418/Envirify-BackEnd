@@ -156,14 +156,50 @@ public class UserPersistenceImpl implements UserPersistence {
 	            places.add(place);
 	        }
 
-		    List<BookPlaceDTO> booksDto= new ArrayList<>();
-		    for (int i=0; i<bookings.size();i++){
-		    	Book book = bookings.get(i);
-		    	Place place = places.get(i);
-		    	BookPlaceDTO bookPlaceDTO= new BookPlaceDTO(book,place);
-		    	booksDto.add(bookPlaceDTO);
-			}
+		 	List<BookPlaceDTO> booksDto= new ArrayList<>();
+			 for (int i=0; i<bookings.size();i++){
+				 Book book = bookings.get(i);
+				 Place place = places.get(i);
+				 BookPlaceDTO bookPlaceDTO= new BookPlaceDTO(book,place);
+				 booksDto.add(bookPlaceDTO);
+			 }
 
 		    return booksDto;
 		}
+
+	public List<BookPlaceDTO> getBookingsToMe(String email) throws EnvirifyPersistenceException {
+		User user = repository.findByEmail(email);
+		if (user == null) {
+			throw new EnvirifyPersistenceException("There is no user with the email address "+email);
+		}
+
+		List<Book> bookings = bookRepository.findAll();
+		List<Place> places = new ArrayList<>();
+		for (Book book:bookings){
+			Place place = null;
+			Optional<Place> optionalPlace = placeRepository.findById(book.getPlaceId());
+			if (optionalPlace.isPresent()) {
+				place = optionalPlace.get();
+			}
+			if (place == null) {
+				throw new EnvirifyPersistenceException("There is no place with the id " + book.getPlaceId());
+			}
+			places.add(place);
+
+		}
+
+		List<BookPlaceDTO> booksDto= new ArrayList<>();
+		for ( int i=0 ; i<places.size();i++){
+			if (places.get(i).getOwner().equals(email)){
+				Book book = bookings.get(i);
+				BookPlaceDTO bookPlaceDTO= new BookPlaceDTO(book,places.get(i));
+				booksDto.add(bookPlaceDTO);
+			}
+		}
+
+
+
+
+		return booksDto;
+	}
 }

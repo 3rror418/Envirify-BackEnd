@@ -49,4 +49,6 @@ public interface UserServices {
      */
 	List<BookPlaceDTO> getBookingsByEmail(String email) throws EnvirifyException;
 
+    List<BookPlaceDTO> getBookingsToMe(String email) throws EnvirifyException;
+
 }

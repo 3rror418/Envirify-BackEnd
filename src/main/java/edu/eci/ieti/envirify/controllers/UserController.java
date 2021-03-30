@@ -80,6 +80,12 @@ public class UserController {
     	List<BookPlaceDTO> lista1= services.getBookingsByEmail(email);
     	return new ResponseEntity<>(lista1, HttpStatus.ACCEPTED);
     }
+
+    @GetMapping("/{email}/books")
+    public ResponseEntity<Object> getBookingsToMe(@PathVariable String email) throws EnvirifyException {
+        List<BookPlaceDTO> books= services.getBookingsToMe(email);
+        return new ResponseEntity<>(books, HttpStatus.ACCEPTED);
+    }
     
     /**
      * Adds A New User On The Envirify App.
