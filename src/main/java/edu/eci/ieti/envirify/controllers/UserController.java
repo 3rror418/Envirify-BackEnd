@@ -64,7 +64,7 @@ public class UserController {
     }
     
     /**
-     * Returns the bookings Of A User With a Email.
+     * Returns the bookings of a user with a email.
      *
      * @param email The email to search the user.
      * @return The Response Entity With The User Information Or The Error Message.
@@ -75,7 +75,7 @@ public class UserController {
     	List<BookPlaceDTO> lista1= services.getBookingsByEmail(email);
     	return new ResponseEntity<>(lista1, HttpStatus.ACCEPTED);
     }
-
+    
     /**
      * Adds A New User On The Envirify App.
      *

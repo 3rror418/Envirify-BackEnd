@@ -9,11 +9,9 @@ import edu.eci.ieti.envirify.persistence.UserPersistence;
 import edu.eci.ieti.envirify.persistence.repositories.BookRepository;
 import edu.eci.ieti.envirify.persistence.repositories.PlaceRepository;
 import edu.eci.ieti.envirify.persistence.repositories.UserRepository;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

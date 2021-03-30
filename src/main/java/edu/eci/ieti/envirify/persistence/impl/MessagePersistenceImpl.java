@@ -6,6 +6,8 @@ import edu.eci.ieti.envirify.model.User;
 import edu.eci.ieti.envirify.persistence.MessagePersistence;
 import edu.eci.ieti.envirify.persistence.UserPersistence;
 import edu.eci.ieti.envirify.persistence.repositories.MessageRepository;
+import reactor.core.publisher.Flux;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,5 +41,15 @@ public class MessagePersistenceImpl implements MessagePersistence {
         userPersistence.getUserByEmail(message.getSender());
         messageRepository.save(message).subscribe();
     }
+
+    /**
+     * Get the messages of a user
+     * @param email The user messages that be searched
+     * @throws EnvirifyPersistenceException When the user does not exist
+     */
+	@Override
+	public Flux<Message> getChatsByEmail(String email) throws EnvirifyPersistenceException {
+		return messageRepository.findWithTailableCursorByChannelId(email);
+	}
 
 }
