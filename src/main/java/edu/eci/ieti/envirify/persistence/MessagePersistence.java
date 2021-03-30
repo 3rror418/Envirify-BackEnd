@@ -1,7 +1,5 @@
 package edu.eci.ieti.envirify.persistence;
 
-import java.util.List;
-
 import edu.eci.ieti.envirify.exceptions.EnvirifyPersistenceException;
 import edu.eci.ieti.envirify.model.Message;
 import reactor.core.publisher.Flux;

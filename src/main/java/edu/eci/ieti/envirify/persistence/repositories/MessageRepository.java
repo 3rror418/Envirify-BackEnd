@@ -6,7 +6,6 @@ import reactor.core.publisher.Flux;
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import org.springframework.data.mongodb.repository.Tailable;
 import org.springframework.stereotype.Repository;
-import java.util.List;
 
 @Repository
 public interface MessageRepository extends ReactiveMongoRepository<Message, String> {

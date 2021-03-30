@@ -6,8 +6,6 @@ import edu.eci.ieti.envirify.persistence.MessagePersistence;
 import edu.eci.ieti.envirify.services.MessageServices;
 import reactor.core.publisher.Flux;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -8,8 +8,6 @@ import edu.eci.ieti.envirify.persistence.repositories.MessageRepository;
 import edu.eci.ieti.envirify.services.MessageServices;
 import reactor.core.publisher.Flux;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -46,8 +44,7 @@ public class MessageController {
      */
     @GetMapping(value = "/{email}/chats", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<Message> getChatsByEmail(@PathVariable String email) throws EnvirifyPersistenceException {
-    	Flux<Message> lista1= services.getChatsByEmail(email);
-    	return lista1;
+    	return services.getChatsByEmail(email);
     }
 
     /*@GetMapping(produces = MediaType.TEXT_EVENT_STREAM_VALUE)
