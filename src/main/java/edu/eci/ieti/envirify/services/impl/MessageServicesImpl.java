@@ -4,6 +4,10 @@ import edu.eci.ieti.envirify.exceptions.EnvirifyPersistenceException;
 import edu.eci.ieti.envirify.model.Message;
 import edu.eci.ieti.envirify.persistence.MessagePersistence;
 import edu.eci.ieti.envirify.services.MessageServices;
+import reactor.core.publisher.Flux;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,4 +27,14 @@ public class MessageServicesImpl implements MessageServices {
     public void addMessage(Message message, String email) throws EnvirifyPersistenceException {
         persistence.addMessage(message , email);
     }
+
+    /**
+     * Get the messages of a user
+     * @param email The user messages that be searched
+     * @throws EnvirifyPersistenceException When the user does not exist
+     */
+	@Override
+	public Flux<Message> getChatsByEmail(String email) throws EnvirifyPersistenceException {
+		 return persistence.getChatsByEmail(email);
+	}
 }

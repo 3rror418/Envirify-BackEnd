@@ -1,7 +1,10 @@
 package edu.eci.ieti.envirify.persistence;
 
+import java.util.List;
+
 import edu.eci.ieti.envirify.exceptions.EnvirifyPersistenceException;
 import edu.eci.ieti.envirify.model.Message;
+import reactor.core.publisher.Flux;
 
 public interface MessagePersistence {
 
@@ -12,4 +15,11 @@ public interface MessagePersistence {
      * @throws EnvirifyPersistenceException in case messages are sent or received from users that do not exist
      */
     public void addMessage(Message message, String email) throws EnvirifyPersistenceException;
+
+    /**
+     * Get the messages of a user
+     * @param email The user messages that be searched
+     * @throws EnvirifyPersistenceException When the user does not exist or does not have chats
+     */
+	public Flux<Message> getChatsByEmail(String email) throws EnvirifyPersistenceException;
 }

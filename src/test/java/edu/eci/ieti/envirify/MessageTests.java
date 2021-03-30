@@ -26,6 +26,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import java.text.SimpleDateFormat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -81,6 +82,30 @@ class MessageTests {
                 .andExpect(status().isCreated())
                 .andReturn();
         Assertions.assertEquals(201, result.getResponse().getStatus());
+    }
+    
+    @Test
+    void shouldGetMessagesOfAUser() throws Exception {
+        String email = "testPrueba@gmail.com";
+        CreateUserDTO user = new CreateUserDTO(email, "Testtt", "12345", "male", "password");
+        CreateUserDTO user2 = new CreateUserDTO("test2Prueba@gmail.com", "Testtt", "12345", "male", "password");
+        createUser(user);
+        createUser(user2);
+        String token = loginUser(email, user.getPassword());
+        MessageDTO messageDTO = new MessageDTO("Hooola",user.getEmail(),user2.getEmail(),user.getEmail()+user2.getEmail());
+        mockMvc.perform(post("/api/v1/messages")
+                .header("Authorization", token)
+                .header("X-Email", email)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(getMessageJSON(messageDTO)))
+                .andExpect(status().isCreated())
+                .andReturn();
+        MvcResult result = mockMvc.perform(get("/api/v1/messages/"+email+"/chats")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(getMessageJSON(messageDTO)))
+                .andExpect(status().isOk())
+                .andReturn();
+        
     }
 
     @Test
