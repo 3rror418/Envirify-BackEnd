@@ -85,6 +85,40 @@ class UserTests {
     }
 
     @Test
+    void shouldGetAUserById() throws Exception {
+        String email = "edscx@gmail.com";
+        CreateUserDTO user = new CreateUserDTO(email, "Daniel", "12345", "Masculino", "password");
+        createUser(user);
+        MvcResult result = mockMvc.perform(get("/api/v1/users/" + email))
+                .andExpect(status().isAccepted())
+                .andReturn();
+        String responseBody = result.getResponse().getContentAsString();
+        UserDTO returnedUser = gson.fromJson(responseBody, UserDTO.class);
+        String id =returnedUser.getId();
+        MvcResult result1 = mockMvc.perform(get("/api/v1/users/id/" + id))
+                .andExpect(status().isAccepted())
+                .andReturn();
+
+    }
+
+    @Test
+    void shouldNotGetAUserById() throws Exception {
+        String email = "edsdsccx@gmail.com";
+        CreateUserDTO user = new CreateUserDTO(email, "Daniel", "12345", "Masculino", "password");
+        createUser(user);
+        MvcResult result = mockMvc.perform(get("/api/v1/users/" + email))
+                .andExpect(status().isAccepted())
+                .andReturn();
+        String id ="no";
+        MvcResult result1 = mockMvc.perform(get("/api/v1/users/id/" + id))
+                .andExpect(status().isNotFound())
+                .andReturn();
+        String responseBody1 = result1.getResponse().getContentAsString();
+        Assertions.assertEquals("There is no user", responseBody1);
+
+    }
+
+    @Test
     void shouldNotAddAnExistingAUser() throws Exception {
         String email = "daniel2@gmail.com";
         CreateUserDTO user = new CreateUserDTO(email, "Daniel", "12345", "Masculino", "password");

@@ -38,6 +38,8 @@ public interface UserServices {
      */
     User getUserByEmail(String email) throws EnvirifyException;
 
+    User getUserById(String id) throws EnvirifyException;
+
     /**
      * Returns the bookings Of A User With a Email.
      *
