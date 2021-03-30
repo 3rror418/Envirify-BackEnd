@@ -107,4 +107,5 @@ public class UserDTO {
     public List<String> getChats() {
         return chats;
     }
+    
 }

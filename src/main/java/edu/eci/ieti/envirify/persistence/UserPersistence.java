@@ -2,8 +2,8 @@ package edu.eci.ieti.envirify.persistence;
 
 import java.util.List;
 
+import edu.eci.ieti.envirify.controllers.dtos.BookPlaceDTO;
 import edu.eci.ieti.envirify.exceptions.EnvirifyPersistenceException;
-import edu.eci.ieti.envirify.model.Place;
 import edu.eci.ieti.envirify.model.User;
 
 /**
@@ -44,7 +44,7 @@ public interface UserPersistence {
      * @return The User Bookings Information.
      * @throws EnvirifyPersistenceException When that user do not have booking or that user do not exist.
      */
-	List<Place> getBookingsByEmail(String email) throws EnvirifyPersistenceException;
+	List<BookPlaceDTO> getBookingsByEmail(String email) throws EnvirifyPersistenceException;
 
 
 }

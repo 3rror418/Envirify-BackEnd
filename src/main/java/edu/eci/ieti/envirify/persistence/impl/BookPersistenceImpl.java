@@ -10,7 +10,6 @@ import edu.eci.ieti.envirify.persistence.repositories.PlaceRepository;
 import edu.eci.ieti.envirify.persistence.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -78,4 +77,5 @@ public class BookPersistenceImpl implements BookPersistence {
             }
         }
     }
+    
 }

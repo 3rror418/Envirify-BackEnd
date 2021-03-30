@@ -1,10 +1,10 @@
 package edu.eci.ieti.envirify.controllers;
 
+import edu.eci.ieti.envirify.controllers.dtos.BookPlaceDTO;
 import edu.eci.ieti.envirify.controllers.dtos.CreateUserDTO;
 import edu.eci.ieti.envirify.controllers.dtos.LoginDTO;
 import edu.eci.ieti.envirify.controllers.dtos.UserDTO;
 import edu.eci.ieti.envirify.exceptions.EnvirifyException;
-import edu.eci.ieti.envirify.model.Place;
 import edu.eci.ieti.envirify.model.User;
 import edu.eci.ieti.envirify.security.jwt.JwtResponse;
 import edu.eci.ieti.envirify.security.jwt.JwtUtils;
@@ -28,7 +28,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
 
 /**
  * REST Controller for User Functions Of The Envirify App.
@@ -73,7 +72,7 @@ public class UserController {
      */
     @GetMapping("/{email}/bookings")
     public ResponseEntity<Object> getBookingsByEmail(@PathVariable String email) throws EnvirifyException {
-    	List<Place> lista1= services.getBookingsByEmail(email);
+    	List<BookPlaceDTO> lista1= services.getBookingsByEmail(email);
     	return new ResponseEntity<>(lista1, HttpStatus.ACCEPTED);
     }
 
