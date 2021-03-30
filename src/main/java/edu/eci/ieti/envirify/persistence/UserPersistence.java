@@ -37,6 +37,8 @@ public interface UserPersistence {
      */
     User getUserByEmail(String email) throws EnvirifyPersistenceException;
 
+    User getUserById(String id) throws EnvirifyPersistenceException;
+
     /**
      * Returns the Bookings Of A User With a Email From The DB.
      *

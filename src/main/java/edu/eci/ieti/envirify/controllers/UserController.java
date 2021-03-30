@@ -62,6 +62,11 @@ public class UserController {
     public ResponseEntity<Object> getUserByEmail(@PathVariable String email) throws EnvirifyException {
         return new ResponseEntity<>(new UserDTO(services.getUserByEmail(email)), HttpStatus.ACCEPTED);
     }
+
+    @GetMapping("id/{id}")
+    public ResponseEntity<Object> getUserByID(@PathVariable String id) throws EnvirifyException {
+        return new ResponseEntity<>(new UserDTO(services.getUserById(id)), HttpStatus.ACCEPTED);
+    }
     
     /**
      * Returns the bookings of a user with a email.

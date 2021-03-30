@@ -73,6 +73,17 @@ public class UserServicesImpl implements UserServices {
         return user;
     }
 
+    @Override
+    public User getUserById(String id) throws EnvirifyException {
+        User user;
+        try {
+            user = persistence.getUserById(id);
+        } catch (EnvirifyPersistenceException e) {
+            throw new EnvirifyException(e.getMessage(), e, HttpStatus.NOT_FOUND);
+        }
+        return user;
+    }
+
     /**
      * Returns the Bookings Of A User With a Email.
      *

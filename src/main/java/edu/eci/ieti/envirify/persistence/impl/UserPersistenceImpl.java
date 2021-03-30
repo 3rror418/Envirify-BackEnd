@@ -97,6 +97,19 @@ public class UserPersistenceImpl implements UserPersistence {
         return user;
     }
 
+	@Override
+	public User getUserById(String id) throws EnvirifyPersistenceException {
+		User user = null;
+    	Optional<User> res = repository.findById(id);
+		if (res.isPresent()) {
+			user = res.get();
+		}
+		if (user == null) {
+			throw new EnvirifyPersistenceException("There is no user");
+		}
+		return user;
+	}
+
 	private Book getBookById(String id) throws EnvirifyPersistenceException {
 		Book book = null;
 		Optional<Book> res = bookRepository.findById(id);
