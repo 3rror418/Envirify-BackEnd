@@ -48,5 +48,7 @@ public interface UserPersistence {
      */
 	List<BookPlaceDTO> getBookingsByEmail(String email) throws EnvirifyPersistenceException;
 
+    List<BookPlaceDTO> getBookingsToMe(String email) throws EnvirifyPersistenceException;
+
 
 }

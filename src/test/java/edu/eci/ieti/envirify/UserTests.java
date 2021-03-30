@@ -202,16 +202,62 @@ class UserTests {
                 .andReturn();
         Assertions.assertEquals(202, result.getResponse().getStatus());
     }
-	
+
+
+    @Test
+    void shouldNotGetBooksOfANonExistentUser() throws Exception {
+        String email = "fake1dsd@gmail.com";
+        MvcResult result = mockMvc.perform(get("/api/v1/users/" + email + "/books"))
+                .andExpect(status().isNotFound())
+                .andReturn();
+        Assertions.assertEquals("There is no user with the email address " + email, result.getResponse().getContentAsString());
+
+
+    }
+
 	@Test
     void shouldNotGetBookingsOfANonExistentUser() throws Exception {
-        String email = "fake@gmail.com";   
+        String email = "fakfdvce@gmail.com";
         MvcResult result = mockMvc.perform(get("/api/v1/users/" + email + "/bookings"))
                 .andExpect(status().isNotFound())
                 .andReturn();
         Assertions.assertEquals("There is no user with the email address " + email, result.getResponse().getContentAsString());
         
         
+    }
+
+    @Test
+    void shouldGetAUserBooks() throws Exception {
+        String email = "fabiodcbbvx@gmail.com";
+        String email1 = "fabidsdccdcx@gmail.com";
+        String department = "Algunoccdc";
+        CreateUserDTO user = new CreateUserDTO(email, "Fabio", "12345", "Masculino", "password");
+        mockMvc.perform(post("/api/v1/users")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(gson.toJson(user)))
+                .andExpect(status().isCreated());
+
+        CreateUserDTO user1 = new CreateUserDTO(email1, "Fabio", "12345", "Masculino", "password");
+        mockMvc.perform(post("/api/v1/users")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(gson.toJson(user1)))
+                .andExpect(status().isCreated());
+
+        CreatePlaceDTO place = new CreatePlaceDTO("Finca PRUEBA", department, "pvvrueba", "alguna direccion", "finca bien nice", "hola.png", 3, 2, 1);
+        createPlace(place, email);
+        String token = loginUser(email, user.getPassword());
+        String placeId = getPlaceId(department);
+        BookDTO bookDTO = new BookDTO(getDate(2), getDate(4), placeId);
+        mockMvc.perform(post("/api/v1/books")
+                .header("Authorization", token)
+                .header("X-Email", email1)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(getBookJSON(bookDTO)))
+                .andExpect(status().isCreated());
+        MvcResult result = mockMvc.perform(get("/api/v1/users/" + email + "/books"))
+                .andExpect(status().isAccepted())
+                .andReturn();
+        Assertions.assertEquals(202, result.getResponse().getStatus());
     }
 	
 	@Test
