@@ -10,6 +10,7 @@ import edu.eci.ieti.envirify.persistence.repositories.PlaceRepository;
 import edu.eci.ieti.envirify.persistence.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -58,6 +59,43 @@ public class BookPersistenceImpl implements BookPersistence {
     }
 
     /**
+     * Deletes A Booking With His Id From DB.
+     *
+     * @param bookingId The Booking Id.
+     * @param email     The User Email.
+     * @throws EnvirifyPersistenceException When Something Fails.
+     */
+    @Override
+    public void deleteBooking(String bookingId, String email) throws EnvirifyPersistenceException {
+        User user = userRepository.findByEmail(email);
+        if (user == null) throw new EnvirifyPersistenceException("There is no user with the email address " + email);
+        List<String> bookingsIds = user.getBooks();
+        if (bookingsIds.isEmpty()) {
+            throw new EnvirifyPersistenceException("This user do not have bookings");
+        }
+        if (!bookingsIds.contains(bookingId)) {
+            throw new EnvirifyPersistenceException("This user do not have a booking with the id " + bookingId);
+        }
+        Book book;
+        Optional<Book> bookOptional = repository.findById(bookingId);
+        if (!bookOptional.isPresent()) {
+            throw new EnvirifyPersistenceException("There is no booking with the id " + bookingId);
+        }
+        Place place;
+        book = bookOptional.get();
+        Optional<Place> optionalPlace = placeRepository.findById(book.getPlaceId());
+        if (!optionalPlace.isPresent()) {
+            throw new EnvirifyPersistenceException("There is no place with the id " + book.getPlaceId());
+        }
+        place = optionalPlace.get();
+        bookingsIds.remove(bookingId);
+        place.removeBooking(bookingId);
+        repository.deleteById(bookingId);
+        userRepository.save(user);
+        placeRepository.save(place);
+    }
+
+    /**
      * Validate If The Dates Of The New Book Do Not Cause Conflict With Others.
      *
      * @param books       The List Of The Place Books.
@@ -77,5 +115,5 @@ public class BookPersistenceImpl implements BookPersistence {
             }
         }
     }
-    
+
 }

@@ -9,10 +9,7 @@ import de.flapdoodle.embed.mongo.config.MongodConfigBuilder;
 import de.flapdoodle.embed.mongo.config.Net;
 import de.flapdoodle.embed.mongo.distribution.Version;
 import de.flapdoodle.embed.process.runtime.Network;
-import edu.eci.ieti.envirify.controllers.dtos.BookDTO;
-import edu.eci.ieti.envirify.controllers.dtos.CreatePlaceDTO;
-import edu.eci.ieti.envirify.controllers.dtos.CreateUserDTO;
-import edu.eci.ieti.envirify.controllers.dtos.LoginDTO;
+import edu.eci.ieti.envirify.controllers.dtos.*;
 import edu.eci.ieti.envirify.exceptions.EnvirifyPersistenceException;
 import edu.eci.ieti.envirify.security.jwt.JwtResponse;
 import org.json.JSONArray;
@@ -28,10 +25,11 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -235,6 +233,96 @@ class BookTests {
                 .andReturn();
         String responseBody = result.getResponse().getContentAsString();
         Assertions.assertEquals(EnvirifyPersistenceException.DATE_INTERVAL_ERROR, responseBody);
+    }
+
+    @Test
+    void shouldDeleteABooking() throws Exception {
+        String email = "arbol@gmail.com";
+        String department = "Sauzalito";
+        CreateUserDTO user = new CreateUserDTO(email, "Armando", "12345", "Masculino", "password");
+        createUser(user);
+        CreatePlaceDTO place = new CreatePlaceDTO("Finca pepe", department, "Rama", "direccion", "finca linda", "hola.png", 3, 2, 1);
+        createPlace(place, email);
+        String token = loginUser(email, user.getPassword());
+        String placeId = getPlaceId(department);
+        makeBook(placeId, token, email);
+        MvcResult result = mockMvc.perform(get("/api/v1/users/" + email + "/bookings"))
+                .andExpect(status().isAccepted())
+                .andReturn();
+        String bodyResult = result.getResponse().getContentAsString();
+        JSONArray array = new JSONArray(bodyResult);
+        Assertions.assertEquals(1, array.length());
+        BookPlaceDTO book = gson.fromJson(array.getJSONObject(0).toString(), BookPlaceDTO.class);
+        String bookId = book.getId();
+        mockMvc.perform(delete("/api/v1/books/" + bookId)
+                .header("Authorization", token)
+                .header("X-Email", email))
+                .andExpect(status().isOk());
+        result = mockMvc.perform(get("/api/v1/users/" + email + "/bookings"))
+                .andExpect(status().isNotFound())
+                .andReturn();
+        bodyResult = result.getResponse().getContentAsString();
+        Assertions.assertEquals("There user with the email address " + email + " don't have bookings", bodyResult);
+    }
+
+    @Test
+    void shouldNotDeleteABookingWithANonExistentUser() throws Exception {
+        String email = "arbol2@gmail.com";
+        CreateUserDTO user = new CreateUserDTO(email, "Armando", "12345", "Masculino", "password");
+        createUser(user);
+        String token = loginUser(email, user.getPassword());
+        MvcResult result = mockMvc.perform(delete("/api/v1/books/1")
+                .header("Authorization", token)
+                .header("X-Email", "noexiste@gmail.com"))
+                .andExpect(status().isNotFound())
+                .andReturn();
+        String bodyResult = result.getResponse().getContentAsString();
+        Assertions.assertEquals("There is no user with the email address noexiste@gmail.com", bodyResult);
+    }
+
+    @Test
+    void shouldNotDeleteABookingOfAUserUserWithoutBookings() throws Exception {
+        String email = "arbol3@gmail.com";
+        CreateUserDTO user = new CreateUserDTO(email, "Armando", "12345", "Masculino", "password");
+        createUser(user);
+        String token = loginUser(email, user.getPassword());
+        MvcResult result = mockMvc.perform(delete("/api/v1/books/1")
+                .header("Authorization", token)
+                .header("X-Email", email))
+                .andExpect(status().isNotFound())
+                .andReturn();
+        String bodyResult = result.getResponse().getContentAsString();
+        Assertions.assertEquals("This user do not have bookings", bodyResult);
+    }
+
+    @Test
+    void shouldNotDeleteABookingThatIsNotFromThatUser() throws Exception {
+        String email = "arbol4@gmail.com";
+        String department = "Sauzalito4";
+        CreateUserDTO user = new CreateUserDTO(email, "Armando", "12345", "Masculino", "password");
+        createUser(user);
+        CreatePlaceDTO place = new CreatePlaceDTO("Finca pepe", department, "Rama4", "direccion", "finca linda", "hola.png", 3, 2, 1);
+        createPlace(place, email);
+        String token = loginUser(email, user.getPassword());
+        String placeId = getPlaceId(department);
+        makeBook(placeId, token, email);
+        MvcResult result = mockMvc.perform(delete("/api/v1/books/1")
+                .header("Authorization", token)
+                .header("X-Email", email))
+                .andExpect(status().isNotFound())
+                .andReturn();
+        String bodyResult = result.getResponse().getContentAsString();
+        Assertions.assertEquals("This user do not have a booking with the id 1", bodyResult);
+    }
+
+    private void makeBook(String placeId, String token, String email) throws Exception {
+        BookDTO bookDTO = new BookDTO(getDate(2), getDate(4), placeId);
+        mockMvc.perform(post("/api/v1/books")
+                .header("Authorization", token)
+                .header("X-Email", email)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(getBookJSON(bookDTO)))
+                .andExpect(status().isCreated());
     }
 
     private String getBookJSON(BookDTO bookDTO) {
