@@ -357,4 +357,8 @@ public class Place {
     }
 
     public void addRating(String ratingId){ratings.add(ratingId);}
+
+    public void removeBooking(String bookingId) {
+        bookings.remove(bookingId);
+    }
 }

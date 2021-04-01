@@ -18,4 +18,13 @@ public interface BookPersistence {
      * @throws EnvirifyPersistenceException When Something Fails.
      */
     void addNewBooking(Book book, String email) throws EnvirifyPersistenceException;
+
+    /**
+     * Deletes A Booking With His Id From DB.
+     *
+     * @param bookingId The Booking Id.
+     * @param email     The User Email.
+     * @throws EnvirifyPersistenceException When Something Fails.
+     */
+    void deleteBooking(String bookingId, String email) throws EnvirifyPersistenceException;
 }

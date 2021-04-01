@@ -57,6 +57,21 @@ public class BookServicesImpl implements BookServices {
             }
             throw new EnvirifyException(e.getMessage(), e, HttpStatus.NOT_FOUND);
         }
+    }
 
+    /**
+     * Deletes A Booking With His Id.
+     *
+     * @param bookingId The Booking Id.
+     * @param email     The User Email.
+     * @throws EnvirifyException When Something Fails.
+     */
+    @Override
+    public void deleteBooking(String bookingId, String email) throws EnvirifyException {
+        try {
+            persistence.deleteBooking(bookingId, email);
+        } catch (EnvirifyPersistenceException e) {
+            throw new EnvirifyException(e.getMessage(), e, HttpStatus.NOT_FOUND);
+        }
     }
 }

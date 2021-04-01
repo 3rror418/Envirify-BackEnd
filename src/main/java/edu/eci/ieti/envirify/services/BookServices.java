@@ -18,4 +18,13 @@ public interface BookServices {
      * @throws EnvirifyException When Something Fails.
      */
     void addNewBooking(Book book, String email) throws EnvirifyException;
+
+    /**
+     * Deletes A Booking With His Id.
+     *
+     * @param bookingId The Booking Id.
+     * @param email     The User Email.
+     * @throws EnvirifyException When Something Fails.
+     */
+    void deleteBooking(String bookingId, String email) throws EnvirifyException;
 }

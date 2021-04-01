@@ -34,4 +34,18 @@ public class BookController {
         services.addNewBooking(book, email);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
+
+    /**
+     * Deletes A Booking With His Id.
+     *
+     * @param bookingId The Booking Id.
+     * @param email     The User Email.
+     * @return A Response Entity With The Response Status.
+     * @throws EnvirifyException When Something Fails.
+     */
+    @DeleteMapping("/{bookingId}")
+    public ResponseEntity<Object> deleteBooking(@PathVariable String bookingId, @RequestHeader("X-Email") String email) throws EnvirifyException {
+        services.deleteBooking(bookingId, email);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
