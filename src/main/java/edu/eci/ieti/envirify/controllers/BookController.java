@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping(value = "api/v1/books")
-@CrossOrigin(origins = "*", methods = {RequestMethod.POST, RequestMethod.GET})
+@CrossOrigin(origins = "*", methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.DELETE})
 public class BookController {
 
     @Autowired
