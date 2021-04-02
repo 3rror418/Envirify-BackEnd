@@ -163,10 +163,11 @@ public class PlacePersistenceImpl implements PlacePersistence {
 				for(Book book: list) {
 					bookRepository.deleteById(book.getId());
 					Optional<User> us = userRepository.findById(book.getUserId());
-					User newUser = null;
-					if(us.isPresent()) {
-						newUser = us.get();
+					User newUser;
+					if(!us.isPresent()) {
+			            throw new EnvirifyPersistenceException("There is no user with the id: "+book.getUserId());
 					}
+					newUser = us.get();
 					List<String> listt= newUser.getBooks();
 					listt.remove(book.getId());
 					newUser.setBooks(listt);
