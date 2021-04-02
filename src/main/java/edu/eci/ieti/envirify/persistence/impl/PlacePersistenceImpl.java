@@ -1,9 +1,11 @@
 package edu.eci.ieti.envirify.persistence.impl;
 
 import edu.eci.ieti.envirify.exceptions.EnvirifyPersistenceException;
+import edu.eci.ieti.envirify.model.Book;
 import edu.eci.ieti.envirify.model.Place;
 import edu.eci.ieti.envirify.model.User;
 import edu.eci.ieti.envirify.persistence.PlacePersistence;
+import edu.eci.ieti.envirify.persistence.repositories.BookRepository;
 import edu.eci.ieti.envirify.persistence.repositories.PlaceRepository;
 import edu.eci.ieti.envirify.persistence.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Class That Implements The Place Persistence Methods For Envirify App.
@@ -27,7 +30,8 @@ public class PlacePersistenceImpl implements PlacePersistence {
     @Autowired
     private UserRepository userRepository;
 
-
+    @Autowired
+    private BookRepository bookRepository;
 
     /**
      * Add a place of a user
@@ -145,7 +149,6 @@ public class PlacePersistenceImpl implements PlacePersistence {
 		if (user == null) {
             throw new EnvirifyPersistenceException("There is no user with the email address " + email);
 		}
-		else {
 			List<String> places = user.getPlaces(); 
 			if (places.isEmpty()) {
 	            throw new EnvirifyPersistenceException("There is no place with the id " + id);
@@ -154,6 +157,21 @@ public class PlacePersistenceImpl implements PlacePersistence {
 			user.setPlaces(places);
 			userRepository.save(user);
 			placeRepository.deleteById(id, email);
+			List<Book> bookings = bookRepository.findAll();
+			List<Book> list = bookings.stream().filter(e -> e.getPlaceId().equals(id)).collect(Collectors.toList());
+			if(!list.isEmpty()) {
+				for(Book book: list) {
+					bookRepository.deleteById(book.getId());
+					Optional<User> us = userRepository.findById(book.getUserId());
+					User newUser = null;
+					if(us.isPresent()) {
+						newUser = us.get();
+					}
+					List<String> listt= newUser.getBooks();
+					listt.remove(book.getId());
+					newUser.setBooks(listt);
+					userRepository.save(newUser);
+				}
+			}
 		}
-	}
 }
