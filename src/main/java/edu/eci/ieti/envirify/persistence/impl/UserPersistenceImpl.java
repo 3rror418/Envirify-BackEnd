@@ -1,6 +1,7 @@
 package edu.eci.ieti.envirify.persistence.impl;
 
 import edu.eci.ieti.envirify.controllers.dtos.BookPlaceDTO;
+import edu.eci.ieti.envirify.controllers.dtos.CreateUserDTO;
 import edu.eci.ieti.envirify.controllers.dtos.UserDTO;
 import edu.eci.ieti.envirify.exceptions.EnvirifyPersistenceException;
 import edu.eci.ieti.envirify.model.Book;
@@ -56,7 +57,7 @@ public class UserPersistenceImpl implements UserPersistence {
      * @throws EnvirifyPersistenceException When the email of the user to update already exists.
      */
     @Override
-    public void updateUser(UserDTO user, String email) throws EnvirifyPersistenceException {
+    public void updateUser(CreateUserDTO user, String email) throws EnvirifyPersistenceException {
     	User oldUser = getUserByEmail(email);
     	oldUser.setName(user.getName());
     	oldUser.setEmail(user.getEmail());

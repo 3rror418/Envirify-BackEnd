@@ -3,6 +3,7 @@ package edu.eci.ieti.envirify.persistence;
 import java.util.List;
 
 import edu.eci.ieti.envirify.controllers.dtos.BookPlaceDTO;
+import edu.eci.ieti.envirify.controllers.dtos.CreateUserDTO;
 import edu.eci.ieti.envirify.controllers.dtos.UserDTO;
 import edu.eci.ieti.envirify.exceptions.EnvirifyPersistenceException;
 import edu.eci.ieti.envirify.model.User;
@@ -27,7 +28,7 @@ public interface UserPersistence {
      * @param user The User That it is going to be updated.
      * @throws EnvirifyPersistenceException When the email of the user to update already exists.
      */
-    void updateUser(UserDTO user, String email) throws EnvirifyPersistenceException;
+    void updateUser(CreateUserDTO user, String email) throws EnvirifyPersistenceException;
 
     /**
      * Returns the Information Of A User With a Email From The DB.
