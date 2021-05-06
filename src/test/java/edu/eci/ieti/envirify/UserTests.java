@@ -163,28 +163,7 @@ class UserTests {
         Assertions.assertEquals("There is no user with the email address " + email, responseBody);
     }
 
-    @Test
-    void shouldNotUpdateUserWithAnExistingEmail() throws Exception {
-    	 String email = "oscarr@gmail.com";
-         CreateUserDTO user = new CreateUserDTO(email, "Oscar", "12345", "Masculino", "password");
-         mockMvc.perform(post("/api/v1/users")
-                 .contentType(MediaType.APPLICATION_JSON)
-                 .content(gson.toJson(user)))
-                 .andExpect(status().isCreated());
-         String email2 = "daaniella@gmail.com";
-         CreateUserDTO user2 = new CreateUserDTO(email2, "Daaniella", "12345", "Femenino", "password");
-         mockMvc.perform(post("/api/v1/users")
-                 .contentType(MediaType.APPLICATION_JSON)
-                 .content(gson.toJson(user2)))
-                 .andExpect(status().isCreated());
-         user.setEmail(email2);
-         MvcResult result = mockMvc.perform(put("/api/v1/users/"+email)
-                 .contentType(MediaType.APPLICATION_JSON)
-                 .content(gson.toJson(user)))
-                 .andExpect(status().isConflict())
-                 .andReturn();
-         Assertions.assertEquals("There is already a user with the " + email2 + " email address", result.getResponse().getContentAsString()); 		
-    }
+
  
 	@Test
     void shouldUpdateUserWithValidEmail() throws Exception {

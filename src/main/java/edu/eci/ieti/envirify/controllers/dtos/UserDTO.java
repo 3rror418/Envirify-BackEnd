@@ -11,14 +11,14 @@ import java.util.List;
  */
 public class UserDTO {
 
-    private final String id;
-    private final String email;
-    private final String name;
-    private final String phoneNumber;
-    private final String gender;
-    private final List<String> books;
-    private final List<String> places;
-    private final List<String> chats;
+    private  String id;
+    private  String email;
+    private  String name;
+    private  String phoneNumber;
+    private  String gender;
+    private  List<String> books;
+    private  List<String> places;
+    private  List<String> chats;
 
     /**
      * Constructor For UserDTO.
