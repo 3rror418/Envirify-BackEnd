@@ -110,9 +110,8 @@ public class UserController {
      * @throws EnvirifyException When the user cannot be updated.
      */
     @PutMapping("/{email}")
-    public ResponseEntity<Object> updateUser(@RequestBody CreateUserDTO userDTO, @PathVariable String email) throws EnvirifyException {
-        User newUser = new User(userDTO);
-        services.updateUser(newUser, email);
+    public ResponseEntity<Object> updateUser(@RequestBody UserDTO userDTO, @PathVariable String email) throws EnvirifyException {
+        services.updateUser(userDTO, email);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 

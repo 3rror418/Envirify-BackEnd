@@ -1,6 +1,7 @@
 package edu.eci.ieti.envirify.services.impl;
 
 import edu.eci.ieti.envirify.controllers.dtos.BookPlaceDTO;
+import edu.eci.ieti.envirify.controllers.dtos.UserDTO;
 import edu.eci.ieti.envirify.exceptions.EnvirifyException;
 import edu.eci.ieti.envirify.exceptions.EnvirifyPersistenceException;
 import edu.eci.ieti.envirify.model.User;
@@ -47,7 +48,7 @@ public class UserServicesImpl implements UserServices {
      * @throws EnvirifyException When that user cannot be updated.
      */
     @Override
-    public void updateUser(User user, String email) throws EnvirifyException {
+    public void updateUser(UserDTO user, String email) throws EnvirifyException {
         try {
             persistence.updateUser(user, email);
         } catch (EnvirifyPersistenceException e) {

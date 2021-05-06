@@ -1,6 +1,7 @@
 package edu.eci.ieti.envirify.persistence.impl;
 
 import edu.eci.ieti.envirify.controllers.dtos.BookPlaceDTO;
+import edu.eci.ieti.envirify.controllers.dtos.UserDTO;
 import edu.eci.ieti.envirify.exceptions.EnvirifyPersistenceException;
 import edu.eci.ieti.envirify.model.Book;
 import edu.eci.ieti.envirify.model.Place;
@@ -55,31 +56,16 @@ public class UserPersistenceImpl implements UserPersistence {
      * @throws EnvirifyPersistenceException When the email of the user to update already exists.
      */
     @Override
-    public void updateUser(User user, String email) throws EnvirifyPersistenceException {
-    	System.out.println(email);
-    	String verifyEmail = user.getEmail();
-    	User usuario = repository.findByEmail(email);
-    	User verify = repository.findByEmail(user.getEmail());
-    	if (verifyEmail.equals(email) || verify == null) {
-			setNewUser(usuario, user);
-            repository.save(user);
-        }
-    	else {
-    		throw new EnvirifyPersistenceException("There is already a user with the " + user.getEmail() + " email address");
-    	}
+    public void updateUser(UserDTO user, String email) throws EnvirifyPersistenceException {
+    	User oldUser = getUserByEmail(email);
+    	oldUser.setName(user.getName());
+    	oldUser.setEmail(user.getEmail());
+    	oldUser.setPhoneNumber(user.getPhoneNumber());
+    	oldUser.setGender(user.getGender());
+		repository.save(oldUser);
     }
 	
-	/**
-     *  Set the new user data
-     *
-     * @param oldUser The old user that it is going to be updated.
-	 * @param oldUser The new user That it is going to be updated.
-     */
-	public void setNewUser(User oldUser, User newUser) {
-		oldUser.setName(newUser.getName());
-		oldUser.setPhoneNumber(newUser.getPhoneNumber());
-		oldUser.setGender(newUser.getGender());
-	}
+
 
     /**
      * Returns the Information Of A User With a Email From The DB.
