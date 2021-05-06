@@ -36,49 +36,6 @@ public class UserDTO {
         this.chats = user.getChats();
     }
 
-    public UserDTO(String id, String email, String name, String phoneNumber, String gender, List<String> books, List<String> places, List<String> chats) {
-        this.id = id;
-        this.email = email;
-        this.name = name;
-        this.phoneNumber = phoneNumber;
-        this.gender = gender;
-        this.books = books;
-        this.places = places;
-        this.chats = chats;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    public void setBooks(List<String> books) {
-        this.books = books;
-    }
-
-    public void setPlaces(List<String> places) {
-        this.places = places;
-    }
-
-    public void setChats(List<String> chats) {
-        this.chats = chats;
-    }
-
     /**
      * Returns the Id of the User.
      *
