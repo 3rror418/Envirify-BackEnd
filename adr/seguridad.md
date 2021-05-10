@@ -1,24 +1,19 @@
-# ADR template by Michael Nygard
+# Autenticación de APIs basada en tokens con Spring y JWT
 
-This is the template in [Documenting architecture decisions - Michael Nygard](http://thinkrelevance.com/blog/2011/11/15/documenting-architecture-decisions).
-You can use [adr-tools](https://github.com/npryce/adr-tools) for managing the ADR files.
+## Estado
 
-In each ADR file, write these sections:
+Aceptado
 
-# Title
+## Contexto
 
-## Status
+Se necesitan cear tokens de acceso que nos permiten securizar las comunicaciones entre cliente y servidor
 
-What is the status, such as proposed, accepted, rejected, deprecated, superseded, etc.?
+## Decisión
 
-## Context
+El uso  de Spring Security para poder proteger nuestra API permitiendo el acceso a los endpoints de la aplicación.
+El uso del estándar JSON Web Token (JWT).
 
-What is the issue that we're seeing that is motivating this decision or change?
+## Consecuencias
 
-## Decision
+El cliente solo necesitará autenticarse con sus credenciales una sola vez. Durante este tiempo el servidor validará las credenciales y retornará al cliente un JSON web Token. Para las requests futuras el cliente usará este token para autenticarse sin necesidad de usar sus credenciales. Además , permitará el cifrado de las credenciales del cliente y provee un mecanismo de autenticación escalable , sin estado y desaclopado.
 
-What is the change that we're proposing and/or doing?
-
-## Consequences
-
-What becomes easier or more difficult to do because of this change?
