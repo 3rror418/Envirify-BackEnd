@@ -8,7 +8,7 @@
 
 Innovation and entrepreneurship with IT (2021-1)
 
-[Front end Link on Github] (https://github.com/3rror418/Envirify-FrontEnd)
+[Front End Link on Github] (https://github.com/3rror418/Envirify-FrontEnd)
 
 [Android Link on Github] (https://github.com/3rror418/Envirify-AndroidApp)
 
