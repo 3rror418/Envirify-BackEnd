@@ -1,7 +1,5 @@
 # Envirify-BackEnd
 
-[![CircleCI](![Heroku](https://pyheroku-badge.herokuapp.com/?app=envirify-frontend&style=flat))
-
 [![Deployed to Heroku](https://www.herokucdn.com/deploy/button.png)](https://enfiry-back-end.herokuapp.com/)
 
 ## Subject
